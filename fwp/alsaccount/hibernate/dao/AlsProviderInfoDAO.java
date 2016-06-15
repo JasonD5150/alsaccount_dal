@@ -16,7 +16,7 @@ import fwp.alsaccount.hibernate.BaseHibernateDAO;
  			* Transaction control of the save(), update() and delete() operations 
 		can directly support Spring container-managed transactions or they can be augmented	to handle user-managed Spring transactions. 
 		Each of these methods provides additional information for how to configure it for the desired type of transaction control. 	
-	 * @see fwp.als.hibernate.tech.dao.AlsProviderInfo
+	 * @see fwp.alsaccount.hibernate.dao.AlsProviderInfo
   * @author MyEclipse Persistence Tools 
  */
 public class AlsProviderInfoDAO extends BaseHibernateDAO  {
@@ -101,7 +101,7 @@ public class AlsProviderInfoDAO extends BaseHibernateDAO  {
         log.debug("getting AlsProviderInfo instance with id: " + id);
         try {
             AlsProviderInfo instance = (AlsProviderInfo) getSession()
-                    .get("fwp.als.hibernate.tech.dao.AlsProviderInfo", id);
+                    .get("fwp.alsaccount.hibernate.dao.AlsProviderInfo", id);
             return instance;
         } catch (RuntimeException re) {
             log.error("get failed", re);
@@ -114,7 +114,7 @@ public class AlsProviderInfoDAO extends BaseHibernateDAO  {
         log.debug("finding AlsProviderInfo instance by example");
         try {
             List<AlsProviderInfo> results = (List<AlsProviderInfo>) getSession()
-                    .createCriteria("fwp.als.hibernate.tech.dao.AlsProviderInfo")
+                    .createCriteria("fwp.alsaccount.hibernate.dao.AlsProviderInfo")
                     .add( create(instance) )
             .list();
             log.debug("find by example successful, result size: " + results.size());

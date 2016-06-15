@@ -182,9 +182,9 @@ public class AlsOrgControlAS {
 	public Boolean isValidProvider(Integer apiProviderNo) {
 		
 		Boolean retVal = false;
-		//AlsProviderInfoAS apiAS = new AlsProviderInfoAS();
+		AlsProviderInfoAS apiAS = new AlsProviderInfoAS();
 		
-		/*try {
+		try {
 			AlsProviderInfo api = apiAS.findById(apiProviderNo);
 			if(api != null){
 				retVal = true;
@@ -194,7 +194,7 @@ public class AlsOrgControlAS {
 			throw re;	
 		} finally{
 			HibernateSessionFactory.closeSession();
-		}*/
+		}
 		
 		return retVal;
 	}

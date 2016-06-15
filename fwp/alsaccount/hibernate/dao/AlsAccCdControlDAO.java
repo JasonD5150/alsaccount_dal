@@ -62,7 +62,7 @@ public class AlsAccCdControlDAO extends BaseHibernateDAO  {
         log.debug("getting AlsAccCdControl instance with id: " + id);
         try {
             AlsAccCdControl instance = (AlsAccCdControl) getSession()
-                    .get("fwp.als.hibernate.account.dao.AlsAccCdControl", id);
+                    .get("fwp.alsaccount.hibernate.dao.AlsAccCdControl", id);
             return instance;
         } catch (RuntimeException re) {
             log.error("get failed", re);
@@ -75,7 +75,7 @@ public class AlsAccCdControlDAO extends BaseHibernateDAO  {
         log.debug("finding AlsAccCdControl instance by example");
         try {
             List<AlsAccCdControl> results = (List<AlsAccCdControl>) getSession()
-                    .createCriteria("fwp.als.hibernate.account.dao.AlsAccCdControl")
+                    .createCriteria("fwp.alsaccount.hibernate.dao.AlsAccCdControl")
                     .add( create(instance) )
             .list();
             log.debug("find by example successful, result size: " + results.size());

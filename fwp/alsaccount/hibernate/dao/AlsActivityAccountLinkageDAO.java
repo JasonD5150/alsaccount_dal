@@ -18,7 +18,7 @@ import org.slf4j.LoggerFactory;
  			* Transaction control of the save(), update() and delete() operations 
 		can directly support Spring container-managed transactions or they can be augmented	to handle user-managed Spring transactions. 
 		Each of these methods provides additional information for how to configure it for the desired type of transaction control. 	
-	 * @see fwp.als.hibernate.admin.dao.AlsActivityAccountLinkage
+	 * @see fwp.alsaccount.hibernate.dao.AlsActivityAccountLinkage
   * @author MyEclipse Persistence Tools 
  */
 public class AlsActivityAccountLinkageDAO extends BaseHibernateDAO  {
@@ -61,7 +61,7 @@ public class AlsActivityAccountLinkageDAO extends BaseHibernateDAO  {
         log.debug("getting AlsActivityAccountLinkage instance with id: " + id);
         try {
             AlsActivityAccountLinkage instance = (AlsActivityAccountLinkage) getSession()
-                    .get("fwp.als.hibernate.admin.dao.AlsActivityAccountLinkage", id);
+                    .get("fwp.alsaccount.hibernate.dao.AlsActivityAccountLinkage", id);
             return instance;
         } catch (RuntimeException re) {
             log.error("get failed", re);
@@ -74,7 +74,7 @@ public class AlsActivityAccountLinkageDAO extends BaseHibernateDAO  {
         log.debug("finding AlsActivityAccountLinkage instance by example");
         try {
             List<AlsActivityAccountLinkage> results = (List<AlsActivityAccountLinkage>) getSession()
-                    .createCriteria("fwp.als.hibernate.admin.dao.AlsActivityAccountLinkage")
+                    .createCriteria("fwp.alsaccount.hibernate.dao.AlsActivityAccountLinkage")
                     .add( create(instance) )
             .list();
             log.debug("find by example successful, result size: " + results.size());

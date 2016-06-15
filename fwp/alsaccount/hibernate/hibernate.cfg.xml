@@ -28,6 +28,7 @@
 	<mapping class="fwp.alsaccount.hibernate.dao.AlsMisc" />
 	<mapping class="fwp.alsaccount.hibernate.dao.AlsSabhrsFyeAdjstDtl" />
 	<mapping class="fwp.alsaccount.hibernate.dao.AlsSabhrsFyeAdjst" />
+	<mapping class="fwp.alsaccount.hibernate.dao.AlsProviderInfo" />
 	
 	
 

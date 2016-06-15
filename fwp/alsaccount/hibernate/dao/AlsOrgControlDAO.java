@@ -56,7 +56,7 @@ public class AlsOrgControlDAO extends BaseHibernateDAO  {
         log.debug("getting AlsOrgControl instance with id: " + id);
         try {
             AlsOrgControl instance = (AlsOrgControl) getSession()
-                    .get("fwp.als.hibernate.account.dao.AlsOrgControl", id);
+                    .get("fwp.alsaccount.hibernate.dao.AlsOrgControl", id);
             return instance;
         } catch (RuntimeException re) {
             log.error("get failed", re);
@@ -69,7 +69,7 @@ public class AlsOrgControlDAO extends BaseHibernateDAO  {
         log.debug("finding AlsOrgControl instance by example");
         try {
             List<AlsOrgControl> results = (List<AlsOrgControl>) getSession()
-                    .createCriteria("fwp.als.hibernate.account.dao.AlsOrgControl")
+                    .createCriteria("fwp.alsaccount.hibernate.dao.AlsOrgControl")
                     .add( create(instance) )
             .list();
             log.debug("find by example successful, result size: " + results.size());

@@ -65,7 +65,7 @@ public class AlsMiscDAO extends BaseHibernateDAO  {
         log.debug("getting AlsMisc instance with id: " + id);
         try {
             AlsMisc instance = (AlsMisc) getSession()
-                    .get("fwp.als.hibernate.admin.dao.AlsMisc", id);
+                    .get("fwp.alsaccount.hibernate.dao.AlsMisc", id);
             return instance;
         } catch (RuntimeException re) {
             log.error("get failed", re);
@@ -78,7 +78,7 @@ public class AlsMiscDAO extends BaseHibernateDAO  {
         log.debug("finding AlsMisc instance by example");
         try {
             List<AlsMisc> results = (List<AlsMisc>) getSession()
-                    .createCriteria("fwp.als.hibernate.admin.dao.AlsMisc")
+                    .createCriteria("fwp.alsaccount.hibernate.dao.AlsMisc")
                     .add( create(instance) )
             .list();
             log.debug("find by example successful, result size: " + results.size());

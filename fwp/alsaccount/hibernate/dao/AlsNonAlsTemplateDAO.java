@@ -71,7 +71,7 @@ public class AlsNonAlsTemplateDAO extends BaseHibernateDAO  {
         log.debug("getting AlsNonAlsTemplate instance with id: " + id);
         try {
             AlsNonAlsTemplate instance = (AlsNonAlsTemplate) getSession()
-                    .get("fwp.als.hibernate.account.dao.AlsNonAlsTemplate", id);
+                    .get("fwp.alsaccount.hibernate.dao.AlsNonAlsTemplate", id);
             return instance;
         } catch (RuntimeException re) {
             log.error("get failed", re);
@@ -84,7 +84,7 @@ public class AlsNonAlsTemplateDAO extends BaseHibernateDAO  {
         log.debug("finding AlsNonAlsTemplate instance by example");
         try {
             List<AlsNonAlsTemplate> results = (List<AlsNonAlsTemplate>) getSession()
-                    .createCriteria("fwp.als.hibernate.account.dao.AlsNonAlsTemplate")
+                    .createCriteria("fwp.alsaccount.hibernate.dao.AlsNonAlsTemplate")
                     .add( create(instance) )
             .list();
             log.debug("find by example successful, result size: " + results.size());
