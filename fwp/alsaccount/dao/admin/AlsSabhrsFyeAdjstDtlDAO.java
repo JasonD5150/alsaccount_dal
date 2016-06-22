@@ -1,13 +1,12 @@
 package fwp.alsaccount.dao.admin;
 
 
+import static org.hibernate.criterion.Example.create;
+
 import java.util.List;
 
 import org.hibernate.LockOptions;
 import org.hibernate.Query;
-
-import static org.hibernate.criterion.Example.create;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

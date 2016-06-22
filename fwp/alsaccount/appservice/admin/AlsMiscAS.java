@@ -1,8 +1,6 @@
 package fwp.alsaccount.appservice.admin;
 
-import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.hibernate.Query;

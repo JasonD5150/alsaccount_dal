@@ -185,7 +185,6 @@ public class AlsAccCdControlAS {
 	 * @param idPk
 	 * @return
 	 */
-	@SuppressWarnings("unchecked")
 	public Boolean isDuplicateEntry(AlsAccCdControlIdPk idPk) {
 		
 		Boolean retVal = false;

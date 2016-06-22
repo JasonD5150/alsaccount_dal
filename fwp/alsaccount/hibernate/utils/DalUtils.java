@@ -1,20 +1,8 @@
 package fwp.alsaccount.hibernate.utils;
 
-import fwp.alsaccount.hibernate.HibernateSessionFactory;
-
 import org.hibernate.Query;
 import org.hibernate.Session;
-import org.hibernate.Transaction;
-import org.hibernate.internal.SessionImpl;
-
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.math.BigDecimal;
-import java.sql.CallableStatement;
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class DalUtils {

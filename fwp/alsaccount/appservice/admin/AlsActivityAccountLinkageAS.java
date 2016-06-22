@@ -12,7 +12,6 @@ import fwp.alsaccount.dao.admin.AlsActivityAccountLinkage;
 import fwp.alsaccount.dao.admin.AlsActivityAccountLinkageDAO;
 import fwp.alsaccount.dao.admin.AlsActivityAccountLinkageIdPk;
 import fwp.alsaccount.hibernate.HibernateSessionFactory;
-import fwp.alsaccount.hibernate.utils.DalUtils;
 
 
 /**

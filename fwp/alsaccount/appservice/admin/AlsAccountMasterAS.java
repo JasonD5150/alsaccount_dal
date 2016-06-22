@@ -9,13 +9,9 @@ import org.hibernate.Transaction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import fwp.alsaccount.dao.admin.AlsAccCdControl;
 import fwp.alsaccount.dao.admin.AlsAccountMaster;
 import fwp.alsaccount.dao.admin.AlsAccountMasterDAO;
 import fwp.alsaccount.dao.admin.AlsAccountMasterIdPk;
-import fwp.alsaccount.dao.admin.AlsSysActivityControl;
-import fwp.alsaccount.dto.admin.AlsAccountMasterDTO;
-import fwp.alsaccount.dto.admin.AlsSysActivityControlDTO;
 import fwp.alsaccount.hibernate.HibernateSessionFactory;
 
 
@@ -150,7 +146,7 @@ public class AlsAccountMasterAS {
 		return retLst;
 	}
 	
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings("rawtypes")
 	public Boolean isBudgYearAccUsed(Integer asacBudgetYear, String aamAccount) {
 		
 		Boolean retVal = false;

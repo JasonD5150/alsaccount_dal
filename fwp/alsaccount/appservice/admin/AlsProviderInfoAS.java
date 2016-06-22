@@ -1,6 +1,11 @@
 package fwp.alsaccount.appservice.admin;
 
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+
 import org.hibernate.Query;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
@@ -11,8 +16,6 @@ import org.slf4j.LoggerFactory;
 import fwp.alsaccount.dao.admin.AlsProviderInfo;
 import fwp.alsaccount.dao.admin.AlsProviderInfoDAO;
 import fwp.alsaccount.hibernate.HibernateSessionFactory;
-
-import java.util.*;
 
 
 /**
@@ -169,6 +172,7 @@ public class AlsProviderInfoAS {
 	 *
 	 * @return list of provider categories in the provider table
 	 */
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public String[] loadProviderCatList() {
 		log.debug("loading provider category list");
 		try {

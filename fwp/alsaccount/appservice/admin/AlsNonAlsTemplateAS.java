@@ -13,7 +13,6 @@ import org.hibernate.Transaction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import fwp.alsaccount.appservice.admin.AlsMiscAS;
 import fwp.alsaccount.dao.admin.AlsNonAlsOrgControl;
 import fwp.alsaccount.dao.admin.AlsNonAlsTemplate;
 import fwp.alsaccount.dao.admin.AlsNonAlsTemplateDAO;
@@ -129,7 +128,6 @@ public class AlsNonAlsTemplateAS {
 	public String getJlrValDesc(Integer amParVal) {
 		String retVal = "";
 		
-		AlsMiscAS amAS = new AlsMiscAS();
 		String where = "SELECT am_val_desc"
 					+ "  FROM ALS.ALS_MISC"
 					+ " WHERE am_key1 = 'JOURNAL_LINE_REFERENCE' "   
@@ -158,8 +156,6 @@ public class AlsNonAlsTemplateAS {
 	@SuppressWarnings("unchecked")
 	public Integer getJlrParVal(String amValDesc) {
 		Integer retVal = 0;
-		
-		AlsMiscAS amAS = new AlsMiscAS();;
 
 		String where = "SELECT am_par_val"
 					+ "  FROM ALS.ALS_MISC"
@@ -186,7 +182,6 @@ public class AlsNonAlsTemplateAS {
 	 * @param idPk
 	 * @return
 	 */
-	@SuppressWarnings("unchecked")
 	public Boolean isDuplicateEntry(AlsNonAlsTemplateIdPk idPk) {
 		
 		Boolean retVal = false;
@@ -211,7 +206,8 @@ public class AlsNonAlsTemplateAS {
 	 * @param idPk
 	 * @return
 	 */
-	@SuppressWarnings("unchecked")
+
+	@SuppressWarnings("rawtypes")
 	public Boolean isDuplicateDesc(Integer budgYear, String desc) {
 		
 		Boolean retVal = false;

@@ -1,6 +1,5 @@
 package fwp.alsaccount.appservice.admin;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.Query;
@@ -9,26 +8,9 @@ import org.hibernate.Transaction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-import fwp.alsaccount.dao.admin.AlsAccCdControl;
 import fwp.alsaccount.dao.admin.AlsSysActivityTypeCodes;
 import fwp.alsaccount.dao.admin.AlsSysActivityTypeCodesDAO;
 import fwp.alsaccount.hibernate.HibernateSessionFactory;
-import fwp.alsaccount.hibernate.utils.DalUtils;
 
 
 /**
@@ -140,7 +122,7 @@ public class AlsSysActivityTypeCodesAS {
 	@SuppressWarnings("unchecked")
 	public String getCodeDesc(String sysActivityType) {
 		String rtn = "";
-		AlsAccCdControlAS aaccAS = new AlsAccCdControlAS();
+
 		String where = "SELECT asattc_desc"
 					+ "  FROM ALS.ALS_SYS_ACTIVITY_TYPE_TRAN_CDS"
 					+ " WHERE asac_system_activity_type_cd ='" + sysActivityType + "'";

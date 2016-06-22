@@ -153,7 +153,6 @@ public class AlsOrgControlAS {
 	 * @param tmp
 	 * @return
 	 */
-	@SuppressWarnings("unchecked")
 	public Boolean isDuplicateEntry(AlsOrgControlIdPk idPk) {
 		
 		Boolean retVal = false;
@@ -178,7 +177,6 @@ public class AlsOrgControlAS {
 	 * @param tmp
 	 * @return
 	 */
-	@SuppressWarnings("unchecked")
 	public Boolean isValidProvider(Integer apiProviderNo) {
 		
 		Boolean retVal = false;
