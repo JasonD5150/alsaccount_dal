@@ -116,44 +116,13 @@ public class AlsSabhrsEntriesAS {
 	}
 	
 	/**
-	 * returns a list of AlsSabhrsEntries filtered by where clause
-	 * @param where
-	 * @return List
-	 */
-	@SuppressWarnings("unchecked")
-	public List<String> findAllAccountControlCodes(String filter) {
-		log.debug("finding all AlsSabhrsEntries instances by where filter");
-		
-		List<String> retLst = new ArrayList<String>();
-		
-		try {
-			String queryString = "SELECT DISTINCT aacc.idPk.aaccAccCd from AlsSabhrsEntries aacc";
-			
-			Query queryObject = HibernateSessionFactory.getSession().createQuery(queryString + " " + filter);
-			List<String> aaccAccCdLst = (List<String>)queryObject.list();
-			
-			if (aaccAccCdLst != null && !aaccAccCdLst.isEmpty()) {
-				retLst.addAll(aaccAccCdLst);
-			}
-			
-		} catch (RuntimeException re) {
-			log.error("findAllAccountControlCodes failed", re);
-			throw re;
-		}finally{
-			HibernateSessionFactory.closeSession();
-		}
-		
-		return retLst;
-	}
-	
-	/**
 	 * This method gets the next available seq no.
 	 * @return
 	 */
 	public Integer getNextSeqNo() {
 		Integer retSeqNo = 0;
 
-		String queryString = "SELECT MAX(atg_transaction_cd)+1 seq FROM ALS.ALS_TRANSACTION_GROUP";
+		String queryString = "SELECT ALS.ALS_SABHRS_ENTRIES_SEQ.NEXTVAL seq FROM DUAL";
 
 		try {
 			Query query = HibernateSessionFactory.getSession()
@@ -170,37 +139,6 @@ public class AlsSabhrsEntriesAS {
 		}
 
 		return retSeqNo;
-	}
-	
-	/**
-	 * This method checks to see if the Transaction Group has a corresponding record in ALS_TRANSACTION_GRP_STATUS
-	 * @return
-	 */
-	public Boolean getTransGroupDtlsExists(String id) {
-		Boolean rtn = false;
-		Integer count = 0;
-
-		String queryString = "SELECT COUNT(1) count FROM ALS.ALS_TRANSACTION_GRP_STATUS "
-						   + "WHERE ATG_TRANSACTION_CD="+id;
-
-		try {
-			Query query = HibernateSessionFactory.getSession()
-					.createSQLQuery(queryString)
-					.addScalar("count", IntegerType.INSTANCE);
-		
-			count = (Integer) query.uniqueResult();
-			if(count>0){
-				rtn = true;
-			}
-		} catch (RuntimeException re) {
-			System.out.println(re.toString());
-		}
-		
-		finally {
-			HibernateSessionFactory.getSession().close();
-		}
-
-		return rtn;
 	}
 
 }
