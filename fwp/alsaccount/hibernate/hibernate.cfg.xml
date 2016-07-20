@@ -44,6 +44,7 @@
 		<!--  Interface Files -->
 		<mapping
 			class="fwp.alsaccount.dao.interfaceFiles.AlsInterfaceFiles" />
+		<mapping class="fwp.alsaccount.dao.admin.AlsBankCode" />
 	</session-factory>
 
 </hibernate-configuration>
