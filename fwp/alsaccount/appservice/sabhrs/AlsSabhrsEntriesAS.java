@@ -1,6 +1,5 @@
 package fwp.alsaccount.appservice.sabhrs;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.Query;

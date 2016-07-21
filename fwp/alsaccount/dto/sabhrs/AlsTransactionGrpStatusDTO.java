@@ -8,42 +8,48 @@ public class AlsTransactionGrpStatusDTO extends AlsTransactionGrpStatus {
 	private String gridKey;
 	private String desc;
 	private Integer createYear;
+	private Integer programYear;
+	private Integer budgYear;
 
-	/**
-	 * @return the gridKey
-	 */
+
 	public String getGridKey() {
 		return gridKey;
 	}
-	/**
-	 * @param gridKey the gridKey to set
-	 */
+
 	public void setGridKey(String gridKey) {
 		this.gridKey = gridKey;
 	}
-	/**
-	 * @return the desc
-	 */
+
 	public String getDesc() {
 		return desc;
 	}
-	/**
-	 * @param desc the desc to set
-	 */
+
 	public void setDesc(String desc) {
 		this.desc = desc;
 	}
-	/**
-	 * @return the createYear
-	 */
+
 	public Integer getCreateYear() {
 		return createYear;
 	}
-	/**
-	 * @param createYear the createYear to set
-	 */
+
 	public void setCreateYear(Integer createYear) {
 		this.createYear = createYear;
+	}
+
+	public Integer getProgramYear() {
+		return programYear;
+	}
+	
+	public void setProgramYear(Integer programYear) {
+		this.programYear = programYear;
+	}
+	
+	public Integer getBudgYear() {
+		return budgYear;
+	}
+	
+	public void setBudgYear(Integer budgYear) {
+		this.budgYear = budgYear;
 	}
 
 }

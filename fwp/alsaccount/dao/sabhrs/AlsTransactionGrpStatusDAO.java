@@ -66,7 +66,7 @@ public class AlsTransactionGrpStatusDAO extends BaseHibernateDAO  {
         log.debug("getting sabhrsAlsTransactionGrpStatus instance with id: " + id);
         try {
             AlsTransactionGrpStatus instance = (AlsTransactionGrpStatus) getSession()
-                    .get("fwp.alsaccount.dao.sabhrsAlsTransactionGrpStatus", id);
+                    .get("fwp.alsaccount.dao.sabhrs.AlsTransactionGrpStatus", id);
             return instance;
         } catch (RuntimeException re) {
             log.error("get failed", re);
@@ -79,7 +79,7 @@ public class AlsTransactionGrpStatusDAO extends BaseHibernateDAO  {
         log.debug("finding sabhrsAlsTransactionGrpStatus instance by example");
         try {
             List<AlsTransactionGrpStatus> results = (List<AlsTransactionGrpStatus>) getSession()
-                    .createCriteria("fwp.alsaccount.dao.sabhrsAlsTransactionGrpStatus")
+                    .createCriteria("fwp.alsaccount.dao.sabhrs.AlsTransactionGrpStatus")
                     .add( create(instance) )
             .list();
             log.debug("find by example successful, result size: " + results.size());
