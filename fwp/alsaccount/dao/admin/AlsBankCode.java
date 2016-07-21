@@ -1,12 +1,10 @@
 package fwp.alsaccount.dao.admin;
 
-import java.util.Date;
+import java.sql.Timestamp;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 /**
  * AlsBankCode entity. @author MyEclipse Persistence Tools
@@ -24,7 +22,7 @@ public class AlsBankCode implements java.io.Serializable {
 	private String azcZipCd;
 	private String azcCityNm;
 	private String abcWhoLog;
-	private Date abcWhenLog;
+	private Timestamp abcWhenLog;
 	private String abcCreatePersonid;
 	private String abcActive;
 
@@ -37,7 +35,7 @@ public class AlsBankCode implements java.io.Serializable {
 	/** minimal constructor */
 	public AlsBankCode(String abcBankCd, String abcAccountNo, String abcBankNm,
 			String azcZipCd, String azcCityNm, String abcWhoLog,
-			Date abcWhenLog, String abcActive) {
+			Timestamp abcWhenLog, String abcActive) {
 		this.abcBankCd = abcBankCd;
 		this.abcAccountNo = abcAccountNo;
 		this.abcBankNm = abcBankNm;
@@ -51,7 +49,7 @@ public class AlsBankCode implements java.io.Serializable {
 	/** full constructor */
 	public AlsBankCode(String abcBankCd, String abcAccountNo,
 			String abcCompanyId, String abcBankNm, String azcZipCd,
-			String azcCityNm, String abcWhoLog, Date abcWhenLog,
+			String azcCityNm, String abcWhoLog, Timestamp abcWhenLog,
 			String abcCreatePersonid, String abcActive) {
 		this.abcBankCd = abcBankCd;
 		this.abcAccountNo = abcAccountNo;
@@ -130,13 +128,12 @@ public class AlsBankCode implements java.io.Serializable {
 		this.abcWhoLog = abcWhoLog;
 	}
 
-	@Temporal(TemporalType.DATE)
 	@Column(name = "ABC_WHEN_LOG", nullable = false, length = 7)
-	public Date getAbcWhenLog() {
+	public Timestamp getAbcWhenLog() {
 		return this.abcWhenLog;
 	}
 
-	public void setAbcWhenLog(Date abcWhenLog) {
+	public void setAbcWhenLog(Timestamp abcWhenLog) {
 		this.abcWhenLog = abcWhenLog;
 	}
 

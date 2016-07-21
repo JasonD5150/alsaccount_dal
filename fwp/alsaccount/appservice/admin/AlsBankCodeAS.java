@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import fwp.alsaccount.dao.admin.AlsAccCdControl;
 import fwp.alsaccount.dao.admin.AlsAccCdControlDAO;
 import fwp.alsaccount.dao.admin.AlsAccCdControlIdPk;
+import fwp.alsaccount.dao.admin.AlsBankCode;
 import fwp.alsaccount.dao.admin.AlsBankCodeDAO;
 import fwp.alsaccount.dao.admin.AlsOrgControl;
 import fwp.alsaccount.hibernate.HibernateSessionFactory;
@@ -47,7 +48,92 @@ public class AlsBankCodeAS {
 			HibernateSessionFactory.closeSession();
 		}
 	}
+	public AlsBankCode findById(String abcBankCd){
+		AlsBankCodeDAO dao = new AlsBankCodeDAO();
+		
+		AlsBankCode code;
+		try {
+			code = dao.findById(abcBankCd);
+		} catch (RuntimeException re) {	
+			throw re;	
+		} finally {
+			HibernateSessionFactory.closeSession();
+		}
+		
+		return code;
+	}
+public Boolean isDuplicateEntry(String abcBankCd) {
+		
+		Boolean retVal = false;
+		
+		try {
+			AlsBankCode abc = this.findById(abcBankCd);
+			if(abc != null){
+				retVal = true;
+			}
+
+		} catch (RuntimeException re) {	
+			throw re;	
+		} finally{
+			HibernateSessionFactory.closeSession();
+		}
+		
+		return retVal;
+	}
+
+/**
+ * Saves any AlsBankCode using the merge function
+ * @param AlsBankCode
+ */
+public void save(AlsBankCode tmp){
+	log.debug("saving AlsBankCode");
+	Transaction tx = null;
+	AlsBankCodeDAO dao = new AlsBankCodeDAO();
+	try{
+		Session session = dao.getSession();
+		tx = session.beginTransaction();
+		dao.merge(tmp);
+		tx.commit();			
+	} catch (RuntimeException re) {
+		tx.rollback();
+		log.error("save failed", re);	
+		throw re;			
+	}finally{
+		try{
+			dao.getSession().close();
+		}catch(Exception e){
+		
+		}
+	}		
+	return;
+}
 	
-	
+
+/**
+ * delete an existing AlsBankCode
+ * @param AlsBankCode
+ */
+
+public void delete(AlsBankCode AlsBankCode){
+	log.debug("deleting AlsBankCode");
+	Transaction tx = null;
+	AlsBankCodeDAO dao = new AlsBankCodeDAO();
+	try{
+		Session session = dao.getSession();
+		tx = session.beginTransaction();
+		dao.delete(AlsBankCode);
+		tx.commit();
+	} catch (RuntimeException re) {
+		tx.rollback();
+		log.error("delete failed", re);	
+		throw re;			
+	}finally{
+		try{
+			dao.getSession().close();
+		}catch(Exception e){
+		
+		}
+	}
+}
 
 }

@@ -1,7 +1,7 @@
 package fwp.alsaccount.dao.admin;
 
 import fwp.alsaccount.hibernate.BaseHibernateDAO;
-import java.util.Date;
+import java.sql.Timestamp;
 import java.util.List;
 import org.hibernate.LockOptions;
 import org.hibernate.Query;
@@ -55,7 +55,7 @@ public class AlsBankCodeDAO extends BaseHibernateDAO {
 		}
 	}
 
-	public AlsBankCode findById(java.lang.String id) {
+	public AlsBankCode findById(String id) {
 		log.debug("getting AlsBankCode instance with id: " + id);
 		try {
 			AlsBankCode instance = (AlsBankCode) getSession().get(
