@@ -2,14 +2,11 @@ package fwp.alsaccount.dao.sabhrs;
 // default package
 
 import java.sql.Timestamp;
-import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 /**
  * AlsTransactionGroup entity. @author MyEclipse Persistence Tools
