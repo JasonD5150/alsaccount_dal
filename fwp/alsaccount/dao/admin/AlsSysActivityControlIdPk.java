@@ -14,7 +14,11 @@ public class AlsSysActivityControlIdPk  implements java.io.Serializable {
 
     // Fields    
 
-     private Integer asacBudgetYear;
+     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private Integer asacBudgetYear;
      private String asacSystemActivityTypeCd;
      private String asacTxnCd;
 

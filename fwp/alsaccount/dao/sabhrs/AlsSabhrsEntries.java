@@ -22,7 +22,11 @@ public class AlsSabhrsEntries  implements java.io.Serializable {
 
     // Fields    
 
-     private AlsSabhrsEntriesIdPk idPk;
+     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private AlsSabhrsEntriesIdPk idPk;
      private Integer asacBudgetYear;
      private String asacSystemActivityTypeCd;
      private String asacTxnCd;

@@ -23,7 +23,11 @@ public class AlsOrgControl  implements java.io.Serializable {
 
     // Fields    
 
-     private AlsOrgControlIdPk idPk;
+     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private AlsOrgControlIdPk idPk;
      private String aocOrg;
      private String aocWhoLog;
      private Timestamp aocWhenLog;

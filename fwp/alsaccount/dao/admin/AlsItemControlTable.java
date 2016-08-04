@@ -1,6 +1,7 @@
 package fwp.alsaccount.dao.admin;
 
 import java.sql.Timestamp;
+
 import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
@@ -17,6 +18,10 @@ public class AlsItemControlTable implements java.io.Serializable {
 
 	// Fields
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private AlsItemControlTableIdPk idPk;
 	private String aictLicensePermitFlag;
 	private String aictTagFlag;

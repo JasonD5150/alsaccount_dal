@@ -15,7 +15,11 @@ public class AlsSabhrsEntriesSummaryIdPk  implements java.io.Serializable {
 
     // Fields    
 
-     private Timestamp asesDateCreated;
+     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private Timestamp asesDateCreated;
      private Integer asesSeqNo;
 
 

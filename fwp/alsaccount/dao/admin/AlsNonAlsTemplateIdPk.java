@@ -14,7 +14,11 @@ public class AlsNonAlsTemplateIdPk  implements java.io.Serializable {
 
     // Fields    
 
-     private Integer anatBudgetYear;
+     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private Integer anatBudgetYear;
      private String anatCd;
 
 

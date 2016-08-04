@@ -21,7 +21,11 @@ public class AlsSysActivityTypeCodes  implements java.io.Serializable {
 
     // Fields    
 
-     private String asacSystemActivityTypeCd;
+     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private String asacSystemActivityTypeCd;
      private String asatcDesc;
      private String asatcWhoLog;
      private Timestamp asatcWhenLog;

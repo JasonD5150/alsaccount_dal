@@ -25,7 +25,11 @@ public class AlsNonAlsTemplate  implements java.io.Serializable {
 
     // Fields    
 
-     private AlsNonAlsTemplateIdPk idPk;
+     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private AlsNonAlsTemplateIdPk idPk;
      private String anatDesc;
      private String anatBusinessUnit;
      private String anatDrAccount;

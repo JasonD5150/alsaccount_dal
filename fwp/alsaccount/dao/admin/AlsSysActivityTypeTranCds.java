@@ -23,7 +23,11 @@ public class AlsSysActivityTypeTranCds  implements java.io.Serializable {
 
     // Fields    
 
-     private AlsSysActivityTypeTranCdsIdPk idPk;
+     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private AlsSysActivityTypeTranCdsIdPk idPk;
      private String asattcDesc;
      private String asattcWhoLog;
      private Timestamp asattcWhenLog;

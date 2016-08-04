@@ -23,7 +23,11 @@ public class AlsTransactionGrpStatus  implements java.io.Serializable {
 
     // Fields    
 
-     private AlsTransactionGrpStatusIdPk idPk;
+     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private AlsTransactionGrpStatusIdPk idPk;
      private String atgsSummaryStatus;
      private String atgsInterfaceStatus;
      private Timestamp atgsSummaryDt;

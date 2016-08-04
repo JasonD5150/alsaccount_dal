@@ -14,7 +14,11 @@ public class AlsTransactionGrpStatusIdPk  implements java.io.Serializable {
 
     // Fields    
 
-     private Integer atgTransactionCd;
+     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private Integer atgTransactionCd;
      private String atgsGroupIdentifier;
 
 

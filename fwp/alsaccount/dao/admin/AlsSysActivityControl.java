@@ -23,7 +23,11 @@ public class AlsSysActivityControl  implements java.io.Serializable {
 
     // Fields    
 
-     private AlsSysActivityControlIdPk idPk;
+     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private AlsSysActivityControlIdPk idPk;
      private String asacSysActivityTypeCdDesc;
      private Integer asacProgram;
      private String asacProjectGrant;

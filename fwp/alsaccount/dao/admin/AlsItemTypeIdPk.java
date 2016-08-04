@@ -11,6 +11,10 @@ public class AlsItemTypeIdPk implements java.io.Serializable {
 
 	// Fields
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String aiItemId;
 	private String aicCategoryId;
 	private String aitTypeId;

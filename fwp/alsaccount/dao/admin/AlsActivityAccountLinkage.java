@@ -23,7 +23,11 @@ public class AlsActivityAccountLinkage  implements java.io.Serializable {
 
     // Fields    
 
-     private AlsActivityAccountLinkageIdPk idPk;
+     /**
+	 * 
+	 */
+	 private static final long serialVersionUID = 1L;
+	 private AlsActivityAccountLinkageIdPk idPk;
      private String aamAccount;
      private String aaalAccountingCdFlag;
      private Integer aaalReference;

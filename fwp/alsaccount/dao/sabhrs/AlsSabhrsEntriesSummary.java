@@ -22,7 +22,11 @@ public class AlsSabhrsEntriesSummary  implements java.io.Serializable {
 
     // Fields    
 
-     private AlsSabhrsEntriesSummaryIdPk idPk;
+     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private AlsSabhrsEntriesSummaryIdPk idPk;
      private String aamBusinessUnit;
      private Integer asacReference;
      private String aamAccount;

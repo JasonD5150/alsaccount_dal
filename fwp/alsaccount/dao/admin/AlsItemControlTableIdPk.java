@@ -1,6 +1,7 @@
 package fwp.alsaccount.dao.admin;
 
 import java.sql.Timestamp;
+
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
@@ -12,6 +13,10 @@ public class AlsItemControlTableIdPk implements java.io.Serializable {
 
 	// Fields
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Timestamp aictUsagePeriodFrom;
 	private Timestamp aictUsagePeriodTo;
 	private String aictItemTypeCd;

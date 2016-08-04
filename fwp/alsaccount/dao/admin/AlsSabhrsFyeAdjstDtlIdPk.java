@@ -16,7 +16,11 @@ public class AlsSabhrsFyeAdjstDtlIdPk  implements java.io.Serializable {
 
     // Fields    
 
-     private Integer asfaBudgetYear;
+     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private Integer asfaBudgetYear;
      private Timestamp asfadAdjstDt;
 
 

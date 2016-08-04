@@ -15,7 +15,11 @@ public class AlsSabhrsEntriesIdPk  implements java.io.Serializable {
 
     // Fields    
 
-     private Timestamp aseWhenEntryPosted;
+     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private Timestamp aseWhenEntryPosted;
      private Integer aseSeqNo;
      private String aseDrCrCd;
      private Integer aseTxnCdSeqNo;

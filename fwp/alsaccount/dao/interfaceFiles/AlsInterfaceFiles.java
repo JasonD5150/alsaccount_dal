@@ -24,7 +24,11 @@ public class AlsInterfaceFiles  implements java.io.Serializable {
 
     // Fields    
 
-     private Integer aifId;
+     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private Integer aifId;
      private Timestamp aifCreateDate;
      private String aifCreatePersonid;
      private String aifModPersonid;

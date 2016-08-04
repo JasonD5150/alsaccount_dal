@@ -14,7 +14,11 @@ public class AlsSysActivityTypeTranCdsIdPk  implements java.io.Serializable {
 
     // Fields    
 
-     private String asacSystemActivityTypeCd;
+     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private String asacSystemActivityTypeCd;
      private String asacTxnCd;
 
 

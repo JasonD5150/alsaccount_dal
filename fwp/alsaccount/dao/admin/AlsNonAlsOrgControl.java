@@ -23,7 +23,11 @@ public class AlsNonAlsOrgControl  implements java.io.Serializable {
 
     // Fields    
 
-     private Integer anaocId;
+     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private Integer anaocId;
      private String anatCd;
      private String anaocCrDrCd;
      private String anaocOrg;

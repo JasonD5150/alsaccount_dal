@@ -21,7 +21,11 @@ public class AlsSabhrsFyeAdjstDtl  implements java.io.Serializable {
 
     // Fields    
 
-     private AlsSabhrsFyeAdjstDtlIdPk idPk;
+     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private AlsSabhrsFyeAdjstDtlIdPk idPk;
 
 
     // Constructors
