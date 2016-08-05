@@ -1,7 +1,6 @@
 package fwp.alsaccount.dao.admin;
 
 import java.sql.Timestamp;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -16,10 +15,6 @@ public class AlsTribeInfo implements java.io.Serializable {
 
 	// Fields
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
 	private String atiTribeCd;
 	private String atiTribeNm;
 	private String abcBankCd;

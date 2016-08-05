@@ -48,6 +48,7 @@
 			class="fwp.alsaccount.dao.interfaceFiles.AlsInterfaceFiles" />
 		<mapping class="fwp.alsaccount.dao.admin.AlsBankCode" />
 		<mapping class="fwp.alsaccount.dao.admin.AlsTribeItemInfo" />
+		<mapping class="fwp.alsaccount.dao.admin.AlsTribeInfo" />
 	</session-factory>
 
 </hibernate-configuration>
