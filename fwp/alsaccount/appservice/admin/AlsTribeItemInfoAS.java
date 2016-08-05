@@ -3,132 +3,96 @@ package fwp.alsaccount.appservice.admin;
 
 import java.util.List;
 
-import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
-
-
-
-
-
-import fwp.alsaccount.dao.admin.AlsTribeInfo;
-import fwp.alsaccount.dao.admin.AlsTribeInfoDAO;
+import fwp.alsaccount.dao.admin.AlsTribeItemInfo;
 import fwp.alsaccount.dao.admin.AlsTribeItemInfoDAO;
+import fwp.alsaccount.dao.admin.AlsTribeItemInfoIdPk;
 import fwp.alsaccount.hibernate.HibernateSessionFactory;
 
 
 
-
 /**
- * @author cfa027
- * 
+ * @author CF0006
+ *
  */
 public class AlsTribeItemInfoAS {
 	
 	private static final Logger log = LoggerFactory
 			.getLogger(AlsTribeItemInfoDAO.class);
 	
+	
 	/**
-	 * returns a list of AlsTribeInfo filtered by where clause
-	 * @param where
-	 * @return List
+	 * @param idPk
+	 * @return
 	 */
-	@SuppressWarnings("rawtypes")
-	/*public List findAllByWhere(String where) {
-		log.debug("finding all Tribe Item instances by where filter");
-		try {
-			String queryString = " from AlsTribeItemInfo";
-			Query queryObject = HibernateSessionFactory.getSession().createQuery(queryString + " " + where);
-			return queryObject.list();
-		} catch (RuntimeException re) {
-			log.error("find all failed", re);
-			throw re;
-		}finally{
-			HibernateSessionFactory.closeSession();
-		}
-	}*/
-	/*public AlsTribeInfo findById(String atiTribeCd){
-		AlsTribeInfoDAO dao = new AlsTribeInfoDAO();
+	public AlsTribeItemInfo findById(AlsTribeItemInfoIdPk idPk){
+		AlsTribeItemInfoDAO dao = new AlsTribeItemInfoDAO();
 		
-		AlsTribeInfo tibeInfo;
+		AlsTribeItemInfo toReturn;
 		try {
-			tibeInfo = dao.findById(atiTribeCd);
+			toReturn = dao.findById(idPk);
 		} catch (RuntimeException re) {	
 			throw re;	
 		} finally {
 			HibernateSessionFactory.closeSession();
 		}
 		
-		return tibeInfo;
+		return toReturn;
 	}
-	*/
 	
 	
-/*public Boolean isDuplicateEntry(String atiTribeCd) {
-		
-		Boolean retVal = false;
-		
-		try {
-			AlsTribeInfo ati = this.findById(atiTribeCd);
-			if(ati != null){
-				retVal = true;
-			}
+	
 
-		} catch (RuntimeException re) {	
-			throw re;	
-		} finally{
-			HibernateSessionFactory.closeSession();
-		}
-		
-		return retVal;
-	}*/
-
-/**
- * Saves any AlsTribeInfo using the merge function
- * @param AlsTribeInfo
- */
 	
-public void save(AlsTribeInfo tmp){
-	log.debug("saving AlsTribeInfo");
-	Transaction tx = null;
-	AlsTribeInfoDAO dao = new AlsTribeInfoDAO();
-	try{
-		Session session = dao.getSession();
-		tx = session.beginTransaction();
-		dao.merge(tmp);
-		tx.commit();			
-	} catch (RuntimeException re) {
-		tx.rollback();
-		log.error("save failed", re);	
-		throw re;			
-	}finally{
+	/**
+	 * @param tmp
+	 */
+	public void save(List<AlsTribeItemInfo> tmp){
+		log.debug("saving AlsTribeInfo");
+		Transaction tx = null;
+		AlsTribeItemInfoDAO dao = new AlsTribeItemInfoDAO();
 		try{
-			dao.getSession().close();
-		}catch(Exception e){
-		
-		}
-	}		
-	return;
+			Session session = dao.getSession();
+			tx = session.beginTransaction();
+			
+			for (AlsTribeItemInfo item : tmp) {
+				dao.merge(item);
+			}
+			
+			
+			tx.commit();			
+		} catch (RuntimeException re) {
+			tx.rollback();
+			log.error("save failed", re);	
+			throw re;			
+		}finally{
+			try{
+				dao.getSession().close();
+			}catch(Exception e){
+			
+			}
+		}		
+		return;
 
-	}
+		}
+
+
 
 /**
- * delete an existing AlsTribeInfo
- * @param alsTribeInfo
+ * @param alsTribeItemInfo
  */
-
-/*public void delete(AlsTribeInfo alsTribeInfo){
+public void delete(AlsTribeItemInfo alsTribeItemInfo){
 	log.debug("deleting AlsTribeInfo");
 	Transaction tx = null;
-	AlsTribeInfoDAO dao = new AlsTribeInfoDAO();
+	AlsTribeItemInfoDAO dao = new AlsTribeItemInfoDAO();
 	try{
 		Session session = dao.getSession();
 		tx = session.beginTransaction();
-		dao.delete(alsTribeInfo);
+		dao.delete(alsTribeItemInfo);
 		tx.commit();
 	} catch (RuntimeException re) {
 		tx.rollback();
@@ -141,7 +105,7 @@ public void save(AlsTribeInfo tmp){
 		
 		}
 	}
-}*/
+}
 
 	}
 	

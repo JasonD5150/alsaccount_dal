@@ -9,10 +9,8 @@ import org.hibernate.Transaction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
 import fwp.alsaccount.dao.admin.AlsBankCode;
 import fwp.alsaccount.dao.admin.AlsBankCodeDAO;
-
 import fwp.alsaccount.hibernate.HibernateSessionFactory;
 
 
