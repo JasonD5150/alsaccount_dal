@@ -8,6 +8,7 @@ public class AlsProviderBankDetailsDTO extends AlsProviderBankDetails{
 	private String gridKey;
 	private Integer providerNo;
 	private String providerName;
+	private String bankName;
 	
 	public String getGridKey() {
 		return gridKey;
@@ -26,6 +27,12 @@ public class AlsProviderBankDetailsDTO extends AlsProviderBankDetails{
 	}
 	public void setProviderName(String providerName) {
 		this.providerName = providerName;
+	}
+	public String getBankName() {
+		return bankName;
+	}
+	public void setBankName(String bankName) {
+		this.bankName = bankName;
 	}
 
 }

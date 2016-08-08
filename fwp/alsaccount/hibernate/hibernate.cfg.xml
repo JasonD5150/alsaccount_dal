@@ -37,15 +37,13 @@
 
 		<!-- SABHRS -->
 		<mapping class="fwp.alsaccount.dao.sabhrs.AlsTransactionGroup" />
-		<mapping
-			class="fwp.alsaccount.dao.sabhrs.AlsTransactionGrpStatus" />
+		<mapping class="fwp.alsaccount.dao.sabhrs.AlsTransactionGrpStatus" />
 		<mapping class="fwp.alsaccount.dao.sabhrs.AlsSabhrsEntries" />
-		<mapping
-			class="fwp.alsaccount.dao.sabhrs.AlsSabhrsEntriesSummary" />
+		<mapping class="fwp.alsaccount.dao.sabhrs.AlsSabhrsEntriesSummary" />
+		<mapping class="fwp.alsaccount.dao.sabhrs.AlsProviderBankDetails" />
 
 		<!--  Interface Files -->
-		<mapping
-			class="fwp.alsaccount.dao.interfaceFiles.AlsInterfaceFiles" />
+		<mapping class="fwp.alsaccount.dao.interfaceFiles.AlsInterfaceFiles" />
 		<mapping class="fwp.alsaccount.dao.admin.AlsBankCode" />
 		<mapping class="fwp.alsaccount.dao.admin.AlsTribeItemInfo" />
 		<mapping class="fwp.alsaccount.dao.admin.AlsTribeInfo" />
