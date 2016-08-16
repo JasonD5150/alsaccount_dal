@@ -11,11 +11,11 @@ import org.hibernate.transform.Transformers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import fwp.ListComp;
 import fwp.alsaccount.dao.admin.AlsSabhrsFyeAdjstDtl;
 import fwp.alsaccount.dao.admin.AlsSabhrsFyeAdjstDtlDAO;
 import fwp.alsaccount.dao.admin.AlsSabhrsFyeAdjstDtlIdPk;
 import fwp.alsaccount.hibernate.HibernateSessionFactory;
-import fwp.alsaccount.hibernate.utils.ListComp;
 
 /**
  * Application service for the ALS Item Control Table functions

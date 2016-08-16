@@ -13,10 +13,10 @@ import org.hibernate.type.TimestampType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import fwp.ListComp;
 import fwp.alsaccount.dao.admin.AlsMisc;
 import fwp.alsaccount.dao.admin.AlsMiscDAO;
 import fwp.alsaccount.hibernate.HibernateSessionFactory;
-import fwp.alsaccount.hibernate.utils.ListComp;
 import fwp.alsaccount.hibernate.utils.ProcRtrn;
 
 /**

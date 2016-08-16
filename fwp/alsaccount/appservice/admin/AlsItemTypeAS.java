@@ -4,19 +4,9 @@ package fwp.alsaccount.appservice.admin;
 import java.util.List;
 
 import org.hibernate.Query;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
-
-
-
-
-
-import fwp.alsaccount.dao.admin.AlsTribeInfo;
-import fwp.alsaccount.dao.admin.AlsTribeInfoDAO;
 import fwp.alsaccount.dao.admin.AlsTribeItemInfoDAO;
 import fwp.alsaccount.hibernate.HibernateSessionFactory;
 
