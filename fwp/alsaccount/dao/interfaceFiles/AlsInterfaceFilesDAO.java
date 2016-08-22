@@ -1,13 +1,15 @@
 package fwp.alsaccount.dao.interfaceFiles;
 
-import fwp.alsaccount.hibernate.BaseHibernateDAO;
-import java.sql.Timestamp;
+import static org.hibernate.criterion.Example.create;
+
 import java.util.List;
+
 import org.hibernate.LockOptions;
 import org.hibernate.Query;
-import static org.hibernate.criterion.Example.create;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import fwp.alsaccount.hibernate.BaseHibernateDAO;
 
 /**
  	* A data access object (DAO) providing persistence and search support for AlsInterfaceFiles entities.

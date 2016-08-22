@@ -85,5 +85,4 @@ public class AlsSabhrsEntriesDTO extends AlsSabhrsEntries{
 	public void setAseTxnCdSeqNo(Integer aseTxnCdSeqNo) {
 		this.aseTxnCdSeqNo = aseTxnCdSeqNo;
 	}
-
 }

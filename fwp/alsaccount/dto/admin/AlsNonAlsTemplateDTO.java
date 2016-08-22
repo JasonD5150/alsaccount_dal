@@ -9,15 +9,9 @@ public class AlsNonAlsTemplateDTO extends AlsNonAlsTemplate {
 	private String anatCrJournalLineRefrDesc;
 	private String anatDrJournalLineRefrDesc;
 
-	/**
-	 * @return the gridKey
-	 */
 	public String getGridKey() {
 		return gridKey;
 	}
-	/**
-	 * @param gridKey the gridKey to set
-	 */
 	public void setGridKey(String gridKey) {
 		this.gridKey = gridKey;
 	}
@@ -33,5 +27,4 @@ public class AlsNonAlsTemplateDTO extends AlsNonAlsTemplate {
 	public void setAnatDrJournalLineRefrDesc(String anatDrJournalLineRefrDesc) {
 		this.anatDrJournalLineRefrDesc = anatDrJournalLineRefrDesc;
 	}
-	
 }

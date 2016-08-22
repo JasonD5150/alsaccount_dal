@@ -8,9 +8,9 @@ import org.hibernate.Transaction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import fwp.alsaccount.dao.admin.AlsSysActivityControl;
-import fwp.alsaccount.dao.admin.AlsSysActivityControlDAO;
-import fwp.alsaccount.dao.admin.AlsSysActivityControlIdPk;
+import fwp.als.hibernate.admin.dao.AlsSysActivityControl;
+import fwp.als.hibernate.admin.dao.AlsSysActivityControlDAO;
+import fwp.als.hibernate.admin.dao.AlsSysActivityControlIdPk;
 import fwp.alsaccount.hibernate.HibernateSessionFactory;
 
 

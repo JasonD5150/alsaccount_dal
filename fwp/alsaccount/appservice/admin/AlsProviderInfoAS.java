@@ -13,8 +13,8 @@ import org.hibernate.Transaction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import fwp.alsaccount.dao.admin.AlsProviderInfo;
-import fwp.alsaccount.dao.admin.AlsProviderInfoDAO;
+import fwp.als.hibernate.provider.dao.AlsProviderInfo;
+import fwp.als.hibernate.provider.dao.AlsProviderInfoDAO;
 import fwp.alsaccount.hibernate.HibernateSessionFactory;
 
 

@@ -2,7 +2,6 @@ package fwp.alsaccount.dto.sabhrs;
 
 import java.util.Date;
 
-
 public class InternalProviderTdtDTO {
 	
 	private Date bpe;
@@ -15,7 +14,6 @@ public class InternalProviderTdtDTO {
 	private String businessNm;
 	private String businessUnit;
 	
-
 	public Date getBpe() {
 		return bpe;
 	}
@@ -64,14 +62,10 @@ public class InternalProviderTdtDTO {
 	public void setBusinessNm(String businessNm) {
 		this.businessNm = businessNm;
 	}
-
 	public String getBusinessUnit() {
 		return businessUnit;
 	}
-
 	public void setBusinessUnit(String businessUnit) {
 		this.businessUnit = businessUnit;
 	}
-
-
 }

@@ -1,6 +1,8 @@
 package fwp.alsaccount.dto.admin;
 
-import fwp.alsaccount.dao.admin.AlsSysActivityControl;
+import fwp.als.hibernate.admin.dao.AlsSysActivityControl;
+
+
 
 public class AlsSysActivityControlDTO extends AlsSysActivityControl {
 	
@@ -8,15 +10,10 @@ public class AlsSysActivityControlDTO extends AlsSysActivityControl {
 	private String gridKey;
 	private String sysActivityTypeDesc;
 	private String sysTranCodeDesc;
-	/**
-	 * @return the gridKey
-	 */
+
 	public String getGridKey() {
 		return gridKey;
 	}
-	/**
-	 * @param gridKey the gridKey to set
-	 */
 	public void setGridKey(String gridKey) {
 		this.gridKey = gridKey;
 	}
@@ -32,7 +29,4 @@ public class AlsSysActivityControlDTO extends AlsSysActivityControl {
 	public void setSysTranCodeDesc(String sysTranCodeDesc) {
 		this.sysTranCodeDesc = sysTranCodeDesc;
 	}
-	
-	
-
 }

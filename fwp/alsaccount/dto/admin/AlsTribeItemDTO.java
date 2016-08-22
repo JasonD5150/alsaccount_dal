@@ -1,10 +1,6 @@
 package fwp.alsaccount.dto.admin;
 
-
 import java.sql.Date;
-
-
-
 
 public class AlsTribeItemDTO {
 	
@@ -44,13 +40,4 @@ public class AlsTribeItemDTO {
 	public void setAictItemTypeCd(String aictItemTypeCd) {
 		this.aictItemTypeCd = aictItemTypeCd;
 	}
-    
-	
-	
-	
-
-    
-	
-
-
 }

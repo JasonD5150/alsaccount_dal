@@ -1,22 +1,16 @@
 package fwp.alsaccount.dto.admin;
 
-import fwp.alsaccount.dao.admin.AlsActivityAccountLinkage;
-
+import fwp.als.hibernate.admin.dao.AlsActivityAccountLinkage;
 
 public class AlsActivityAccountLinkageDTO extends AlsActivityAccountLinkage {
 	
 	private static final long serialVersionUID = 1570541485740048476L;
 	private String gridKey;
 	private String sysActTypeTransCd;
-	/**
-	 * @return the gridKey
-	 */
+
 	public String getGridKey() {
 		return gridKey;
 	}
-	/**
-	 * @param gridKey the gridKey to set
-	 */
 	public void setGridKey(String gridKey) {
 		this.gridKey = gridKey;
 	}
@@ -26,6 +20,4 @@ public class AlsActivityAccountLinkageDTO extends AlsActivityAccountLinkage {
 	public void setSysActTypeTransCd(String sysActTypeTransCd) {
 		this.sysActTypeTransCd = sysActTypeTransCd;
 	}
-	
-
 }

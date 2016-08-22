@@ -8,9 +8,9 @@ import org.hibernate.Transaction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import fwp.alsaccount.dao.admin.AlsSysActivityTypeTranCds;
-import fwp.alsaccount.dao.admin.AlsSysActivityTypeTranCdsDAO;
-import fwp.alsaccount.dao.admin.AlsSysActivityTypeTranCdsIdPk;
+import fwp.als.hibernate.admin.dao.AlsSysActivityTypeTranCds;
+import fwp.als.hibernate.admin.dao.AlsSysActivityTypeTranCdsDAO;
+import fwp.als.hibernate.admin.dao.AlsSysActivityTypeTranCdsIdPk;
 import fwp.alsaccount.hibernate.HibernateSessionFactory;
 
 

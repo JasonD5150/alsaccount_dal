@@ -1,6 +1,7 @@
 package fwp.alsaccount.dao.admin;
 
 import java.sql.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 

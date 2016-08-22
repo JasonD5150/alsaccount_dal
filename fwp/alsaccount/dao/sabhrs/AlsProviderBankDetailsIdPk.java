@@ -1,6 +1,7 @@
 package fwp.alsaccount.dao.sabhrs;
 
 import java.sql.Timestamp;
+
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 

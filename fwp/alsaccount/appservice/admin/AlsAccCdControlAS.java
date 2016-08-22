@@ -9,10 +9,10 @@ import org.hibernate.Transaction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import fwp.als.hibernate.account.dao.AlsOrgControl;
 import fwp.alsaccount.dao.admin.AlsAccCdControl;
 import fwp.alsaccount.dao.admin.AlsAccCdControlDAO;
 import fwp.alsaccount.dao.admin.AlsAccCdControlIdPk;
-import fwp.alsaccount.dao.admin.AlsOrgControl;
 import fwp.alsaccount.hibernate.HibernateSessionFactory;
 
 

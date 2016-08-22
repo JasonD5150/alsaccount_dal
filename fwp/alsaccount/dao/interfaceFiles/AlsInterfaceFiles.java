@@ -1,10 +1,12 @@
 package fwp.alsaccount.dao.interfaceFiles;
 
+import static javax.persistence.GenerationType.SEQUENCE;
+
 import java.sql.Timestamp;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import static javax.persistence.GenerationType.SEQUENCE;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.SequenceGenerator;

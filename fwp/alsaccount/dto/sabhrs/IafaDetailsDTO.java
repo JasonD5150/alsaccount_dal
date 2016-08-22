@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Date;
 
-public class IafaQueryDTO implements Serializable{
+public class IafaDetailsDTO implements Serializable{
 	
 	private static final long serialVersionUID = 1570541485740048476L;
 	private String gridKey;
@@ -493,19 +493,10 @@ public class IafaQueryDTO implements Serializable{
 	public void setReasonDesc(String reasonDesc) {
 		this.reasonDesc = reasonDesc;
 	}
-	/**
-	 * @return the seqNoforPrintedItems
-	 */
 	public Integer getSeqNoforPrintedItems() {
 		return seqNoforPrintedItems;
 	}
-	/**
-	 * @param seqNoforPrintedItems the seqNoforPrintedItems to set
-	 */
 	public void setSeqNoforPrintedItems(Integer seqNoforPrintedItems) {
 		this.seqNoforPrintedItems = seqNoforPrintedItems;
 	}
-	
-	
-	
 }

@@ -14,8 +14,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import fwp.ListComp;
-import fwp.alsaccount.dao.admin.AlsMisc;
-import fwp.alsaccount.dao.admin.AlsMiscDAO;
+import fwp.als.hibernate.admin.dao.AlsMisc;
+import fwp.als.hibernate.admin.dao.AlsMiscDAO;
 import fwp.alsaccount.hibernate.HibernateSessionFactory;
 import fwp.alsaccount.hibernate.utils.ProcRtrn;
 

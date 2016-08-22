@@ -34,5 +34,4 @@ public class AlsProviderBankDetailsDTO extends AlsProviderBankDetails{
 	public void setBankName(String bankName) {
 		this.bankName = bankName;
 	}
-
 }

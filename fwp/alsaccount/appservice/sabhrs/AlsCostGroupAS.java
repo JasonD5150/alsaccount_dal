@@ -8,9 +8,9 @@ import org.hibernate.Transaction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import fwp.alsaccount.dao.sabhrs.AlsCostGroup;
-import fwp.alsaccount.dao.sabhrs.AlsCostGroupDAO;
-import fwp.alsaccount.dao.sabhrs.AlsCostGroupIdPk;
+import fwp.als.hibernate.item.dao.AlsCostGroup;
+import fwp.als.hibernate.item.dao.AlsCostGroupDAO;
+import fwp.als.hibernate.item.dao.AlsCostGroupIdPk;
 import fwp.alsaccount.hibernate.HibernateSessionFactory;
 
 

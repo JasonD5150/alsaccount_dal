@@ -9,15 +9,9 @@ public class AlsOrgControlDTO extends AlsOrgControl {
 	private String provRegion;
 	private String provName;
 
-	/**
-	 * @return the gridKey
-	 */
 	public String getGridKey() {
 		return gridKey;
 	}
-	/**
-	 * @param gridKey the gridKey to set
-	 */
 	public void setGridKey(String gridKey) {
 		this.gridKey = gridKey;
 	}
@@ -33,5 +27,4 @@ public class AlsOrgControlDTO extends AlsOrgControl {
 	public void setProvName(String provName) {
 		this.provName = provName;
 	}
-
 }

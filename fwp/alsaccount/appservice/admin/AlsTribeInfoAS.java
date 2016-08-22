@@ -8,8 +8,8 @@ import org.hibernate.Transaction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import fwp.alsaccount.dao.admin.AlsTribeInfo;
-import fwp.alsaccount.dao.admin.AlsTribeInfoDAO;
+import fwp.als.hibernate.admin.dao.AlsTribeInfo;
+import fwp.als.hibernate.admin.dao.AlsTribeInfoDAO;
 import fwp.alsaccount.hibernate.HibernateSessionFactory;
 
 
