@@ -78,10 +78,10 @@
               	
    	<target name="jar" depends="build">
         <jar destfile="${projName}.jar" basedir="bin"/>
-   		 <copy file="${projName}.jar" tofile="${BCKUP_DIR}\${projName}\${TODAY_MY}\${projName}.jar.${build_parameter}"/>
-   		 <copy file="${projName}.jar" todir="${deployServer}\modules\fwp\dal\alsaccount\main"/>
-        <copy file="module.xml" tofile="${BCKUP_DIR}\${projName}\${TODAY_MY}\module.xml.${build_parameter}"/>
-        <copy file="module.xml" todir="${deployServer}\modules\fwp\dal\alsaccount\main"/>
+   		 <copy file="${projName}.jar" tofile="${BCKUP_DIR}/${projName}/${TODAY_MY}/${projName}.jar.${build_parameter}"/>
+   		 <copy file="${projName}.jar" todir="${deployServer}/modules/fwp/dal/alsaccount/main"/>
+        <copy file="module.xml" tofile="${BCKUP_DIR}/${projName}/${TODAY_MY}/module.xml.${build_parameter}"/>
+        <copy file="module.xml" todir="${deployServer}/modules/fwp/dal/alsaccount/main"/>
     </target>  
               	
     <target description="Build all projects which reference this project. Useful to propagate changes." name="build-refprojects"/>
