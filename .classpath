@@ -12,5 +12,7 @@
 			<attribute name="owner.project.facets" value="java"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/alsadmin_dal"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/fwpMethods"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -12,7 +12,7 @@
     <property name="build_parameter"  value="${env.BUILD_NUMBER}"/>
     <property name="deployServer"  value="${env.DPL_SVR}"/>
     <property name="projName"  value="${env.JOB_NAME}"/>              	
-    <property name="BCKUP_DIR"  value="${env.BCKUP_DIR}"/> 
+    <property name="BCKUP_DIR"  value="${env.BCKUP_DIR}"/>   
               	
     <path id="slf4jLogger.userclasspath">
         <pathelement location="${deployServer}/modules/system/layers/base/org/slf4j/main/slf4j-api-1.7.7.jbossorg-1.jar"/>
@@ -31,6 +31,12 @@
     <path id="jdbc.userclasspath">
         <pathelement location="${deployServer}/modules/fwp/oracle/jdbc/main/ojdbc6.jar"/>
     </path>
+    <path id="alsadmin_dal.userclasspath">
+        <pathelement location="${deployServer}/modules/fwp/dal/alsadmin/main/alsadmin_dal.jar"/>
+    </path>
+    <path id="fwpMethods.userclasspath">
+        <pathelement location="${deployServer}/modules/fwp/custom/fwpMethods/main/fwpMethods.jar"/>
+    </path>
     <path id="alsaccount_dal.classpath">
         <pathelement location="bin"/>
         <path refid="slf4jLogger.userclasspath"/>
@@ -39,6 +45,8 @@
         <path refid="persist.userclasspath"/>
         <path refid="commonLang.userclasspath"/>
         <path refid="jdbc.userclasspath"/>
+        <path refid="alsadmin_dal.userclasspath"/>
+        <path refid="fwpMethods.userclasspath"/>
     </path>
     <target name="init" depends="clean">
         <mkdir dir="bin"/>
@@ -51,6 +59,7 @@
     </target>
     <target name="clean">
         <delete dir="bin"/>
+    	<delete> <fileset dir="." includes="**/*.class"/> </delete>
     </target>
     <target depends="clean" name="cleanall"/>
     <target depends="build-subprojects,build-project" name="build"/>
@@ -71,8 +80,8 @@
         <jar destfile="${projName}.jar" basedir="bin"/>
    		 <copy file="${projName}.jar" tofile="${BCKUP_DIR}\${projName}\${TODAY_MY}\${projName}.jar.${build_parameter}"/>
    		 <copy file="${projName}.jar" todir="${deployServer}\modules\fwp\dal\alsaccount\main"/>
-   		
-    </target>            	
+   		<copy file="module.xml" todir="${deployServer}\modules\fwp\dal\alsaccount\main"/>
+    </target>  
               	
     <target description="Build all projects which reference this project. Useful to propagate changes." name="build-refprojects"/>
 </project>
