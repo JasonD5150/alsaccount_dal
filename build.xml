@@ -1,144 +1,78 @@
-<project default="test">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- WARNING: Eclipse auto-generated file.
+              Any modifications will be overwritten.
+              To include a user specific buildfile here, simply create one in the same
+              directory with the processing instruction <?eclipse.ant.import?>
+              as the first entry and export the buildfile again. --><project basedir="." default="build" name="alsaccount_dal">
+    <property environment="env"/>
+    <property name="debuglevel" value="source,lines,vars"/>
+    <property name="target" value="1.8"/>
+    <property name="source" value="1.8"/>
 
-	<!--FWP BUILD FILE VERSION 1.0-->
-	<!--Project specific settings. The rest of this build file is generic and can be used as-is.-->
-	<property name="project.output.jar.name" value="build/jar/alsadmin_dal.jar">
-	</property>
-	<!--End project specific settings.-->
-
-
-	<path id="project.class.path">
-		<fileset dir="${jboss.server.root}/server/default/deployers/ejb3.deployer" id="id">
-			<include name="*.jar"/>
-		</fileset>
-		<fileset dir="${jboss.server.root}/server/default/deployers/jbossweb.deployer" id="id">
-			<include name="*.jar"/>
-		</fileset>
-		<fileset dir="${jboss.server.root}/server/default/deploy/jbossweb.sar" id="id">
-			<include name="*.jar"/>
-		</fileset>
-		<fileset dir="${jboss.server.root}/server/default/lib" id="id">
-			<include name="*.jar" />
-		</fileset>
-		<fileset dir="${jboss.server.root}/client" id="id">
-			<include name="*.jar" />
-		</fileset>
-		<fileset dir="${jboss.server.root}/lib/endorsed" id="id">
-			<include name="*.jar" />
-		</fileset>
-		<fileset dir="${jboss.server.root}/lib" id="id">
-			<include name="*.jar" />
-		</fileset>
-
-	</path>
-
-	<target name="clean">
-		<delete dir="build"/>
-	</target>
-
-	<target name="compile" >
-		<echo message="building classes..."/>
-		<mkdir dir="build/classes/" />
-		<mkdir dir="build/tests/" />
-
-		<javac debug="true" srcdir="./" destdir="build/classes" classpathref="project.class.path" />
-		
-		<move failonerror="false" file="build/classes/tests" todir="build/tests" />
-		<javadoc destdir="build/doc" 
-			       sourcepath="./" 
-			       excludepackagenames="tests/**" 
-			       verbose="false" 
-			       classpathref="project.class.path" 
-			       noindex="false" 
-			       public="true">
-		</javadoc>
-
-		<copy todir="build/classes/fwp/">
-			<fileset file="build/doc/fwp/**">
-			</fileset>
-		</copy>
-		
-		<!-- copy all xml files in tree for technologies like struts and hibernate -->
-	    <copy verbose="true" preservelastmodified="yes" todir="build/classes">
-	    	<fileset  dir="./" includes="**/*.xml" />
-	  	</copy>		
-		
-		<!-- Include the following copy if you want the index files at the top level. (Eclipse does not need them for auto-complete)
-		<copy todir="build/classes/">
-        <fileset file="build/doc/index.html">
-        </fileset>
-			<fileset file="build/doc/package-list">
-			</fileset>
+    <property name="build_parameter"  value="${env.BUILD_NUMBER}"/>
+    <property name="deployServer"  value="${env.DPL_SVR}"/>
+    <property name="projName"  value="${env.JOB_NAME}"/>              	
+    <property name="BCKUP_DIR"  value="${env.BCKUP_DIR}"/> 
+              	
+    <path id="slf4jLogger.userclasspath">
+        <pathelement location="${deployServer}/modules/system/layers/base/org/slf4j/main/slf4j-api-1.7.7.jbossorg-1.jar"/>
+    </path>
+    <path id="hibernate.userclasspath">
+        <pathelement location="${deployServer}/modules/fwp/common/hibernate/main/hibernate-commons-annotations-4.0.1.Final.jar"/>
+        <pathelement location="${deployServer}/modules/fwp/common/hibernate/main/hibernate-core-4.1.4.Final.jar"/>
+        <pathelement location="${deployServer}/modules/fwp/common/hibernate/main/hibernate-c3p0-4.0.0.CR2.jar"/>
+        <pathelement location="${deployServer}/modules/system/layers/base/javax/persistence/api/main/hibernate-jpa-2.1-api-1.0.0.Final.jar"/>
+    </path>
+    <path id="Core.userclasspath">
+        <pathelement location="${deployServer}/modules/fwp/custom/Core/main/FwpCore.jar"/>
+    </path>
+    <path id="persist.userclasspath"/>
+    <path id="commonLang.userclasspath"/>
+    <path id="jdbc.userclasspath">
+        <pathelement location="${deployServer}/modules/fwp/oracle/jdbc/main/ojdbc6.jar"/>
+    </path>
+    <path id="alsaccount_dal.classpath">
+        <pathelement location="bin"/>
+        <path refid="slf4jLogger.userclasspath"/>
+        <path refid="hibernate.userclasspath"/>
+        <path refid="Core.userclasspath"/>
+        <path refid="persist.userclasspath"/>
+        <path refid="commonLang.userclasspath"/>
+        <path refid="jdbc.userclasspath"/>
+    </path>
+    <target name="init" depends="clean">
+        <mkdir dir="bin"/>
+        <copy includeemptydirs="false" todir="bin">
+            <fileset dir=".">
+                <exclude name="**/*.launch"/>
+                <exclude name="**/*.java"/>
+            </fileset>
         </copy>
-        -->
+    </target>
+    <target name="clean">
+        <delete dir="bin"/>
+    </target>
+    <target depends="clean" name="cleanall"/>
+    <target depends="build-subprojects,build-project" name="build"/>
+    <target name="build-subprojects"/>
+    <target depends="init" name="build-project">
+        <echo message="${ant.project.name}: ${ant.file}"/>
+        <javac debug="true" debuglevel="${debuglevel}" destdir="bin" includeantruntime="false" source="${source}" target="${target}">
+            <src path="."/>
+            <classpath refid="alsaccount_dal.classpath"/>
+        </javac>
+    </target>
 
-	</target>
-
-	<target name="build" depends="compile">
-		<echo message="jarring classes..." />
-		<mkdir dir="build/jar" />
-		<jar destfile="${project.output.jar.name}" basedir="build/classes">
-			<manifest>
-				<attribute name="Main-Class" value="Main"/>
-			</manifest>
-		</jar>
-		<!--<delete dir="build/classes" />-->
-	</target>
-
-	<target name="rebuild" depends="clean,build">
-	</target>
-
-	<target name="run" depends="build">
-		<java jar="${project.output.jar.name}" fork="true"/>
-	</target>
-
-
-	<target name="run-tests"  depends="build" description="run your test suite" >
-		<mkdir dir="build/reports/"/>
-		<junit printsummary="yes" haltonfailure="no" showoutput="yes" >
-
-			<classpath>
-				<path refid="project.class.path"/>
-				<pathelement path="${project.output.jar.name}"/>
-				<pathelement path="build/tests/"/>
-			</classpath>
-
-			<!--
-            To do a single test...
-            <test name="tests.Main" />
-            -->
-
-			<!--Need this here otherwise no summary file output will be generated-->
-			<formatter type="xml" />
-
-			<batchtest fork="false" haltonerror="false" todir="build/reports" >
-				<!--
-                if you are not jarring up the files.
-                -->
-				<fileset dir="build/tests" casesensitive="yes">
-					<include name="**/*.class"/>
-					<!--exclude inner classes-->
-					<exclude name="**/*$$*"/>
-				</fileset>
-
-
-				<!--
-                this may work if your tests are bundled in a jarfile...
-                <zipfileset src="${project.output.jar.name}" includes="**/*.class" />
-                -->
-			</batchtest>
-		</junit>
-
-	</target>
-
-	<target name ="test" depends="run-tests">
-		<junitreport todir="build/reports">
-			<fileset dir="build/reports">
-				<include name="TEST-*.xml"/>
-			</fileset>
-			<report format="frames" todir="build/reports"/>
-		</junitreport>
-	</target>
-
-
+    <tstamp>
+        <format property="TODAY_MY" pattern="yyyyMMdd"  locale="en,UK" />
+    </tstamp>
+              	
+   	<target name="jar" depends="build">
+        <jar destfile="${projName}.jar" basedir="bin"/>
+   		 <copy file="${projName}.jar" tofile="${BCKUP_DIR}\${projName}\${TODAY_MY}\${projName}.jar.${build_parameter}"/>
+   		 <copy file="${projName}.jar" todir="${deployServer}\modules\fwp\dal\alsaccount\main"/>
+   		
+    </target>            	
+              	
+    <target description="Build all projects which reference this project. Useful to propagate changes." name="build-refprojects"/>
 </project>
