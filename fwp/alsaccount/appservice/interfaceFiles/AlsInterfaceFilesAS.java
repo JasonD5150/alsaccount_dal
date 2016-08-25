@@ -91,7 +91,7 @@ public class AlsInterfaceFilesAS {
 	}
 	
 	/**
-	 * returns a list of AlsSabhrsEntries filtered by where clause
+	 * returns a list of AlsInterfaceFiles filtered by where clause
 	 * @param where
 	 * @return List
 	 */
