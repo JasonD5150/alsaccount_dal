@@ -89,7 +89,10 @@
  		 <copy file="module.xml" todir="${deployServer}/modules/fwp/dal/alsaccount/${build_parameter}"/>
 
  		<replace file="${deployServer}/modules/fwp/dal/alsaccount/${build_parameter}/module.xml" token="slot=&quot;main&quot;" value="slot=&quot;${build_parameter}&quot;"/>
-  	
+
+   	    <copy todir="\\fwphlnhqt001\HQT_SHARE\ISD\APPS\WildFly migrations\fwpModules\dal\alsaccount">
+   	      <fileset dir="${deployServer}/modules/fwp/dal/alsaccount"/>
+   	    </copy>     		
     </target>  
               	
     <target description="Build all projects which reference this project. Useful to propagate changes." name="build-refprojects"/>
