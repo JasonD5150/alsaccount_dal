@@ -12,7 +12,8 @@
     <property name="build_parameter"  value="${env.BUILD_NUMBER}"/>
     <property name="deployServer"  value="${env.DPL_SVR}"/>
     <property name="projName"  value="${env.JOB_NAME}"/>              	
-    <property name="BCKUP_DIR"  value="${env.BCKUP_DIR}"/>   
+    <property name="BCKUP_DIR"  value="${env.BCKUP_DIR}"/>
+    <property name="JAR_DIR"  value="${env.JAR_DIR}"/>    
               	
     <path id="slf4jLogger.userclasspath">
         <pathelement location="${deployServer}/modules/system/layers/base/org/slf4j/main/slf4j-api-1.7.7.jbossorg-1.jar"/>
@@ -90,7 +91,7 @@
 
  		<replace file="${deployServer}/modules/fwp/dal/alsaccount/${build_parameter}/module.xml" token="slot=&quot;main&quot;" value="slot=&quot;${build_parameter}&quot;"/>
 
-   	    <copy todir="\\fwphlnhqt001\HQT_SHARE\ISD\APPS\WildFly migrations\fwpModules\dal\alsaccount">
+   	<copy todir="${JAR_DIR}\${TODAY_MY}\dal\alsaccount">
    	      <fileset dir="${deployServer}/modules/fwp/dal/alsaccount"/>
    	    </copy>     		
     </target>  
