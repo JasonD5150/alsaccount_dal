@@ -14,6 +14,7 @@ import fwp.alsaccount.dao.admin.AlsAccCdControl;
 import fwp.alsaccount.dao.admin.AlsAccCdControlDAO;
 import fwp.alsaccount.dao.admin.AlsAccCdControlIdPk;
 import fwp.alsaccount.hibernate.HibernateSessionFactory;
+import fwp.alsaccount.hibernate.utils.DalUtils;
 
 
 
@@ -330,6 +331,34 @@ public class AlsAccCdControlAS {
 		}
 		
 		return retSeqNo;
+	}
+	
+	/**
+	 * returns a list of AlsAccCdControl filtered by budget period and/or accounting code
+	 * @param where
+	 * @return List
+	 */
+	@SuppressWarnings("rawtypes")
+	public List findAllByBudgYearAccCd(Integer budgYear, Integer accCd) {
+		log.debug("finding all AlsAccCdControl instances by budget period and/or accounting code");
+		try {
+			String queryString = " FROM AlsAccCdControl WHERE idPk.asacBudgetYear = :budgYear ";
+	    	if(!DalUtils.isNil(accCd)){
+	    		queryString += "AND idPk.aaccAccCd = :accCd ";
+	    	}
+	    	queryString += "ORDER BY idPk.aaccAccCd, idPk.aaccSeqNo";
+			Query queryObject = HibernateSessionFactory.getSession().createQuery(queryString)
+																	.setInteger("budgYear", budgYear);
+			if(!DalUtils.isNil(accCd)){
+	    		queryObject.setInteger("accCd", accCd);
+	    	}
+			return queryObject.list();
+		} catch (RuntimeException re) {
+			log.error("find all failed", re);
+			throw re;
+		}finally{
+			HibernateSessionFactory.closeSession();
+		}
 	}
 
 }
