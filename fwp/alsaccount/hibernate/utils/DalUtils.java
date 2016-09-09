@@ -2,6 +2,7 @@ package fwp.alsaccount.hibernate.utils;
 
 import org.hibernate.Query;
 import org.hibernate.Session;
+
 import java.math.BigDecimal;
 import java.util.*;
 
@@ -88,6 +89,17 @@ public class DalUtils {
 		return nextSeq;
 	}
 
-	
+	public static boolean isNil(String stringVal){
+		if(stringVal == null || stringVal.equals("")) return true; else return false;
+	}
+	public static boolean isNil(Integer integerVal){
+		if(integerVal == null) return true; else return false;
+	}
+	public static boolean isNil(Double integerVal){
+		if(integerVal == null) return true; else return false;
+	}
+	public static  boolean isNil(Date dateVal){
+		if(dateVal == null) return true; else return false;
+	}
 
 }

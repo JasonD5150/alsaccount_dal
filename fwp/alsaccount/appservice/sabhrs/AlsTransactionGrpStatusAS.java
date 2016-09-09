@@ -1,20 +1,22 @@
 package fwp.alsaccount.appservice.sabhrs;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.transform.Transformers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import fwp.ListComp;
 import fwp.alsaccount.dao.sabhrs.AlsTransactionGrpStatus;
 import fwp.alsaccount.dao.sabhrs.AlsTransactionGrpStatusDAO;
 import fwp.alsaccount.dao.sabhrs.AlsTransactionGrpStatusIdPk;
+import fwp.alsaccount.dto.sabhrs.IafaDetailsDTO;
 import fwp.alsaccount.hibernate.HibernateSessionFactory;
-
-
-
+import fwp.alsaccount.hibernate.utils.DalUtils;
 
 /**
  * @author cfa027
@@ -139,6 +141,48 @@ public class AlsTransactionGrpStatusAS {
 		}
 		
 		return rtn;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<ListComp> getTransGrpIdList(Integer provNo, Integer txGrpType) {
+		List<ListComp> lst = new ArrayList<ListComp>();
+		ListComp tmp;
+		StringBuilder queryString = new StringBuilder(" from AlsTransactionGrpStatus WHERE 1=1 ");
+		if(!DalUtils.isNil(provNo))
+			queryString.append("AND TRIM(TRIM(LEADING 0 FROM substr(idPk.atgsGroupIdentifier,3,6))) = :provNo ");
+		if(!DalUtils.isNil(txGrpType))
+			queryString.append("AND idPk.atgTransactionCd = :txGrpType ");
+		queryString.append("ORDER BY 1,2 DESC ");
+		
+		Query queryObject = HibernateSessionFactory.getSession().createQuery(queryString.toString());
+		
+		if(!DalUtils.isNil(provNo))
+			queryObject.setInteger("provNo", provNo);
+		if(!DalUtils.isNil(txGrpType))
+			queryObject.setInteger("txGrpType", txGrpType);
+
+		List<AlsTransactionGrpStatus> atgsLst = queryObject.list();
+		String atgsTmp = null;
+		for (AlsTransactionGrpStatus atgs : atgsLst) {
+			if(atgs.getIdPk().getAtgTransactionCd() == 8){
+				if(atgsTmp == null){
+					atgsTmp = atgs.getIdPk().getAtgsGroupIdentifier().substring(0, 18);
+				}else if(!atgsTmp.equals(atgs.getIdPk().getAtgsGroupIdentifier().substring(0, 18))){
+					tmp = new ListComp();
+					tmp.setItemLabel(atgsTmp);
+					tmp.setItemVal(atgsTmp);
+					lst.add(tmp);
+					atgsTmp = atgs.getIdPk().getAtgsGroupIdentifier().substring(0, 18);
+				}
+			}else{
+				tmp = new ListComp();
+				tmp.setItemLabel(atgs.getIdPk().getAtgsGroupIdentifier());
+				tmp.setItemVal(atgs.getIdPk().getAtgsGroupIdentifier());
+				lst.add(tmp);
+			}
+		}
+		HibernateSessionFactory.getSession().close();
+		return lst;
 	}
 	
 }
