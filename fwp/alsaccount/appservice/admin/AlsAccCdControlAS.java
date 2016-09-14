@@ -177,7 +177,6 @@ public class AlsAccCdControlAS {
 		}finally{
 			HibernateSessionFactory.closeSession();
 		}
-		
 		return retLst;
 	}
 	
@@ -187,9 +186,7 @@ public class AlsAccCdControlAS {
 	 * @return
 	 */
 	public Boolean isDuplicateEntry(AlsAccCdControlIdPk idPk) {
-		
 		Boolean retVal = false;
-		
 		try {
 			AlsAccCdControl aacc = this.findById(idPk);
 			if(aacc != null){
@@ -201,7 +198,6 @@ public class AlsAccCdControlAS {
 		} finally{
 			HibernateSessionFactory.closeSession();
 		}
-		
 		return retVal;
 	}
 	
@@ -334,24 +330,43 @@ public class AlsAccCdControlAS {
 	}
 	
 	/**
-	 * returns a list of AlsAccCdControl filtered by budget period and/or accounting code
-	 * @param where
-	 * @return List
+	 * Returns a list of AlsAccCdControl filtered by budget period and/or accounting code
+	 * @param budgYear
+	 * @param accCdLst
+	 * @return List<AlsAccCdControl>
 	 */
 	@SuppressWarnings("rawtypes")
-	public List findAllByBudgYearAccCd(Integer budgYear, Integer accCd) {
+	public List findAllByBudgYearAccCd(Integer budgYear, List<Integer> accCdLst) {
 		log.debug("finding all AlsAccCdControl instances by budget period and/or accounting code");
 		try {
 			String queryString = " FROM AlsAccCdControl WHERE idPk.asacBudgetYear = :budgYear ";
-	    	if(!DalUtils.isNil(accCd)){
-	    		queryString += "AND idPk.aaccAccCd = :accCd ";
+	    	if(!accCdLst.isEmpty()){
+	    		if(accCdLst.size() == 1){
+	    			queryString += "AND idPk.aaccAccCd = :accCd ";
+	    		}else{
+	    			for(int i = 0; i < accCdLst.size(); i++){
+		    			if(i == 0){
+			    			queryString += "AND (TO_CHAR(idPk.aaccAccCd) = :accCd"+i+" ";
+			    		}else{
+			    			queryString += "OR TO_CHAR(idPk.aaccAccCd) = :accCd"+i+" ";
+			    		}
+		    		}
+		    		queryString += ") ";
+	    		}
 	    	}
 	    	queryString += "ORDER BY idPk.aaccAccCd, idPk.aaccSeqNo";
 			Query queryObject = HibernateSessionFactory.getSession().createQuery(queryString)
 																	.setInteger("budgYear", budgYear);
-			if(!DalUtils.isNil(accCd)){
-	    		queryObject.setInteger("accCd", accCd);
+			if(!accCdLst.isEmpty()){
+				if(accCdLst.size() == 1){
+					queryObject.setInteger("accCd", accCdLst.get(0));
+	    		}else{
+	    			for(int i = 0; i < accCdLst.size(); i++){
+		    			queryObject.setParameter("accCd"+i, accCdLst.get(i));
+		    		}
+	    		}
 	    	}
+			
 			return queryObject.list();
 		} catch (RuntimeException re) {
 			log.error("find all failed", re);
@@ -361,4 +376,32 @@ public class AlsAccCdControlAS {
 		}
 	}
 
+	/**
+	 * Returns a list of Accounting Codes filtered by budget year and item type code
+	 * @param budgYear
+	 * @param itemTypeCd
+	 * @return List<Integer>
+	 */
+	public List<Integer> getAccCdRelatedToItemType(Integer budgYear, String itemTypeCd) {
+		List<Integer> rtn = null;
+
+		String queryString = "SELECT DISTINCT aiat.aacc_acc_cd "
+							+ "FROM ALS.ALS_ITEM_ACCOUNT_TABLE aiat "
+							+ "WHERE aiat.aict_item_type_cd = :itemTypeCd "
+							+ "AND aiat.asac_budget_yr = :budgYear";
+
+		try {
+			Query query = HibernateSessionFactory.getSession().createSQLQuery(queryString)
+									  .setInteger("budgYear", budgYear)
+									  .setString("itemTypeCd", itemTypeCd);
+
+			rtn = query.list();
+
+		} catch (RuntimeException re) {
+			System.out.println(re.toString());
+		} finally {
+			HibernateSessionFactory.getSession().close();
+		}
+		return rtn;
+	}
 }
