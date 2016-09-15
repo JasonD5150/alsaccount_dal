@@ -9,9 +9,7 @@
 	<property name="dialect">
 		org.hibernate.dialect.Oracle9Dialect
 	</property>
-	<property name="connection.datasource">
-		java:/als_web_user_ds
-	</property>
+	<property name="connection.datasource">java:/als_web_user_ds</property>
 
 	<property name="hibernate.connection.release_mode">
 		after_transaction
@@ -41,6 +39,9 @@
 	<mapping class="fwp.alsaccount.dao.sabhrs.AlsSabhrsEntries" />
 	<mapping class="fwp.alsaccount.dao.sabhrs.AlsSabhrsEntriesSummary" />
 	<mapping class="fwp.alsaccount.dao.sabhrs.AlsProviderBankDetails" />
+	<mapping class="fwp.alsaccount.dao.sabhrs.AlsOverUnderSalesDets" />
+	
+	<mapping class="fwp.als.hibernate.inventory.dao.AlsInternalRemittance" />
 
 	<!--  Interface Files -->
 	<mapping class="fwp.alsaccount.dao.interfaceFiles.AlsInterfaceFiles" />
@@ -50,9 +51,11 @@
 	
 	<!-- Provider -->
 	<mapping class="fwp.als.hibernate.provider.dao.AlsProviderInfo" />
+	<mapping class="fwp.alsaccount.dao.sabhrs.AlsProviderRemittance" />
 	
 	<!-- ITEM -->
 	<mapping class="fwp.als.hibernate.item.dao.AlsCostGroup" />
+	<mapping class="fwp.als.hibernate.item.dao.AlsItemApplFeeAcct" />
 	
 </session-factory>
 

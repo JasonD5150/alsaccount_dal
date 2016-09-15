@@ -1,18 +1,25 @@
 package fwp.alsaccount.appservice.sabhrs;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
+import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.transform.Transformers;
 import org.hibernate.type.IntegerType;
+import org.hibernate.type.TimestampType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import fwp.als.hibernate.item.dao.AlsItemApplFeeAcctIdPk;
 import fwp.alsaccount.dao.sabhrs.AlsSabhrsEntries;
 import fwp.alsaccount.dao.sabhrs.AlsSabhrsEntriesDAO;
 import fwp.alsaccount.dao.sabhrs.AlsSabhrsEntriesIdPk;
 import fwp.alsaccount.hibernate.HibernateSessionFactory;
+import fwp.alsaccount.hibernate.utils.DalUtils;
 
 
 
@@ -139,5 +146,95 @@ public class AlsSabhrsEntriesAS {
 
 		return retSeqNo;
 	}
+	
+	/**
+	 * returns a list of AlsSabhrsEntries filtered
+	 * @param transCd
+	 * @param groupId
+	 * @param provNo
+	 * @param iafaSeqNo
+	 * @param bpFromDt
+	 * @param bpToDt
+	 * @return List<AlsSabhrsEntries>
+	 */
+	public List<AlsSabhrsEntries> getManualProviderAdjEntriesRecords(Integer transCd, String groupId, Integer provNo, Integer iafaSeqNo, Date bpFromDt, Date bpToDt) {
+		List<AlsSabhrsEntries> lst = new ArrayList<AlsSabhrsEntries>(); 
+		try {
+			String queryString = " FROM AlsSabhrsEntries a "
+								+ "WHERE atgTransactionCd = :transCd "
+								
+								+ "AND apiProviderNo = :provNo "
+								+ "AND aiafaSeqNo = :iafaSeqNo "		
+								+ "AND aprBillingFrom = :bpFromDt "	
+								+ "AND aprBillingTo = :bpToDt ";
+			if(!DalUtils.isNil(groupId))
+				queryString += "AND atgsGroupIdentifier LIKE :groupId ";
+			
+			queryString += "ORDER BY apiProviderNo, aprBillingFrom, aiafaSeqNo";
+												
+			Query query = HibernateSessionFactory.getSession().createQuery(queryString)
+															  .setInteger("transCd", transCd)
+															  .setInteger("provNo", provNo)
+															  .setInteger("iafaSeqNo", iafaSeqNo)
+															  .setTimestamp("bpFromDt", bpFromDt)
+															  .setTimestamp("bpToDt", bpToDt);
+			if(!DalUtils.isNil(groupId))
+				query.setString("groupId", groupId);
+			
+			lst = query.list();
+		} catch (HibernateException he){
+			System.out.println(he.toString());
+		}
+		catch (RuntimeException re) {
+			System.out.println(re.toString());
+		}
+		finally {
+			HibernateSessionFactory.getSession().close();
+		}
+		return lst;
+	}
 
+	/**
+	 * This method counts ALS_SABHRS_RECORDS bases on.
+	 * @param transCd
+	 * @param groupId
+	 * @param provNo
+	 * @param iafaSeqNo
+	 * @param bpFromDt
+	 * @param bpToDt
+	 * @return cnt
+	 */
+	public Integer getSabhrsRecordCnt(Integer transCd, String groupId, Integer provNo, Integer iafaSeqNo, Date bpFromDt, Date bpToDt) {
+		Integer cnt = 0;
+
+		String queryString = "Select Nvl(Count(*),0) cnt "
+						   + "From Als.Als_Sabhrs_Entries "
+						   + "Where Api_Provider_No	= :provNo "
+						   + "And Apr_Billing_From = :bpFromDt "
+						   + "And Apr_Billing_To = :bpToDt "
+						   + "And Aiafa_seq_no = :iafaSeqNo "
+						   + "And Atg_Transaction_Cd = :transCd "
+						   + "And Atgs_Group_Identifier = :groupId "
+						   + "And Asac_System_Activity_Type_Cd = 'Z' "
+						   + "And Asac_Txn_Cd = '9'";
+
+		try {
+			Query query = HibernateSessionFactory.getSession().createSQLQuery(queryString)
+															  .addScalar("cnt", IntegerType.INSTANCE)
+															  .setInteger("transCd", transCd)
+															  .setString("groupId", groupId)
+															  .setInteger("provNo", provNo)
+															  .setInteger("iafaSeqNo", iafaSeqNo)
+															  .setTimestamp("bpFromDt", bpFromDt)
+															  .setTimestamp("bpToDt", bpToDt);;
+		
+			cnt = (Integer) query.uniqueResult();
+		} catch (RuntimeException re) {
+			System.out.println(re.toString());
+		}
+		finally {
+			HibernateSessionFactory.getSession().close();
+		}
+		return cnt;
+	}
 }

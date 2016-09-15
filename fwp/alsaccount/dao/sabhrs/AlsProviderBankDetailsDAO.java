@@ -62,7 +62,7 @@ public class AlsProviderBankDetailsDAO extends BaseHibernateDAO  {
         log.debug("getting sabhrsAlsProviderBankDetails instance with id: " + id);
         try {
             AlsProviderBankDetails instance = (AlsProviderBankDetails) getSession()
-                    .get("fwp.alsaccount.dao.sabhrsAlsProviderBankDetails", id);
+                    .get("fwp.alsaccount.dao.sabhrs.AlsProviderBankDetails", id);
             return instance;
         } catch (RuntimeException re) {
             log.error("get failed", re);
@@ -75,7 +75,7 @@ public class AlsProviderBankDetailsDAO extends BaseHibernateDAO  {
         log.debug("finding sabhrsAlsProviderBankDetails instance by example");
         try {
             List<AlsProviderBankDetails> results = (List<AlsProviderBankDetails>) getSession()
-                    .createCriteria("fwp.alsaccount.dao.sabhrsAlsProviderBankDetails")
+                    .createCriteria("fwp.alsaccount.dao.sabhrs.AlsProviderBankDetails")
                     .add( create(instance) )
             .list();
             log.debug("find by example successful, result size: " + results.size());
@@ -90,7 +90,7 @@ public class AlsProviderBankDetailsDAO extends BaseHibernateDAO  {
       log.debug("finding sabhrsAlsProviderBankDetails instance with property: " + propertyName
             + ", value: " + value);
       try {
-         String queryString = "from sabhrsAlsProviderBankDetails as model where model." 
+         String queryString = "from AlsProviderBankDetails as model where model." 
          						+ propertyName + "= ?";
          Query queryObject = getSession().createQuery(queryString);
 		 queryObject.setParameter(0, value);
