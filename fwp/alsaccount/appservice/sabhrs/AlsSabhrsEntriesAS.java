@@ -308,4 +308,32 @@ public class AlsSabhrsEntriesAS {
 		}
 		return lst;
 	}
+	
+	public String getReferenceDesc(Integer asacReference) {		
+		String rtn = null;
+		if(asacReference == null){
+			return "";
+		}
+		String reference = asacReference.toString().substring(0,asacReference.toString().length()-2);
+		String queryStr =  "SELECT am.am_val_desc d "
+						 + "FROM ALS.ALS_MISC am "
+						 + "WHERE am.am_key1 = 'JOURNAL_LINE_REFERENCE' "
+						 + "AND am.am_par_val = :reference";
+		
+		try {
+			Query query = HibernateSessionFactory.getSession().createSQLQuery(queryStr)
+															  .addScalar("d")
+															  .setString("reference", reference);
+
+			rtn = (String) query.uniqueResult();
+		} catch (HibernateException he){
+			System.out.println(he.toString());
+		}
+		catch (RuntimeException re) {
+			System.out.println(re.toString());
+		} finally {
+			HibernateSessionFactory.getSession().close();
+		}
+		return rtn;
+	}
 }
