@@ -8,6 +8,7 @@ import org.hibernate.Transaction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import fwp.als.hibernate.inventory.dao.AlsNonAlsDetailsIdPk;
 import fwp.alsaccount.dao.sabhrs.AlsOverUnderSalesDets;
 import fwp.alsaccount.dao.sabhrs.AlsOverUnderSalesDetsDAO;
 import fwp.alsaccount.dao.sabhrs.AlsOverUnderSalesDetsIdPk;
@@ -131,6 +132,45 @@ public class AlsOverUnderSalesDetsAS {
 			throw re;	
 		} finally{
 			HibernateSessionFactory.closeSession();
+		}
+		
+		return retVal;
+	}
+	
+	/**
+	 * This method gets the next sequence number.
+	 * @param tmp
+	 * @return
+	 */
+	@SuppressWarnings("unchecked")
+	public Integer getNextSeqNo(AlsOverUnderSalesDetsIdPk idPk) {
+		
+		Integer retVal = 0;
+		
+		try {
+			String queryString = " SELECT MAX(aousd.idPk.aousdSeqNo) " +
+								 "   FROM AlsOverUnderSalesDets aousd " +
+			                     "  WHERE aousd.idPk.apiProviderNo = :apiProviderNo " +
+								 "    AND aousd.idPk.airBillingFrom = :airBillingFrom " +
+								 "    AND aousd.idPk.airBillingTo = :airBillingTo ";
+
+			Query queryObject = HibernateSessionFactory.getSession().createQuery(queryString);
+			
+			queryObject.setParameter("apiProviderNo", idPk.getApiProviderNo());
+			queryObject.setParameter("airBillingFrom", idPk.getAirBillingFrom());
+			queryObject.setParameter("airBillingTo", idPk.getAirBillingTo());
+			
+			List<Integer> anadList = (List<Integer>)queryObject.list();
+			
+			if (anadList != null && !anadList.isEmpty()) {
+				if (anadList.get(0) != null) {
+					retVal = anadList.get(0);
+				}
+			}
+			
+			retVal++;
+		} catch (RuntimeException re) {	
+			throw re;	
 		}
 		
 		return retVal;

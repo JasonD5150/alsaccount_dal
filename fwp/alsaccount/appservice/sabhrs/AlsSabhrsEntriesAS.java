@@ -237,4 +237,75 @@ public class AlsSabhrsEntriesAS {
 		}
 		return cnt;
 	}
+	
+	/**
+	 * returns a list of AlsSabhrsEntries filtered
+	 * @param transIdentifier
+	 * @param transGrp
+	 * @return List<AlsSabhrsEntries>
+	 */
+	public List<AlsSabhrsEntries> getRemittanceRecords(String transIdentifier, Integer transGrp) {
+		List<AlsSabhrsEntries> lst = new ArrayList<AlsSabhrsEntries>(); 
+		try {
+			String queryString = " FROM AlsSabhrsEntries a "
+								+ "WHERE atgsGroupIdentifier = :transIdentifier "
+								+ "AND atgTransactionCd = :transGrp "
+								+ "AND NVL(ase_non_als_flag,'N')='Y'";
+			
+			
+			queryString += "ORDER BY apiProviderNo, aprBillingFrom, aiafaSeqNo";
+												
+			Query query = HibernateSessionFactory.getSession().createQuery(queryString)
+															  .setString("transIdentifier", transIdentifier)
+															  .setInteger("transGrp", transGrp);
+			
+			lst = query.list();
+		} catch (HibernateException he){
+			System.out.println(he.toString());
+		}
+		catch (RuntimeException re) {
+			System.out.println(re.toString());
+		}
+		finally {
+			HibernateSessionFactory.getSession().close();
+		}
+		return lst;
+	}
+	
+	/**
+	 * returns a list of AlsSabhrsEntries filtered
+	 * @param provNo
+	 * @param bpFrom
+	 * @param bpTo
+	 * @return List<AlsSabhrsEntries>
+	 */
+	public List<AlsSabhrsEntries> getRemittanceRecords(Integer provNo, Date bpFrom, Date bpTo) {
+		List<AlsSabhrsEntries> lst = new ArrayList<AlsSabhrsEntries>(); 
+		try {
+			String queryString = " FROM AlsSabhrsEntries a "
+								+ "WHERE apiProviderNo = :provNo "
+								+ "AND aprBillingFrom = :bpFrom "
+								+ "AND aprBillingTo = :bpTo "
+								+ "AND NVL(ase_non_als_flag,'N')='Y'";
+			
+			
+			queryString += "ORDER BY apiProviderNo, aprBillingFrom, aiafaSeqNo";
+												
+			Query query = HibernateSessionFactory.getSession().createQuery(queryString)
+															  .setInteger("provNo", provNo)
+															  .setDate("bpFrom", bpFrom)
+															  .setDate("bpTo", bpTo);
+			
+			lst = query.list();
+		} catch (HibernateException he){
+			System.out.println(he.toString());
+		}
+		catch (RuntimeException re) {
+			System.out.println(re.toString());
+		}
+		finally {
+			HibernateSessionFactory.getSession().close();
+		}
+		return lst;
+	}
 }

@@ -10,10 +10,15 @@ public class AlsInternalRemittanceDTO extends AlsInternalRemittance{
 	private static final long serialVersionUID = 1570541485740048476L;
 	private String gridKey;
 
-	private String intFileGenerated;
+	/*IDPK*/
+	private Integer apiProviderNo;
+	private Date   airBillingFrom;
+	private Date   airBillingTo;
+	
 	private String provNm;
+	private String intFileGenerated;
 	private String billingBallanced;
-	private Date intFileCreateDt;
+	private Date   intFileCreateDt;
 	private Double airTotSales;
 	private Double totFundsRec;
 	private Double airDifference;
@@ -27,6 +32,30 @@ public class AlsInternalRemittanceDTO extends AlsInternalRemittance{
 	private Date offlnPaymentAppDt;
 	private Date bankDeptAppDt;
 	
+	public Integer getApiProviderNo() {
+		return apiProviderNo;
+	}
+	public void setApiProviderNo(Integer apiProviderNo) {
+		this.apiProviderNo = apiProviderNo;
+	}
+	public Date getAirBillingFrom() {
+		return airBillingFrom;
+	}
+	public void setAirBillingFrom(Date airBillingFrom) {
+		this.airBillingFrom = airBillingFrom;
+	}
+	public Date getAirBillingTo() {
+		return airBillingTo;
+	}
+	public void setAirBillingTo(Date airBillingTo) {
+		this.airBillingTo = airBillingTo;
+	}
+	public String getProvNm() {
+		return provNm;
+	}
+	public void setProvNm(String provNm) {
+		this.provNm = provNm;
+	}
 	public Date getEftddd() {
 		return eftddd;
 	}
@@ -56,12 +85,6 @@ public class AlsInternalRemittanceDTO extends AlsInternalRemittance{
 	}
 	public void setGridKey(String gridKey) {
 		this.gridKey = gridKey;
-	}
-	public String getProvNm() {
-		return provNm;
-	}
-	public void setProvNm(String provNm) {
-		this.provNm = provNm;
 	}
 	public Double getAmtDue() {
 		return amtDue;

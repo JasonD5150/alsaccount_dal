@@ -1,13 +1,26 @@
 package fwp.alsaccount.appservice.sabhrs;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
+import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.transform.Transformers;
+import org.hibernate.type.DateType;
+import org.hibernate.type.DoubleType;
 import org.hibernate.type.IntegerType;
+import org.hibernate.type.StringType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+
+
+
+
+
 
 
 
@@ -16,6 +29,9 @@ import org.slf4j.LoggerFactory;
 import fwp.als.hibernate.inventory.dao.AlsInternalRemittance;
 import fwp.als.hibernate.inventory.dao.AlsInternalRemittanceDAO;
 import fwp.als.hibernate.inventory.dao.AlsInternalRemittanceIdPk;
+import fwp.alsaccount.dao.sabhrs.AlsSabhrsEntries;
+import fwp.alsaccount.dto.admin.AccCdDistByItemTypeDTO;
+import fwp.alsaccount.dto.sabhrs.AlsInternalRemittanceDTO;
 import fwp.alsaccount.hibernate.HibernateSessionFactory;
 
 
@@ -142,6 +158,151 @@ public class AlsInternalRemittanceAS {
 		}
 
 		return retSeqNo;
+	}
+	
+	/**
+	 * returns a list of AlsSabhrsEntries filtered
+	 * @param provNo
+	 * @param bpFrom
+	 * @param bpTo
+	 * @return List<AlsSabhrsEntries>
+	 */
+	public List<AlsInternalRemittanceDTO> getRemittanceRecords(Integer provNo, Date bpFrom, Date bpTo, 
+															Boolean hasNonAlsDetails, Boolean hasOverShortDetails, Boolean hasPaeAmt,
+															String comByProv, Date comByProvDt, String remittanceApproved, 
+															String appBy, Date appDt, String appCom) {
+		List<AlsInternalRemittanceDTO> lst = new ArrayList<AlsInternalRemittanceDTO>(); 
+		try {
+			StringBuilder queryString = new StringBuilder("SELECT a.API_PROVIDER_NO apiProviderNo,"
+														+ "a.AIR_BILLING_FROM airBillingFrom,"
+														+ "a.AIR_BILLING_TO airBillingTo,"
+														+ "a.AIR_EFTDDD eftddd,"
+														+ "a.AIR_OTC_PHONE_SALES airOtcPhoneSales,"
+														+ "a.AIR_PAE airPae,"
+														+ "a.AIR_NON_ALS_SALES airNonAlsSales,"
+														+ "a.AIR_CREDIT_SALES airCreditSales,"
+														+ "a.AIR_COMPLETE_PROVIDER completeProvider,"
+														+ "a.AIR_OFFLN_PAYMENT_APPROVED airOfflnPaymentApproved,"
+														+ "a.AIR_OFFLN_PAYMENT_APP_BY airOfflnPaymentAppBy,"
+														+ "a.AIR_OFFLN_PAYMENT_APP_DT offlnPaymentAppDt,"
+														+ "a.AIR_OFFLN_PAYMENT_APP_COM airOfflnPaymentAppCom,"
+														+ "a.AIR_BANK_DEPT_APPROVED airBankDeptApproved,"
+														+ "a.AIR_BANK_DEPT_APP_BY airBankDeptAppBy,"
+														+ "a.AIR_BANK_DEPT_APP_DT bankDeptAppDt,"
+														+ "a.AIR_BANK_DEPT_APP_COM airBankDeptAppCom,"
+														+ "a.AIR_OVER_SALES airOverSales,"
+														+ "a.AIR_SHORT_SALES airShortSales,"
+														+ "a.AIR_SYSTEM_SALES airSystemSales "
+														+ "FROM ALS.Als_Internal_Remittance a "
+														+ "WHERE 1=1 ");
+
+			if(provNo != null && !"".equals(provNo)){
+				queryString.append("AND a.API_PROVIDER_NO = :provNo ");
+			}
+			if(bpFrom != null){
+				queryString.append("AND a.AIR_BILLING_FROM = :bpFrom ");
+			}
+			if(bpTo != null){
+				queryString.append("a.AIR_BILLING_TO = :bpTo ");
+			}
+			if(hasNonAlsDetails != null && hasNonAlsDetails != false){
+				queryString.append("and exists(SELECT 1 FROM ALS.Als_Non_Als_Details b "
+											+ "WHERE b.API_PROVIDER_NO = a.API_PROVIDER_NO "
+											+ "AND b.AIR_BILLING_FROM = a.AIR_BILLING_FROM "
+											+ "AND b.AIR_BILLING_TO = a.AIR_BILLING_TO) ");
+			}
+			if(hasOverShortDetails != null && hasOverShortDetails != false){
+				queryString.append("and exists(SELECT 1 FROM ALS.Als_Over_Under_Sales_Dets c "
+											+ "WHERE c.API_PROVIDER_NO = a.API_PROVIDER_NO "
+											+ "AND c.AIR_BILLING_FROM = a.AIR_BILLING_FROM "
+											+ "AND c.AIR_BILLING_TO = a.AIR_BILLING_TO) ");
+			}
+			if(hasOverShortDetails != null && hasOverShortDetails != false){
+				queryString.append("AND a.AIR_PAE != 0.00 AND a.AIR_PAE IS NOT NULL ");
+			}
+			if(comByProv != null && !"".equals(comByProv)){
+				if("Y".equals(comByProv)){
+					queryString.append("AND a.AIR_COMPLETE_PROVIDER IS NOT NULL ");
+				}else{
+					queryString.append("AND a.AIR_COMPLETE_PROVIDER IS NULL ");
+				}
+			}
+			if(comByProvDt != null){
+				queryString.append("AND a.AIR_COMPLETE_PROVIDER = :comByProvDt ");
+			}
+			if(remittanceApproved != null && !"".equals(remittanceApproved)){
+				queryString.append("AND a.AIR_OFFLN_PAYMENT_APPROVED = :remittanceApproved ");
+			}
+			if(appBy != null && !"".equals(appBy)){
+				queryString.append("AND a.AIR_OFFLN_PAYMENT_APP_BY = UPPER(:appBy) ");
+			}
+			if(appDt != null){
+				queryString.append("AND a.AIR_OFFLN_PAYMENT_APP_DT = :appDt ");
+			}
+			if(appCom != null && !"".equals(appCom)){
+				queryString.append("AND a.AIR_OFFLN_PAYMENT_APP_COM LIKE UPPER(:appCom||'%') ");
+			}
+			queryString.append("ORDER BY a.API_PROVIDER_NO, a.AIR_BILLING_FROM DESC");
+												
+			Query query = HibernateSessionFactory.getSession().createSQLQuery(queryString.toString())
+																.addScalar("apiProviderNo", IntegerType.INSTANCE)
+																.addScalar("airBillingFrom", DateType.INSTANCE)
+																.addScalar("airBillingTo", DateType.INSTANCE)
+																.addScalar("eftddd", DateType.INSTANCE)
+																.addScalar("airOtcPhoneSales", DoubleType.INSTANCE)
+																.addScalar("airPae", DoubleType.INSTANCE)
+																.addScalar("airNonAlsSales", DoubleType.INSTANCE)
+																.addScalar("airCreditSales", DoubleType.INSTANCE)
+																.addScalar("completeProvider", DateType.INSTANCE)
+																.addScalar("airOfflnPaymentApproved")
+																.addScalar("airOfflnPaymentAppBy")
+																.addScalar("offlnPaymentAppDt", DateType.INSTANCE)
+																.addScalar("airOfflnPaymentAppCom")
+																.addScalar("airBankDeptApproved")
+																.addScalar("airBankDeptAppBy")
+																.addScalar("bankDeptAppDt", DateType.INSTANCE)
+																.addScalar("airBankDeptAppCom")
+																.addScalar("airOverSales", DoubleType.INSTANCE)
+																.addScalar("airShortSales", DoubleType.INSTANCE)
+																.addScalar("airSystemSales", DoubleType.INSTANCE)
+																.setResultTransformer(Transformers.aliasToBean(AlsInternalRemittanceDTO.class));;
+			
+			if(provNo != null && !"".equals(provNo)){
+				query.setInteger("provNo", provNo);
+			}
+			if(bpFrom != null){
+				query.setDate("bpFrom", bpFrom);
+			}
+			if(bpTo != null){
+				query.setDate("bpTo", bpTo);
+			}
+			if(comByProvDt != null){
+				query.setDate("comByProvDt", comByProvDt);
+			}
+			if(remittanceApproved != null && !"".equals(remittanceApproved)){
+				query.setString("remittanceApproved", remittanceApproved);
+			}
+			if(appBy != null && !"".equals(appBy)){
+				query.setString("appBy", appBy);
+			}
+			if(appDt != null){
+				query.setDate("appDt", appDt);
+			}
+			if(appCom != null && !"".equals(appCom)){
+				query.setString("appCom", appCom);
+			}
+			
+			lst = query.list();
+		} catch (HibernateException he){
+			System.out.println(he.toString());
+		}
+		catch (RuntimeException re) {
+			System.out.println(re.toString());
+		}
+		finally {
+			HibernateSessionFactory.getSession().close();
+		}
+		return lst;
 	}
 
 }
