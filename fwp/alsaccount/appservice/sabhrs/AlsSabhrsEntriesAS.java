@@ -157,29 +157,24 @@ public class AlsSabhrsEntriesAS {
 	 * @param bpToDt
 	 * @return List<AlsSabhrsEntries>
 	 */
-	public List<AlsSabhrsEntries> getManualProviderAdjEntriesRecords(Integer transCd, String groupId, Integer provNo, Integer iafaSeqNo, Date bpFromDt, Date bpToDt) {
+	public List<AlsSabhrsEntries> getManualProviderAdjEntriesRecords(Integer provNo, Integer iafaSeqNo, Date bpFromDt, Date bpToDt) {
 		List<AlsSabhrsEntries> lst = new ArrayList<AlsSabhrsEntries>(); 
 		try {
 			String queryString = " FROM AlsSabhrsEntries a "
-								+ "WHERE atgTransactionCd = :transCd "
+								+ "WHERE atgTransactionCd = 8 "
 								
 								+ "AND apiProviderNo = :provNo "
 								+ "AND aiafaSeqNo = :iafaSeqNo "		
 								+ "AND aprBillingFrom = :bpFromDt "	
 								+ "AND aprBillingTo = :bpToDt ";
-			if(!DalUtils.isNil(groupId))
-				queryString += "AND atgsGroupIdentifier LIKE :groupId ";
 			
 			queryString += "ORDER BY apiProviderNo, aprBillingFrom, aiafaSeqNo";
 												
 			Query query = HibernateSessionFactory.getSession().createQuery(queryString)
-															  .setInteger("transCd", transCd)
 															  .setInteger("provNo", provNo)
 															  .setInteger("iafaSeqNo", iafaSeqNo)
 															  .setTimestamp("bpFromDt", bpFromDt)
 															  .setTimestamp("bpToDt", bpToDt);
-			if(!DalUtils.isNil(groupId))
-				query.setString("groupId", groupId);
 			
 			lst = query.list();
 		} catch (HibernateException he){

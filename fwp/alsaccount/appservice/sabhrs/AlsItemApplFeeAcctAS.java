@@ -156,7 +156,7 @@ public class AlsItemApplFeeAcctAS {
 	 * @param bpToDt
 	 * @return List<AlsItemApplFeeAcctIdPk>
 	 */
-	public List<AlsItemApplFeeAcctIdPk> getManualProviderAdjEntriesRecords(Integer transCd, String groupId, Integer provNo, Integer iafaSeqNo, Date bpFromDt, Date	bpToDt) {
+	public List<AlsItemApplFeeAcctIdPk> getManualProviderAdjEntriesRecords(String groupId, Integer provNo, Integer iafaSeqNo, Date bpFromDt, Date	bpToDt) {
 		List<AlsItemApplFeeAcctIdPk> lst = new ArrayList<AlsItemApplFeeAcctIdPk>(); 
 		try {
 			String queryString = "SELECT a.API_PROVIDER_NO apiProviderNo, "
@@ -171,7 +171,7 @@ public class AlsItemApplFeeAcctAS {
 											+ "And b.APR_BILLING_FROM = a.APR_BILLING_FROM "
 											+ "And b.APR_BILLING_TO = a.APR_BILLING_TO "
 											+ "AND b.AIAFA_SEQ_NO = a.AIAFA_SEQ_NO "
-											+ "And b.ATG_TRANSACTION_CD = :transCd "
+											+ "And b.ATG_TRANSACTION_CD = 8 "
 											+ "And b.ATGS_GROUP_IDENTIFIER LIKE :groupId) ";
 												
 			
@@ -194,7 +194,6 @@ public class AlsItemApplFeeAcctAS {
 												 .addScalar("aprBillingFrom", TimestampType.INSTANCE)
 												 .addScalar("aprBillingTo", TimestampType.INSTANCE)
 												 .addScalar("aiafaSeqNo", IntegerType.INSTANCE)
-												 .setInteger("transCd", transCd)
 												 .setString("groupId", groupId)
 												 .setResultTransformer(Transformers.aliasToBean(AlsItemApplFeeAcctIdPk.class));
 
