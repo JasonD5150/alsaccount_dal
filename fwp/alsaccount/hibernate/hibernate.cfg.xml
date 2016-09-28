@@ -9,7 +9,9 @@
 	<property name="dialect">
 		org.hibernate.dialect.Oracle9Dialect
 	</property>
-	<property name="connection.datasource">java:/als_web_user_ds</property>
+	<property name="connection.datasource">
+		java:/als_web_user_ds
+	</property>
 
 	<property name="hibernate.connection.release_mode">
 		after_transaction
@@ -23,15 +25,18 @@
 	<mapping class="fwp.alsaccount.dao.admin.AlsNonAlsOrgControl" />
 	<mapping class="fwp.alsaccount.dao.admin.AlsSabhrsFyeAdjstDtl" />
 	<mapping class="fwp.alsaccount.dao.admin.AlsSabhrsFyeAdjst" />
-	
+
 	<mapping class="fwp.als.hibernate.item.dao.AlsItemCategory" />
 	<mapping class="fwp.als.hibernate.admin.dao.AlsMisc" />
 	<mapping class="fwp.als.hibernate.admin.dao.AlsTribeInfo" />
 	<mapping class="fwp.als.hibernate.admin.dao.AlsSysActivityControl" />
-	<mapping class="fwp.als.hibernate.admin.dao.AlsActivityAccountLinkage" />
-	<mapping class="fwp.als.hibernate.admin.dao.AlsSysActivityTypeCodes" />
-	<mapping class="fwp.als.hibernate.admin.dao.AlsSysActivityTypeTranCds" />
-	
+	<mapping
+		class="fwp.als.hibernate.admin.dao.AlsActivityAccountLinkage" />
+	<mapping
+		class="fwp.als.hibernate.admin.dao.AlsSysActivityTypeCodes" />
+	<mapping
+		class="fwp.als.hibernate.admin.dao.AlsSysActivityTypeTranCds" />
+
 
 	<!-- SABHRS -->
 	<mapping class="fwp.alsaccount.dao.sabhrs.AlsTransactionGroup" />
@@ -39,24 +44,26 @@
 	<mapping class="fwp.alsaccount.dao.sabhrs.AlsSabhrsEntries" />
 	<mapping class="fwp.alsaccount.dao.sabhrs.AlsSabhrsEntriesSummary" />
 	<mapping class="fwp.alsaccount.dao.sabhrs.AlsProviderBankDetails" />
-	<mapping class="fwp.alsaccount.dao.sabhrs.AlsOverUnderSalesDets" />
-	
-	<mapping class="fwp.als.hibernate.inventory.dao.AlsInternalRemittance" />
+
+	<mapping
+		class="fwp.als.hibernate.inventory.dao.AlsInternalRemittance" />
 
 	<!--  Interface Files -->
-	<mapping class="fwp.alsaccount.dao.interfaceFiles.AlsInterfaceFiles" />
+	<mapping
+		class="fwp.alsaccount.dao.interfaceFiles.AlsInterfaceFiles" />
 	<mapping class="fwp.alsaccount.dao.admin.AlsBankCode" />
 	<mapping class="fwp.alsaccount.dao.admin.AlsTribeItemInfo" />
 
-	
+
 	<!-- Provider -->
 	<mapping class="fwp.als.hibernate.provider.dao.AlsProviderInfo" />
 	<mapping class="fwp.alsaccount.dao.sabhrs.AlsProviderRemittance" />
-	
+
 	<!-- ITEM -->
 	<mapping class="fwp.als.hibernate.item.dao.AlsCostGroup" />
 	<mapping class="fwp.als.hibernate.item.dao.AlsItemApplFeeAcct" />
-	
+	<mapping class="fwp.alsaccount.dao.sabhrs.AlsOverUnderSalesDets" />
+
 </session-factory>
 
 </hibernate-configuration>

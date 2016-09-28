@@ -168,12 +168,4 @@ public class AlsProviderRemittance  implements java.io.Serializable {
         this.aprWhenLog = aprWhenLog;
     }
    
-
-
-
-
-
-
-
-
 }

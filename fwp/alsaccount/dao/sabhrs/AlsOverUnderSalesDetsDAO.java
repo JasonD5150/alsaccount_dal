@@ -1,6 +1,6 @@
 package fwp.alsaccount.dao.sabhrs;
 
-import fwp.als.hibernate.BaseHibernateDAO;
+import fwp.alsaccount.hibernate.BaseHibernateDAO;
 import java.sql.Timestamp;
 import java.util.List;
 import org.hibernate.LockOptions;
