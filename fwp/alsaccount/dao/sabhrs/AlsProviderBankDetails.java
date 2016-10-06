@@ -1,7 +1,6 @@
 package fwp.alsaccount.dao.sabhrs;
 
 import java.sql.Timestamp;
-
 import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
@@ -23,11 +22,7 @@ public class AlsProviderBankDetails  implements java.io.Serializable {
 
     // Fields    
 
-     /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	private AlsProviderBankDetailsIdPk idPk;
+     private AlsProviderBankDetailsIdPk idPk;
      private String abcBankCd;
      private Double apbdAmountDeposit;
      private Timestamp apbdDepositDate;
@@ -43,6 +38,7 @@ public class AlsProviderBankDetails  implements java.io.Serializable {
      private Timestamp modDate;
      private String modDbuser;
      private Integer modPersonid;
+     private String apbdCashInd;
 
 
     // Constructors
@@ -64,7 +60,7 @@ public class AlsProviderBankDetails  implements java.io.Serializable {
     }
     
     /** full constructor */
-    public AlsProviderBankDetails(AlsProviderBankDetailsIdPk idPk, String abcBankCd, Double apbdAmountDeposit, Timestamp apbdDepositDate, String apbdDepositId, String atgsGroupIdentifier, String apbdWhoLog, Timestamp apbdWhenLog, Integer atgTransactionCd, Timestamp apbdBillingFrom, Timestamp createDate, String createDbuser, Integer createPersonid, Timestamp modDate, String modDbuser, Integer modPersonid) {
+    public AlsProviderBankDetails(AlsProviderBankDetailsIdPk idPk, String abcBankCd, Double apbdAmountDeposit, Timestamp apbdDepositDate, String apbdDepositId, String atgsGroupIdentifier, String apbdWhoLog, Timestamp apbdWhenLog, Integer atgTransactionCd, Timestamp apbdBillingFrom, Timestamp createDate, String createDbuser, Integer createPersonid, Timestamp modDate, String modDbuser, Integer modPersonid, String apbdCashInd) {
         this.idPk = idPk;
         this.abcBankCd = abcBankCd;
         this.apbdAmountDeposit = apbdAmountDeposit;
@@ -81,6 +77,7 @@ public class AlsProviderBankDetails  implements java.io.Serializable {
         this.modDate = modDate;
         this.modDbuser = modDbuser;
         this.modPersonid = modPersonid;
+        this.apbdCashInd = apbdCashInd;
     }
 
    
@@ -248,6 +245,16 @@ public class AlsProviderBankDetails  implements java.io.Serializable {
     
     public void setModPersonid(Integer modPersonid) {
         this.modPersonid = modPersonid;
+    }
+    
+    @Column(name="APBD_CASH_IND", length=1)
+
+    public String getApbdCashInd() {
+        return this.apbdCashInd;
+    }
+    
+    public void setApbdCashInd(String apbdCashInd) {
+        this.apbdCashInd = apbdCashInd;
     }
    
 

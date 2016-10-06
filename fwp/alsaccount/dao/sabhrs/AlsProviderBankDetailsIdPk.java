@@ -1,7 +1,6 @@
 package fwp.alsaccount.dao.sabhrs;
 
 import java.sql.Timestamp;
-
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
@@ -16,11 +15,7 @@ public class AlsProviderBankDetailsIdPk  implements java.io.Serializable {
 
     // Fields    
 
-     /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	private Integer apiProviderNo;
+     private Integer apiProviderNo;
      private Timestamp apbdBillingTo;
      private Integer apbdSeqNo;
 

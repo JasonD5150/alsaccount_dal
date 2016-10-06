@@ -31,6 +31,7 @@ public class AlsInternalRemittanceDTO extends AlsInternalRemittance{
 	private Date completeProvider;
 	private Date offlnPaymentAppDt;
 	private Date bankDeptAppDt;
+	private String bankDepEditOnly;
 	
 	public Integer getApiProviderNo() {
 		return apiProviderNo;
@@ -146,4 +147,11 @@ public class AlsInternalRemittanceDTO extends AlsInternalRemittance{
 	public void setIntFileGenerated(String intFileGenerated) {
 		this.intFileGenerated = intFileGenerated;
 	}
+	public String getBankDepEditOnly() {
+		return bankDepEditOnly;
+	}
+	public void setBankDepEditOnly(String bankDepEditOnly) {
+		this.bankDepEditOnly = bankDepEditOnly;
+	}
+	
 }

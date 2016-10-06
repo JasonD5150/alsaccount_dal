@@ -192,7 +192,8 @@ public class AlsInternalRemittanceAS {
 														+ "a.AIR_BANK_DEPT_APP_COM airBankDeptAppCom,"
 														+ "a.AIR_OVER_SALES airOverSales,"
 														+ "a.AIR_SHORT_SALES airShortSales,"
-														+ "a.AIR_SYSTEM_SALES airSystemSales "
+														+ "a.AIR_SYSTEM_SALES airSystemSales,"
+														+ "'false' bankDepEditOnly "
 														+ "FROM ALS.Als_Internal_Remittance a "
 														+ "WHERE 1=1 ");
 
@@ -203,7 +204,7 @@ public class AlsInternalRemittanceAS {
 				queryString.append("AND a.AIR_BILLING_FROM = :bpFrom ");
 			}
 			if(bpTo != null){
-				queryString.append("a.AIR_BILLING_TO = :bpTo ");
+				queryString.append("AND a.AIR_BILLING_TO = :bpTo ");
 			}
 			if(hasNonAlsDetails != null && hasNonAlsDetails != false){
 				queryString.append("and exists(SELECT 1 FROM ALS.Als_Non_Als_Details b "
@@ -242,7 +243,20 @@ public class AlsInternalRemittanceAS {
 			if(appCom != null && !"".equals(appCom)){
 				queryString.append("AND a.AIR_OFFLN_PAYMENT_APP_COM LIKE UPPER(:appCom||'%') ");
 			}
-			queryString.append("ORDER BY a.API_PROVIDER_NO, a.AIR_BILLING_FROM DESC");
+			//If a provider is chosen add a dummy record to the remittance table for the current billing period.
+			//This will allow the Internal Providers to enter deposits throughout the week, before the actual remittance is created.
+			if(provNo != null && !"".equals(provNo)){
+				queryString.append("UNION "
+						+ "SELECT apr.api_provider_no apiProviderNo, "
+						+ "MAX(apr.APR_BILLING_FROM) airBillingFrom, "
+						+ "MAX(apr.APR_BILLING_TO) airBillingTo,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,"
+						+ "'true' bankDepEditOnly " 
+						+ "FROM ALS.ALS_PROVIDER_REMITTANCE apr "
+						+ "WHERE apr.API_PROVIDER_NO = :provNo "
+						+ "GROUP BY apr.api_provider_no ");
+			}
+			
+			queryString.append("ORDER BY apiProviderNo, airBillingFrom DESC");
 												
 			Query query = HibernateSessionFactory.getSession().createSQLQuery(queryString.toString())
 																.addScalar("apiProviderNo", IntegerType.INSTANCE)
@@ -265,6 +279,7 @@ public class AlsInternalRemittanceAS {
 																.addScalar("airOverSales", DoubleType.INSTANCE)
 																.addScalar("airShortSales", DoubleType.INSTANCE)
 																.addScalar("airSystemSales", DoubleType.INSTANCE)
+																.addScalar("bankDepEditOnly")
 																.setResultTransformer(Transformers.aliasToBean(AlsInternalRemittanceDTO.class));;
 			
 			if(provNo != null && !"".equals(provNo)){

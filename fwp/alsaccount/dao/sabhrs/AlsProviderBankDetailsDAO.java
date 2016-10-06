@@ -1,15 +1,13 @@
 package fwp.alsaccount.dao.sabhrs;
 
-import static org.hibernate.criterion.Example.create;
-
+import fwp.alsaccount.hibernate.BaseHibernateDAO;
+import java.sql.Timestamp;
 import java.util.List;
-
 import org.hibernate.LockOptions;
 import org.hibernate.Query;
+import static org.hibernate.criterion.Example.create;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import fwp.alsaccount.hibernate.BaseHibernateDAO;
 
 /**
  	* A data access object (DAO) providing persistence and search support for sabhrsAlsProviderBankDetails entities.
@@ -32,12 +30,13 @@ public class AlsProviderBankDetailsDAO extends BaseHibernateDAO  {
 	public static final String CREATE_PERSONID = "createPersonid";
 	public static final String MOD_DBUSER = "modDbuser";
 	public static final String MOD_PERSONID = "modPersonid";
+	public static final String APBD_CASH_IND = "apbdCashInd";
 
 
 
     
     public void save(AlsProviderBankDetails transientInstance) {
-        log.debug("saving sabhrsAlsProviderBankDetails instance");
+        log.debug("saving AlsProviderBankDetails instance");
         try {
             getSession().save(transientInstance);
             log.debug("save successful");
@@ -48,7 +47,7 @@ public class AlsProviderBankDetailsDAO extends BaseHibernateDAO  {
     }
     
 	public void delete(AlsProviderBankDetails persistentInstance) {
-        log.debug("deleting sabhrsAlsProviderBankDetails instance");
+        log.debug("deleting AlsProviderBankDetails instance");
         try {
             getSession().delete(persistentInstance);
             log.debug("delete successful");
@@ -58,8 +57,8 @@ public class AlsProviderBankDetailsDAO extends BaseHibernateDAO  {
         }
     }
     
-    public AlsProviderBankDetails findById( fwp.alsaccount.dao.sabhrs.AlsProviderBankDetailsIdPk id) {
-        log.debug("getting sabhrsAlsProviderBankDetails instance with id: " + id);
+    public AlsProviderBankDetails findById(AlsProviderBankDetailsIdPk id) {
+        log.debug("getting AlsProviderBankDetails instance with id: " + id);
         try {
             AlsProviderBankDetails instance = (AlsProviderBankDetails) getSession()
                     .get("fwp.alsaccount.dao.sabhrs.AlsProviderBankDetails", id);
@@ -72,7 +71,7 @@ public class AlsProviderBankDetailsDAO extends BaseHibernateDAO  {
     
     
     public List<AlsProviderBankDetails> findByExample(AlsProviderBankDetails instance) {
-        log.debug("finding sabhrsAlsProviderBankDetails instance by example");
+        log.debug("finding AlsProviderBankDetails instance by example");
         try {
             List<AlsProviderBankDetails> results = (List<AlsProviderBankDetails>) getSession()
                     .createCriteria("fwp.alsaccount.dao.sabhrs.AlsProviderBankDetails")
@@ -87,7 +86,7 @@ public class AlsProviderBankDetailsDAO extends BaseHibernateDAO  {
     }    
     
     public List findByProperty(String propertyName, Object value) {
-      log.debug("finding sabhrsAlsProviderBankDetails instance with property: " + propertyName
+      log.debug("finding AlsProviderBankDetails instance with property: " + propertyName
             + ", value: " + value);
       try {
          String queryString = "from AlsProviderBankDetails as model where model." 
@@ -161,11 +160,17 @@ public class AlsProviderBankDetailsDAO extends BaseHibernateDAO  {
 		);
 	}
 	
+	public List<AlsProviderBankDetails> findByApbdCashInd(Object apbdCashInd
+	) {
+		return findByProperty(APBD_CASH_IND, apbdCashInd
+		);
+	}
+	
 
 	public List findAll() {
-		log.debug("finding all sabhrsAlsProviderBankDetails instances");
+		log.debug("finding all AlsProviderBankDetails instances");
 		try {
-			String queryString = "from sabhrsAlsProviderBankDetails";
+			String queryString = "from AlsProviderBankDetails";
 	         Query queryObject = getSession().createQuery(queryString);
 			 return queryObject.list();
 		} catch (RuntimeException re) {
@@ -175,7 +180,7 @@ public class AlsProviderBankDetailsDAO extends BaseHibernateDAO  {
 	}
 	
     public AlsProviderBankDetails merge(AlsProviderBankDetails detachedInstance) {
-        log.debug("merging sabhrsAlsProviderBankDetails instance");
+        log.debug("merging AlsProviderBankDetails instance");
         try {
             AlsProviderBankDetails result = (AlsProviderBankDetails) getSession()
                     .merge(detachedInstance);
@@ -188,7 +193,7 @@ public class AlsProviderBankDetailsDAO extends BaseHibernateDAO  {
     }
 
     public void attachDirty(AlsProviderBankDetails instance) {
-        log.debug("attaching dirty sabhrsAlsProviderBankDetails instance");
+        log.debug("attaching dirty AlsProviderBankDetails instance");
         try {
             getSession().saveOrUpdate(instance);
             log.debug("attach successful");
@@ -199,7 +204,7 @@ public class AlsProviderBankDetailsDAO extends BaseHibernateDAO  {
     }
     
     public void attachClean(AlsProviderBankDetails instance) {
-        log.debug("attaching clean sabhrsAlsProviderBankDetails instance");
+        log.debug("attaching clean AlsProviderBankDetails instance");
         try {
                       	getSession().buildLockRequest(LockOptions.NONE).lock(instance);
           	            log.debug("attach successful");
