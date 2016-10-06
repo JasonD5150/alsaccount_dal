@@ -13,6 +13,7 @@ public class InternalProviderTdtDTO {
 	private String bankNm;
 	private String businessNm;
 	private String businessUnit;
+	private String cashInd;
 	
 	public Date getBpe() {
 		return bpe;
@@ -68,4 +69,11 @@ public class InternalProviderTdtDTO {
 	public void setBusinessUnit(String businessUnit) {
 		this.businessUnit = businessUnit;
 	}
+	public String getCashInd() {
+		return cashInd;
+	}
+	public void setCashInd(String cashInd) {
+		this.cashInd = cashInd;
+	}
+	
 }
