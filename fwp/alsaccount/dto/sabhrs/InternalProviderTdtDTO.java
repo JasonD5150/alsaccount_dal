@@ -6,7 +6,7 @@ public class InternalProviderTdtDTO {
 	
 	private Date bpe;
 	private Integer provNo;
-	private Integer bankCd;
+	private String bankCd;
 	private String depId;
 	private Date depDt;
 	private Double depAmt;
@@ -27,10 +27,10 @@ public class InternalProviderTdtDTO {
 	public void setProvNo(Integer provNo) {
 		this.provNo = provNo;
 	}
-	public Integer getBankCd() {
+	public String getBankCd() {
 		return bankCd;
 	}
-	public void setBankCd(Integer bankCd) {
+	public void setBankCd(String bankCd) {
 		this.bankCd = bankCd;
 	}
 	public Date getDepDt() {
