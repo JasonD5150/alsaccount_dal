@@ -221,10 +221,10 @@ public class AlsTransactionGrpStatusAS {
 													   Date srchAccDt, String srchSumAppStat, Date srchSumAppDt, String srchIntAppStat,
 													   Date srchIntAppDt, Date srchUpToSumDt, String srchBankCd, String srchBankRefNo,
 													   String srchIntFileNm, String srchDepId, Integer srchProviderNo, Boolean srchAll,
-													   Date date) {
+													   Date srchDate) {
 		List<AlsTransactionGrpStatus> lst = new ArrayList<AlsTransactionGrpStatus>(); 
 		try {
-			Boolean searchCreated = true;
+			Boolean deafultDate = true;
 			StringBuilder sb = new StringBuilder(" FROM AlsTransactionGrpStatus WHERE 1=1 ");
 			
 	    	if(srchTransGrpType != null && !"".equals(srchTransGrpType)){
@@ -232,32 +232,41 @@ public class AlsTransactionGrpStatusAS {
 	    	}
 			if(srchTranGrpId != null && !" ".equals(srchTranGrpId)){
 				sb.append("AND idPk.atgsGroupIdentifier LIKE :srchTranGrpId||'%' ");
+				deafultDate = false;
 			}
 			if(srchTranGrpCreated != null){
 				sb.append("AND TO_CHAR(atgsWhenCreated,'YYYY') = :srchTranGrpCreated ");
-				searchCreated = false;
+				deafultDate = false;
 			}
 			if(srchAccDt != null){
 				sb.append("AND atgsAccountingDt = :srchAccDt ");
-				searchCreated = false;
+				deafultDate = false;
 			}
 			if(srchSumAppStat != null && !"".equals(srchSumAppStat)){
-				sb.append("AND atgsSummaryStatus = :srchSumAppStat ");
+				if("NS".equals(srchSumAppStat)){
+					sb.append("AND atgsSummaryStatus IS NULL ");
+				}else{
+					sb.append("AND atgsSummaryStatus = :srchSumAppStat ");
+				}				
 			}
 			if(srchSumAppDt != null ){
 				sb.append("AND atgsSummaryDt = :srchSumAppDt ");
-				searchCreated = false;
+				deafultDate = false;
 			}
 			if(srchIntAppStat != null && !"".equals(srchIntAppStat)){
-				sb.append("AND atgsInterfaceStatus = :srchIntAppStat ");
+				if("NS".equals(srchIntAppStat)){
+					sb.append("AND atgsInterfaceStatus IS NULL ");
+				}else{
+					sb.append("AND atgsInterfaceStatus = :srchIntAppStat ");
+				}
 			}
 			if(srchIntAppDt != null ){
 				sb.append("AND atgsInterfaceDt = :srchIntAppDt ");
-				searchCreated = false;
+				deafultDate = false;
 			}
 			if(srchUpToSumDt != null ){
 				sb.append("AND atgsWhenUploadToSummary = :srchUpToSumDt ");
-				searchCreated = false;
+				deafultDate = false;
 			}
 			if(srchBankCd != null && !"".equals(srchBankCd)){
 				sb.append("AND abcBankCd = :srchBankCd ");
@@ -274,9 +283,9 @@ public class AlsTransactionGrpStatusAS {
 			if(srchProviderNo != null && !" ".equals(srchProviderNo)){
 				sb.append("AND TRIM(TRIM(LEADING 0 FROM substr(idPk.atgsGroupIdentifier,3,6))) = :srchProviderNo ");
 			}
-			if(searchCreated){
+			if(deafultDate){
 				if(srchAll != true){
-					sb.append("AND atgsWhenCreated >= :date ");
+					sb.append("AND atgsWhenCreated >= :srchDate ");
 				}
 			}
 			sb.append(" ORDER BY atgsWhenCreated desc,idPk.atgTransactionCd,idPk.atgsGroupIdentifier");
@@ -291,19 +300,23 @@ public class AlsTransactionGrpStatusAS {
 				query.setString("srchTranGrpId", srchTranGrpId);
 			}
 			if(srchTranGrpCreated != null){
-				query.setInteger("srchTransGrpType", srchTransGrpType);
+				query.setInteger("srchTranGrpCreated", srchTranGrpCreated);
 			}
 			if(srchAccDt != null){
 				query.setDate("srchAccDt", srchAccDt);
 			}
 			if(srchSumAppStat != null && !"".equals(srchSumAppStat)){
-				query.setString("srchSumAppStat", srchSumAppStat);
+				if(!"NS".equals(srchSumAppStat)){
+					query.setString("srchSumAppStat", srchSumAppStat);
+				}				
 			}
 			if(srchSumAppDt != null ){
 				query.setDate("srchSumAppDt", srchSumAppDt);
 			}
 			if(srchIntAppStat != null && !"".equals(srchIntAppStat)){
-				sb.append("AND atgsInterfaceStatus = :srchIntAppStat ");
+				if(!"NS".equals(srchIntAppStat)){
+					query.setString("srchIntAppStat", srchIntAppStat);
+				}
 			}
 			if(srchIntAppDt != null ){
 				query.setDate("srchIntAppDt", srchIntAppDt);
@@ -326,9 +339,9 @@ public class AlsTransactionGrpStatusAS {
 			if(srchProviderNo != null && !" ".equals(srchProviderNo)){
 				query.setInteger("srchProviderNo", srchProviderNo);
 			}
-			if(searchCreated){
+			if(deafultDate){
 				if(srchAll != true){
-					query.setDate("date", date);
+					query.setDate("srchDate", srchDate);
 				}
 			}
 			
