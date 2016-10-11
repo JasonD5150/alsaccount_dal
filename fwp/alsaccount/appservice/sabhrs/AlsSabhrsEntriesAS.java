@@ -309,18 +309,45 @@ public class AlsSabhrsEntriesAS {
 		if(asacReference == null){
 			return "";
 		}
-		String reference = asacReference.toString().substring(0,asacReference.toString().length()-2);
-		String queryStr =  "SELECT am.am_val_desc d "
-						 + "FROM ALS.ALS_MISC am "
-						 + "WHERE am.am_key1 = 'JOURNAL_LINE_REFERENCE' "
-						 + "AND am.am_par_val = :reference";
+		//String reference = asacReference.toString().substring(0,asacReference.toString().length()-2);
+		String queryStr =  "SELECT DISTINCT a.am_val_desc||(SELECT SUBSTR(b.am_par_val,3,4) FROM ALS.ALS_MISC b WHERE b.am_key1 = 'BUDGET YEAR') d "
+						 + "FROM ALS.ALS_MISC a "
+						 + "WHERE a.am_key1 = 'JOURNAL_LINE_REFERENCE' "
+						 + "AND a.am_par_val = :reference";
 		
 		try {
 			Query query = HibernateSessionFactory.getSession().createSQLQuery(queryStr)
 															  .addScalar("d")
-															  .setString("reference", reference);
+															  .setInteger("reference", asacReference);
 
 			rtn = (String) query.uniqueResult();
+		} catch (HibernateException he){
+			System.out.println(he.toString());
+		}
+		catch (RuntimeException re) {
+			System.out.println(re.toString());
+		} finally {
+			HibernateSessionFactory.getSession().close();
+		}
+		return rtn;
+	}
+	
+	public Integer getDescReference(String jlr) {		
+		Integer rtn = null;
+		if(jlr == null || "".equals(jlr)){
+			return null;
+		}
+		String desc = jlr.toString().substring(0,jlr.toString().length()-2);
+		String queryStr =  "SELECT DISTINCT a.am_par_val v "
+						 + "FROM ALS.ALS_MISC a "
+						 + "WHERE a.am_val_desc = :jlr ";
+		
+		try {
+			Query query = HibernateSessionFactory.getSession().createSQLQuery(queryStr)
+															  .addScalar("v", IntegerType.INSTANCE)
+															  .setString("jlr", desc);
+
+			rtn = (Integer) query.uniqueResult();
 		} catch (HibernateException he){
 			System.out.println(he.toString());
 		}
