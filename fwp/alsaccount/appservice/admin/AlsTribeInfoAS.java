@@ -141,5 +141,27 @@ public class AlsTribeInfoAS {
 			}
 		}
 	}
+	
+	
+	/**
+	 * Finds all Tribe Bank Codes
+	 * @return
+	 */
+	@SuppressWarnings("rawtypes")
+	public List findAll() {
+		log.debug("finding all Tribe instances by where filter");
+		try {
+			String queryString = " from AlsTribeInfo";
+			String whereString = " where 1=1";
+			Query queryObject = HibernateSessionFactory.getSession()
+					.createQuery(queryString + " " + whereString);
+			return queryObject.list();
+		} catch (RuntimeException re) {
+			log.error("find all failed", re);
+			throw re;
+		} finally {
+			HibernateSessionFactory.closeSession();
+		}
+	}
 
 }
