@@ -44,6 +44,7 @@
 	<mapping class="fwp.alsaccount.dao.sabhrs.AlsSabhrsEntries" />
 	<mapping class="fwp.alsaccount.dao.sabhrs.AlsSabhrsEntriesSummary" />
 	<mapping class="fwp.alsaccount.dao.sabhrs.AlsProviderBankDetails" />
+	<mapping class="fwp.alsaccount.dao.sabhrs.AlsProviderBankDepositSlip" />
 
 	<mapping
 		class="fwp.als.hibernate.inventory.dao.AlsInternalRemittance" />
