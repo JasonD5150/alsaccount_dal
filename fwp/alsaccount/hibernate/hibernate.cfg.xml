@@ -58,7 +58,6 @@
 
 	<!-- Provider -->
 	<mapping class="fwp.als.hibernate.provider.dao.AlsProviderInfo" />
-	<mapping class="fwp.alsaccount.dao.sabhrs.AlsProviderRemittance" />
 
 	<!-- ITEM -->
 	<mapping class="fwp.als.hibernate.item.dao.AlsCostGroup" />
