@@ -1,4 +1,4 @@
-package fwp.alsaccount.dto.sabhrs;
+package fwp.alsaccount.dto.sales;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
