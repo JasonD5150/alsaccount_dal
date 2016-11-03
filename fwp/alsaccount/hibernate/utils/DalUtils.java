@@ -1,10 +1,11 @@
 package fwp.alsaccount.hibernate.utils;
 
+import java.math.BigDecimal;
+import java.util.Date;
+import java.util.List;
+
 import org.hibernate.Query;
 import org.hibernate.Session;
-
-import java.math.BigDecimal;
-import java.util.*;
 
 public class DalUtils {
 

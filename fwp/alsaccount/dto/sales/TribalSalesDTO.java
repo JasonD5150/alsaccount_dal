@@ -11,7 +11,8 @@ public class TribalSalesDTO implements Serializable{
 	private String tribeNm;
 	private Date eftDepDeadline;
 	private String dueTo;
-	private Date bpEndDt;
+	private Date bpFromDt;
+	private Date bpToDt;
 	private Integer provNo;
 	private String provNm;
 	private Integer itemTypeCd;
@@ -51,11 +52,11 @@ public class TribalSalesDTO implements Serializable{
 	public void setDueTo(String dueTo) {
 		this.dueTo = dueTo;
 	}
-	public Date getBpEndDt() {
-		return bpEndDt;
+	public Date getBpToDt() {
+		return bpToDt;
 	}
-	public void setBpEndDt(Date bpEndDt) {
-		this.bpEndDt = bpEndDt;
+	public void setBpToDt(Date bpToDt) {
+		this.bpToDt = bpToDt;
 	}
 	public Integer getProvNo() {
 		return provNo;
@@ -104,5 +105,17 @@ public class TribalSalesDTO implements Serializable{
 	}
 	public void setNetAmt(Double netAmt) {
 		this.netAmt = netAmt;
+	}
+	/**
+	 * @return the bpFromDt
+	 */
+	public Date getBpFromDt() {
+		return bpFromDt;
+	}
+	/**
+	 * @param bpFromDt the bpFromDt to set
+	 */
+	public void setBpFromDt(Date bpFromDt) {
+		this.bpFromDt = bpFromDt;
 	}
 }

@@ -14,7 +14,6 @@ import fwp.alsaccount.dao.admin.AlsAccCdControl;
 import fwp.alsaccount.dao.admin.AlsAccCdControlDAO;
 import fwp.alsaccount.dao.admin.AlsAccCdControlIdPk;
 import fwp.alsaccount.hibernate.HibernateSessionFactory;
-import fwp.alsaccount.hibernate.utils.DalUtils;
 
 
 

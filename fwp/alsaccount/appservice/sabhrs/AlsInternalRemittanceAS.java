@@ -1,6 +1,7 @@
 package fwp.alsaccount.appservice.sabhrs;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -12,25 +13,12 @@ import org.hibernate.transform.Transformers;
 import org.hibernate.type.DateType;
 import org.hibernate.type.DoubleType;
 import org.hibernate.type.IntegerType;
-import org.hibernate.type.StringType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-
-
-
-
-
-
-
-
-
 
 import fwp.als.hibernate.inventory.dao.AlsInternalRemittance;
 import fwp.als.hibernate.inventory.dao.AlsInternalRemittanceDAO;
 import fwp.als.hibernate.inventory.dao.AlsInternalRemittanceIdPk;
-import fwp.alsaccount.dao.sabhrs.AlsSabhrsEntries;
-import fwp.alsaccount.dto.admin.AccCdDistByItemTypeDTO;
 import fwp.alsaccount.dto.sabhrs.AlsInternalRemittanceDTO;
 import fwp.alsaccount.hibernate.HibernateSessionFactory;
 
@@ -170,8 +158,13 @@ public class AlsInternalRemittanceAS {
 	public List<AlsInternalRemittanceDTO> getRemittanceRecords(Integer provNo, Date bpFrom, Date bpTo, 
 															Boolean hasNonAlsDetails, Boolean hasOverShortDetails, Boolean hasPaeAmt,
 															String comByProv, Date comByProvDt, String remittanceApproved, 
-															String appBy, Date appDt, String appCom) {
+															String appBy, Date appDt, String appCom, Boolean srchAll) {
 		List<AlsInternalRemittanceDTO> lst = new ArrayList<AlsInternalRemittanceDTO>(); 
+		Boolean srchDefaultDate = true;
+		Date defaultDate = new Date();
+		Calendar c = Calendar.getInstance(); 
+		c.setTime(defaultDate); 
+		c.add(Calendar.MONTH, -12);
 		try {
 			StringBuilder queryString = new StringBuilder("SELECT a.API_PROVIDER_NO apiProviderNo,"
 														+ "a.AIR_BILLING_FROM airBillingFrom,"
@@ -182,6 +175,7 @@ public class AlsInternalRemittanceAS {
 														+ "a.AIR_NON_ALS_SALES airNonAlsSales,"
 														+ "a.AIR_CREDIT_SALES airCreditSales,"
 														+ "a.AIR_COMPLETE_PROVIDER completeProvider,"
+														+ "a.AIR_OFFLN_PAYMENT_REVIEWED airOfflnPaymentReviewed,"
 														+ "a.AIR_OFFLN_PAYMENT_APPROVED airOfflnPaymentApproved,"
 														+ "a.AIR_OFFLN_PAYMENT_APP_BY airOfflnPaymentAppBy,"
 														+ "a.AIR_OFFLN_PAYMENT_APP_DT offlnPaymentAppDt,"
@@ -202,9 +196,11 @@ public class AlsInternalRemittanceAS {
 			}
 			if(bpFrom != null){
 				queryString.append("AND a.AIR_BILLING_FROM = :bpFrom ");
+				srchDefaultDate = false;
 			}
 			if(bpTo != null){
 				queryString.append("AND a.AIR_BILLING_TO = :bpTo ");
+				srchDefaultDate = false;
 			}
 			if(hasNonAlsDetails != null && hasNonAlsDetails != false){
 				queryString.append("and exists(SELECT 1 FROM ALS.Als_Non_Als_Details b "
@@ -243,13 +239,18 @@ public class AlsInternalRemittanceAS {
 			if(appCom != null && !"".equals(appCom)){
 				queryString.append("AND a.AIR_OFFLN_PAYMENT_APP_COM LIKE UPPER(:appCom||'%') ");
 			}
+			if(srchDefaultDate){
+				if(srchAll == null || srchAll == false){
+					queryString.append("AND a.AIR_WHEN_LOG >= :defaultDate ");
+				}
+			}
 			//If a provider is chosen add a dummy record to the remittance table for the current billing period.
 			//This will allow the Internal Providers to enter deposits throughout the week, before the actual remittance is created.
 			if(provNo != null && !"".equals(provNo)){
 				queryString.append("UNION "
 						+ "SELECT apr.api_provider_no apiProviderNo, "
 						+ "MAX(apr.APR_BILLING_FROM) airBillingFrom, "
-						+ "MAX(apr.APR_BILLING_TO) airBillingTo,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,"
+						+ "MAX(apr.APR_BILLING_TO) airBillingTo,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,"
 						+ "'true' bankDepEditOnly " 
 						+ "FROM ALS.ALS_PROVIDER_REMITTANCE apr "
 						+ "WHERE apr.API_PROVIDER_NO = :provNo "
@@ -268,6 +269,7 @@ public class AlsInternalRemittanceAS {
 																.addScalar("airNonAlsSales", DoubleType.INSTANCE)
 																.addScalar("airCreditSales", DoubleType.INSTANCE)
 																.addScalar("completeProvider", DateType.INSTANCE)
+																.addScalar("airOfflnPaymentReviewed")
 																.addScalar("airOfflnPaymentApproved")
 																.addScalar("airOfflnPaymentAppBy")
 																.addScalar("offlnPaymentAppDt", DateType.INSTANCE)
@@ -305,6 +307,11 @@ public class AlsInternalRemittanceAS {
 			}
 			if(appCom != null && !"".equals(appCom)){
 				query.setString("appCom", appCom);
+			}
+			if(srchDefaultDate){
+				if(srchAll == null || srchAll == false){
+					query.setDate("defaultDate", new Date(c.getTimeInMillis()));
+				}
 			}
 			
 			lst = query.list();

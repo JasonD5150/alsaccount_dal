@@ -14,6 +14,7 @@ public class InternalProviderBankCdDepLinkDTO extends AlsProviderBankDetails{
 	private Date apbdBillingTo;
 	private Date billingFrom;
 	private Date depositDate;
+	private Boolean hasDepositSlip;
 	
 	
 	public String getGridKey() {
@@ -57,6 +58,12 @@ public class InternalProviderBankCdDepLinkDTO extends AlsProviderBankDetails{
 	}
 	public void setDepositDate(Date depositDate) {
 		this.depositDate = depositDate;
+	}
+	public Boolean getHasDepositSlip() {
+		return hasDepositSlip;
+	}
+	public void setHasDepositSlip(Boolean hasDepositSlip) {
+		this.hasDepositSlip = hasDepositSlip;
 	}
 
 }

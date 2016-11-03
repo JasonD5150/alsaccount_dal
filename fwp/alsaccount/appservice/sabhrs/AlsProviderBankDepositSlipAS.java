@@ -2,7 +2,6 @@ package fwp.alsaccount.appservice.sabhrs;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.hibernate.HibernateException;
@@ -13,10 +12,8 @@ import org.hibernate.type.IntegerType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import fwp.alsaccount.dao.sabhrs.AlsOverUnderSalesDetsIdPk;
 import fwp.alsaccount.dao.sabhrs.AlsProviderBankDepositSlip;
 import fwp.alsaccount.dao.sabhrs.AlsProviderBankDepositSlipDAO;
-import fwp.alsaccount.dao.sabhrs.AlsSabhrsEntries;
 import fwp.alsaccount.hibernate.HibernateSessionFactory;
 
 /**

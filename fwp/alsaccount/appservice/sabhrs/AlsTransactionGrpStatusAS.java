@@ -12,7 +12,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import fwp.ListComp;
-import fwp.alsaccount.dao.sabhrs.AlsSabhrsEntries;
 import fwp.alsaccount.dao.sabhrs.AlsTransactionGrpStatus;
 import fwp.alsaccount.dao.sabhrs.AlsTransactionGrpStatusDAO;
 import fwp.alsaccount.dao.sabhrs.AlsTransactionGrpStatusIdPk;
