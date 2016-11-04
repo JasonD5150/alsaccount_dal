@@ -129,14 +129,15 @@ public class AlsInterfaceFilesAS {
 	 * Saves an AlsInterfaceFiles record using the merge function
 	 * @param tmp AlsInterfaceFiles object
 	 */
-	public void save(AlsInterfaceFiles tmp){
+	public AlsInterfaceFiles save(AlsInterfaceFiles tmp){
 		log.debug("saving AlsInterfaceFiles");
 		Transaction tx = null;
 		AlsInterfaceFilesDAO dao = new AlsInterfaceFilesDAO();
+		AlsInterfaceFiles aif = null;
 		try{
 			Session session = dao.getSession();
 			tx = session.beginTransaction();
-			dao.merge(tmp);			
+			aif = dao.merge(tmp);			
 			tx.commit();
 		} catch (RuntimeException re) {
 			tx.rollback();
@@ -150,6 +151,6 @@ public class AlsInterfaceFilesAS {
 			}
 		}
 		
-		return;
+		return aif;
 	}
 }
