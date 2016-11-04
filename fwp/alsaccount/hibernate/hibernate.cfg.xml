@@ -63,6 +63,9 @@
 	<mapping class="fwp.als.hibernate.item.dao.AlsCostGroup" />
 	<mapping class="fwp.als.hibernate.item.dao.AlsItemApplFeeAcct" />
 	<mapping class="fwp.alsaccount.dao.sabhrs.AlsOverUnderSalesDets" />
+	
+	<!-- Interface Files-->
+	<mapping class="fwp.als.hibernate.generic.dao.AlsWebGenCodes" />
 
 </session-factory>
 

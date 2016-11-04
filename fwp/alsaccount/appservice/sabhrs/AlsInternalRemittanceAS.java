@@ -226,6 +226,7 @@ public class AlsInternalRemittanceAS {
 			}
 			if(comByProvDt != null){
 				queryString.append("AND a.AIR_COMPLETE_PROVIDER = :comByProvDt ");
+				srchDefaultDate = false;
 			}
 			if(remittanceApproved != null && !"".equals(remittanceApproved)){
 				queryString.append("AND a.AIR_OFFLN_PAYMENT_APPROVED = :remittanceApproved ");
@@ -235,6 +236,7 @@ public class AlsInternalRemittanceAS {
 			}
 			if(appDt != null){
 				queryString.append("AND a.AIR_OFFLN_PAYMENT_APP_DT = :appDt ");
+				srchDefaultDate = false;
 			}
 			if(appCom != null && !"".equals(appCom)){
 				queryString.append("AND a.AIR_OFFLN_PAYMENT_APP_COM LIKE UPPER(:appCom||'%') ");
