@@ -1,7 +1,7 @@
 package fwp.alsaccount.dto.sabhrs;
 
 import java.io.Serializable;
-import java.sql.Date;
+import java.util.Date;
 
 import fwp.alsaccount.dao.sabhrs.AlsSabhrsEntries;
 
