@@ -17,7 +17,7 @@ public class AccCdDistByItemTypeDTO extends AlsItemAccountTable{
 	private Integer budgYear;
 	private String partialCost;
 	private String drawFee;
-	private Integer accCd;
+	private String accCd;
 	private Integer account;
 	private Integer fund;
 	private String balancing;
@@ -93,10 +93,10 @@ public class AccCdDistByItemTypeDTO extends AlsItemAccountTable{
 	public void setDrawFee(String drawFee) {
 		this.drawFee = drawFee;
 	}
-	public Integer getAccCd() {
+	public String getAccCd() {
 		return accCd;
 	}
-	public void setAccCd(Integer accCd) {
+	public void setAccCd(String accCd) {
 		this.accCd = accCd;
 	}
 	public Integer getAccount() {

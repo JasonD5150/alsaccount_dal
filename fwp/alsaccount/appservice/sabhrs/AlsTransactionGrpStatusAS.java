@@ -249,7 +249,7 @@ public class AlsTransactionGrpStatusAS {
 				}				
 			}
 			if(srchSumAppDt != null ){
-				sb.append("AND atgsSummaryDt = :srchSumAppDt ");
+				sb.append("AND TRUNC(atgsSummaryDt) = :srchSumAppDt ");
 				deafultDate = false;
 			}
 			if(srchIntAppStat != null && !"".equals(srchIntAppStat)){
@@ -260,7 +260,7 @@ public class AlsTransactionGrpStatusAS {
 				}
 			}
 			if(srchIntAppDt != null ){
-				sb.append("AND atgsInterfaceDt = :srchIntAppDt ");
+				sb.append("AND TRUNC(atgsInterfaceDt) = :srchIntAppDt ");
 				deafultDate = false;
 			}
 			if(srchUpToSumDt != null ){
@@ -287,7 +287,7 @@ public class AlsTransactionGrpStatusAS {
 					sb.append("AND atgsWhenCreated >= :srchDate ");
 				}
 			}
-			sb.append(" ORDER BY atgsWhenCreated desc,idPk.atgTransactionCd,idPk.atgsGroupIdentifier");
+			sb.append(" ORDER BY idPk.atgsGroupIdentifier");
 			
 												
 			Query query = HibernateSessionFactory.getSession().createQuery(sb.toString());

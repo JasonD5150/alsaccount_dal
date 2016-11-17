@@ -75,7 +75,7 @@ public class AlsSabhrsEntriesAS {
 		try{
 			Session session = dao.getSession();
 			tx = session.beginTransaction();
-			dao.merge(tmp);
+			dao.save(tmp);
 			tx.commit();			
 		} catch (RuntimeException re) {
 			tx.rollback();
@@ -353,5 +353,40 @@ public class AlsSabhrsEntriesAS {
 			HibernateSessionFactory.getSession().close();
 		}
 		return rtn;
+	}
+	
+	/**
+	 * returns a list of AlsSabhrsEntries filtered
+	 * @param provNo
+	 * @param bpFrom
+	 * @param bpTo
+	 * @return List<AlsSabhrsEntries>
+	 */
+	public List<AlsSabhrsEntries> getProvAdjEntRecords(Integer provNo, Date bpFrom, Date bpTo, Integer iafaSeqNo) {
+		List<AlsSabhrsEntries> lst = new ArrayList<AlsSabhrsEntries>(); 
+		try {
+			StringBuilder queryString = new StringBuilder(" FROM AlsSabhrsEntries "
+														+ "WHERE apiProviderNo = :provNo "
+														+ "AND aprBillingFrom = :bpFrom "
+														+ "AND aprBillingTo = :bpTo "
+														+ "AND aiafaSeqNo = :iafaSeqNo ");
+		
+			Query query = HibernateSessionFactory.getSession().createQuery(queryString.toString())
+															  .setInteger("provNo", provNo)
+															  .setDate("bpFrom", bpFrom)
+															  .setDate("bpTo", bpTo)
+															  .setInteger("iafaSeqNo", iafaSeqNo);
+			
+			lst = query.list();
+		} catch (HibernateException he){
+			System.out.println(he.toString());
+		}
+		catch (RuntimeException re) {
+			System.out.println(re.toString());
+		}
+		finally {
+			HibernateSessionFactory.getSession().close();
+		}
+		return lst;
 	}
 }
