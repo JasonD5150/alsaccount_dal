@@ -65,7 +65,7 @@ public class AlsSabhrsEntriesAS {
 	}
 	
 	/**
-	 * Saves any AlsSabhrsEntries using the merge function
+	 * Saves any AlsSabhrsEntries using the save function
 	 * @param AlsSabhrsEntries
 	 */
 	public void save(AlsSabhrsEntries tmp){
@@ -76,6 +76,33 @@ public class AlsSabhrsEntriesAS {
 			Session session = dao.getSession();
 			tx = session.beginTransaction();
 			dao.save(tmp);
+			tx.commit();			
+		} catch (RuntimeException re) {
+			tx.rollback();
+			log.error("save failed", re);	
+			throw re;			
+		}finally{
+			try{
+				dao.getSession().close();
+			}catch(Exception e){
+			
+			}
+		}		
+		return;
+	}
+	
+	/**
+	 * Saves any AlsSabhrsEntries using the merge function
+	 * @param AlsSabhrsEntries
+	 */
+	public void merge(AlsSabhrsEntries tmp){
+		log.debug("saving AlsSabhrsEntries");
+		Transaction tx = null;
+		AlsSabhrsEntriesDAO dao = new AlsSabhrsEntriesDAO();
+		try{
+			Session session = dao.getSession();
+			tx = session.beginTransaction();
+			dao.merge(tmp);
 			tx.commit();			
 		} catch (RuntimeException re) {
 			tx.rollback();
