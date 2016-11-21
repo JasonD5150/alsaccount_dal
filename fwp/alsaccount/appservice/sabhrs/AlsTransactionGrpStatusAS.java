@@ -287,7 +287,7 @@ public class AlsTransactionGrpStatusAS {
 					sb.append("AND atgsWhenCreated >= :srchDate ");
 				}
 			}
-			sb.append(" ORDER BY idPk.atgsGroupIdentifier");
+			sb.append(" ORDER BY idPk.atgsGroupIdentifier DESC");
 			
 												
 			Query query = HibernateSessionFactory.getSession().createQuery(sb.toString());
