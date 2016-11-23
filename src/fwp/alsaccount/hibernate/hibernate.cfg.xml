@@ -36,6 +36,7 @@
 		class="fwp.als.hibernate.admin.dao.AlsSysActivityTypeCodes" />
 	<mapping
 		class="fwp.als.hibernate.admin.dao.AlsSysActivityTypeTranCds" />
+	<mapping class="fwp.als.hibernate.admin.dao.AlsRefundInfo" />
 
 
 	<!-- SABHRS -->
@@ -66,7 +67,9 @@
 	
 	<!-- Interface Files-->
 	<mapping class="fwp.als.hibernate.generic.dao.AlsWebGenCodes" />
-
+	
+	<!-- Refund-->
+	<mapping class="fwp.alsaccount.dao.refund.AlsWarrantStatus" />
 </session-factory>
 
 </hibernate-configuration>
