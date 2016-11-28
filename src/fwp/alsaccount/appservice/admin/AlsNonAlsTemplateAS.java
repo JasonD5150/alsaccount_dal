@@ -126,18 +126,18 @@ public class AlsNonAlsTemplateAS {
 	 */
 	@SuppressWarnings("unchecked")
 	public String getJlrValDesc(Integer amParVal) {
-		String retVal = "";
+		String retVal = null;
 		
 		String where = "SELECT am_val_desc"
 					+ "  FROM ALS.ALS_MISC"
 					+ " WHERE am_key1 = 'JOURNAL_LINE_REFERENCE' "   
-					+ "	AND am_par_val||'00' = '"+amParVal+"'";
+					+ "	AND am_par_val = '"+amParVal+"'";
 		
 		try {
 			Query query = HibernateSessionFactory.getSession().createSQLQuery(where);
 			List<String> descList = query.list();
 			if (descList != null && !descList.isEmpty()) {
-				retVal = descList.get(0)+"00";
+				retVal = descList.get(0);
 			}
 		} catch (RuntimeException re) {	
 			throw re;	
@@ -155,18 +155,18 @@ public class AlsNonAlsTemplateAS {
 	 */
 	@SuppressWarnings("unchecked")
 	public Integer getJlrParVal(String amValDesc) {
-		Integer retVal = 0;
+		Integer retVal = null;
 
 		String where = "SELECT am_par_val"
 					+ "  FROM ALS.ALS_MISC"
 					+ " WHERE am_key1 = 'JOURNAL_LINE_REFERENCE' "   
-					+ "	AND am_val_desc||'00' = '"+amValDesc+"'";
+					+ "	AND am_val_desc = '"+amValDesc+"'";
 		
 		try {
 			Query query = HibernateSessionFactory.getSession().createSQLQuery(where);
 			List<String> descList = query.list();
 			if (descList != null && !descList.isEmpty()) {
-				retVal = Integer.parseInt(descList.get(0)+"00");
+				retVal = Integer.parseInt(descList.get(0));
 			} 
 		} catch (RuntimeException re) {	
 			throw re;	
