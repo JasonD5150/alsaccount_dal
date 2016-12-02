@@ -9,6 +9,7 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.transform.Transformers;
+import org.hibernate.type.DoubleType;
 import org.hibernate.type.IntegerType;
 import org.hibernate.type.TimestampType;
 import org.slf4j.Logger;
@@ -246,7 +247,7 @@ public class AlsItemApplFeeAcctAS {
 	 * @param bpToDt
 	 * @return List<AlsItemApplFeeAcctIdPk>
 	 */
-	public List<ProvAdjEntAIAFAGridDTO> getProviderAdjEntriesRecords(Integer provNo, Date bpFromDt, Date bpToDt,
+	public List<ProvAdjEntAIAFAGridDTO> getProviderAdjEntriesRecords(Integer provNo, Date bpFromDt, Date bpToDt, Integer iafaSeqNo,
 			  															String tribeCd, String appTypeCd, Integer	amtTypeCd, Integer reasonCd) {
 		List<ProvAdjEntAIAFAGridDTO> lst = new ArrayList<ProvAdjEntAIAFAGridDTO>(); 
 		try {
@@ -255,7 +256,9 @@ public class AlsItemApplFeeAcctAS {
 									  + "a.APR_BILLING_To billingTo, "
 									  + "a.AIAFA_SEQ_NO aiafaSeqNo,"
 									  + "b.aict_item_type_cd itemTypeCd,"
-									  + "c.ait_type_desc itemTypeDesc "
+									  + "c.ait_type_desc itemTypeDesc,"
+									  + "a.aiafa_record_void_dt voidDt,"
+									  + "a.aiafa_amt prevAmt "
 								+ "FROM ALS.ALS_ITEM_APPL_FEE_ACCT a "
 									+ "JOIN ALS.ALS_SESSION_TRANS b " 
 										+ "ON b.ahm_type = a.ahm_type "
@@ -282,11 +285,14 @@ public class AlsItemApplFeeAcctAS {
 			if(!DalUtils.isNil(bpToDt)){
 				queryString += "AND a.APR_BILLING_TO = :bpToDt ";	
 			}
+			if(!DalUtils.isNil(iafaSeqNo)){
+				queryString += "AND a.AIAFA_SEQ_NO = :iafaSeqNo ";	
+			}
 			if(!DalUtils.isNil(tribeCd)){
 				queryString += "AND a.ATI_TRIBE_CD = :tribeCd ";	
 			}
 			if(!DalUtils.isNil(appTypeCd)){
-				queryString += "AND a.AIAFA_APP_TYPE = :appTypeCd ";	
+				queryString += "AND a.AIAFA_APP_TYPE LIKE :appTypeCd ";	
 			}
 			if(!DalUtils.isNil(amtTypeCd)){
 				queryString += "AND a.AIAFA_AMT_TYPE = :amtTypeCd ";	
@@ -304,6 +310,8 @@ public class AlsItemApplFeeAcctAS {
 												 .addScalar("aiafaSeqNo", IntegerType.INSTANCE)
 												 .addScalar("itemTypeCd", IntegerType.INSTANCE)
 												 .addScalar("itemTypeDesc")
+												 .addScalar("voidDt", TimestampType.INSTANCE)
+												 .addScalar("prevAmt", DoubleType.INSTANCE)
 												 .setResultTransformer(Transformers.aliasToBean(ProvAdjEntAIAFAGridDTO.class));
 
 
@@ -316,11 +324,14 @@ public class AlsItemApplFeeAcctAS {
 			if(!DalUtils.isNil(bpToDt)){
 				query.setDate("bpToDt", bpToDt);
 			}
+			if(!DalUtils.isNil(iafaSeqNo)){
+				query.setInteger("iafaSeqNo", iafaSeqNo);
+			}
 			if(!DalUtils.isNil(tribeCd)){
 				query.setString("tribeCd", tribeCd);
 			}
 			if(!DalUtils.isNil(appTypeCd)){
-				query.setString("appTypeCd", appTypeCd);
+				query.setString("appTypeCd", appTypeCd+'%');
 			}
 			if(!DalUtils.isNil(amtTypeCd)){
 				query.setInteger("amtTypeCd", amtTypeCd);

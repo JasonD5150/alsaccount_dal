@@ -333,7 +333,8 @@ public class AlsSabhrsEntriesAS {
 			return "";
 		}
 		//String reference = asacReference.toString().substring(0,asacReference.toString().length()-2);
-		String queryStr =  "SELECT DISTINCT a.am_val_desc||(SELECT SUBSTR(b.am_par_val,3,4) FROM ALS.ALS_MISC b WHERE b.am_key1 = 'BUDGET YEAR') d "
+		//Removed from query str ||(SELECT SUBSTR(b.am_par_val,3,4) FROM ALS.ALS_MISC b WHERE b.am_key1 = 'BUDGET YEAR')
+		String queryStr =  "SELECT DISTINCT a.am_par_val d "
 						 + "FROM ALS.ALS_MISC a "
 						 + "WHERE a.am_key1 = 'JOURNAL_LINE_REFERENCE' "
 						 + "AND a.am_par_val = :reference";

@@ -248,7 +248,8 @@ public class AlsInternalRemittanceAS {
 			}
 			//If a provider is chosen add a dummy record to the remittance table for the current billing period.
 			//This will allow the Internal Providers to enter deposits throughout the week, before the actual remittance is created.
-			if(provNo != null && !"".equals(provNo)){
+			//Provider 36006 is a exception to this, 36006 already has a remittance record
+			if(provNo != null && !"".equals(provNo) && provNo != 36006){
 				queryString.append("UNION "
 						+ "SELECT apr.api_provider_no apiProviderNo, "
 						+ "MAX(apr.APR_BILLING_FROM) airBillingFrom, "

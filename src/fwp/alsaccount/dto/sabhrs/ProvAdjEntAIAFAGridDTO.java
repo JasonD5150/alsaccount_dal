@@ -13,6 +13,8 @@ public class ProvAdjEntAIAFAGridDTO extends AlsItemApplFeeAcctIdPk implements Se
 	private Date billingTo;
 	private Integer itemTypeCd;
 	private String itemTypeDesc;
+	private Date voidDt;
+	private Double prevAmt;
 	
 	public Date getBillingFrom() {
 		return billingFrom;
@@ -38,4 +40,17 @@ public class ProvAdjEntAIAFAGridDTO extends AlsItemApplFeeAcctIdPk implements Se
 	public void setItemTypeDesc(String itemTypeDesc) {
 		this.itemTypeDesc = itemTypeDesc;
 	}
+	public Date getVoidDt() {
+		return voidDt;
+	}
+	public void setVoidDt(Date voidDt) {
+		this.voidDt = voidDt;
+	}
+	public Double getPrevAmt() {
+		return prevAmt;
+	}
+	public void setPrevAmt(Double prevAmt) {
+		this.prevAmt = prevAmt;
+	}
+	
 }
