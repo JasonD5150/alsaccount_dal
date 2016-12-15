@@ -1,0 +1,119 @@
+<project default="build" name="alsaccount_dal">
+
+    <property name="project.dal" value="alsaccount"/>
+    <property name="project.output.jar.name" value="build/jar/${ant.project.name}.jar"/>
+    <property name="wildfly.server.root" value="C:/wildfly10"/>
+    <property name="wildfly.modules.dir" value="${wildfly.server.root}/modules"/>
+    <!-- User Setting -->
+    <property name="hibernate.reveng.lib" value="C:/hibernate-lib" />
+    <property name="src.dir" value="src"/>
+
+    <path id="project.class.path">
+        <fileset dir="${wildfly.modules.dir}/fwp/custom">
+            <include name="**/Core/main/FwpCore.jar"/>
+            <include name="**/fwpMethods/main/fwpMethods.jar"/>
+        </fileset>
+        <fileset dir="${wildfly.modules.dir}/fwp/common/hibernate/main">
+            <include name="*.jar"/>
+        </fileset>
+        <fileset dir="${wildfly.modules.dir}/system/layers/base/javax/persistence/api/main">
+            <include name="hibernate-jpa-2.1-api-1.0.0.Final.jar"/>
+        </fileset>
+        <fileset dir="${wildfly.modules.dir}/system/layers/base/org/slf4j/main">
+            <include name="slf4j-api-1.7.7.jbossorg-1.jar"/>
+        </fileset>
+        <fileset dir="${wildfly.modules.dir}/fwp/oracle/jdbc/main">
+            <include name="ojdbc6.jar"/>
+        </fileset>
+        <fileset dir="${wildfly.modules.dir}/system/layers/base/org/apache/commons/lang/main">
+            <include name="commons-lang-2.6.jar"/>
+        </fileset>
+        <!-- FWP DALs -->
+        <fileset dir="${wildfly.modules.dir}/fwp/dal">
+            <include name="**/gen/main/gen_dal.jar"/>
+            <include name="**/alsadmin/main/alsadmin_dal.jar"/>
+            <include name="**/ssr/main/ssr_dal.jar"/>
+            <include name="**/decrypt_als/main/decrypt_als_dal.jar"/>
+        </fileset>
+    </path>
+
+    <taskdef name="hibernatetool" classname="org.hibernate.tool.ant.HibernateToolTask">
+        <classpath>
+            <fileset dir="${hibernate.reveng.lib}">
+                <include name="**/*.jar"/>
+            </fileset>
+        </classpath>
+    </taskdef>
+    <target name="clean">
+        <delete dir="build"/>
+    </target>
+
+    <target name="compile">
+        <echo message="building classes..."/>
+        <mkdir dir="build/classes/"/>
+
+        <javac debug="true" srcdir="${src.dir}" destdir="build/classes" classpathref="project.class.path"/>
+
+        <copy verbose="true" preservelastmodified="yes" todir="build/classes">
+            <fileset dir="${src.dir}">
+                <include name="**/*.xml"/>
+            </fileset>
+        </copy>
+    </target>
+
+    <target name="build" depends="compile">
+        <echo message="jarring classes..."/>
+        <mkdir dir="build/jar"/>
+        <jar destfile="build/jar/${ant.project.name}.jar" basedir="build/classes">
+            <manifest>
+                <attribute name="Main-Class" value="Main"/>
+            </manifest>
+        </jar>
+    </target>
+
+    <target name="deploy" depends="clean,build">
+        <fail unless="wildfly.server.root" message="Wildfly Server Root not set.  Set wildfly.server.root property before running."/>
+        <copy verbose="true" preservelastmodified="yes" todir="${wildfly.modules.dir}/fwp/dal/${project.dal}/main">
+            <fileset dir="build/jar">
+                <include name="*.jar"/>
+            </fileset>
+        </copy>
+        <copy file="module.xml" todir="${wildfly.modules.dir}/fwp/dal/${project.dal}/main"/>
+    </target>
+
+    <!--
+    Hibernate Reverse Engineering Targets
+    -->
+    <target name="hibernate.lib.check">
+        <condition property="hibernate.lib.dir.exists">
+            <available file="${hibernate.reveng.lib}" type="dir"/>
+        </condition>
+    </target>
+
+    <target name="gen_hibernate" depends="hibernate.lib.check,clean" if="hibernate.lib.dir.exists"
+            description="generate hibernate classes">
+        <mkdir dir="build/reveng"/>
+        <hibernatetool destdir="build/reveng">
+            <jdbcconfiguration
+                    revengfile="src/hibernate-reveng/hibernate.reveng.xml"
+                    configurationfile="src/hibernate-reveng/hibernate.reveng.cfg.xml"
+                    packagename="fwp.als.account.hibernate.info.dao"
+                    preferbasiccompositeids="true"
+                    detectmanytomany="false"
+                    detectonetoone="false"/>
+            <hbm2java jdk5="true" ejb3="true"/>
+            <hbm2cfgxml ejb3="true"/>
+            <hbmtemplate filepattern="{package-name}/{class-name}DAO.java"
+                         templatepath="src/hibernate-reveng"
+                         template="fwpdao.ftl"
+                         exporterclass="org.hibernate.tool.hbm2x.DAOExporter">
+                <property key="sessionFactoryName" value="getSession()"/>
+                <property key="ejb3" value="false"/>
+                <property key="jdk5" value="true"/>
+                <property key="baseDaoPackage" value="fwp.als.account.hibernate"/>
+                <property key="baseDaoClass" value="BaseHibernateDAO"/>
+            </hbmtemplate>
+        </hibernatetool>
+        <echo>Reverse Engineer Complete:  COPY CLASS DEFINITIONS FROM hibernate.reveng.cfg.xml to hibernate.cfg.xml</echo>
+    </target>
+</project>

@@ -4,3 +4,5 @@ fwp_alsadmin_dal.iml
 .classpath
 *.class
 .svn/
+build
+*.iml
