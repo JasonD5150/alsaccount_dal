@@ -25,20 +25,14 @@
 	<mapping class="fwp.alsaccount.dao.admin.AlsNonAlsOrgControl" />
 	<mapping class="fwp.alsaccount.dao.admin.AlsSabhrsFyeAdjstDtl" />
 	<mapping class="fwp.alsaccount.dao.admin.AlsSabhrsFyeAdjst" />
-
 	<mapping class="fwp.als.hibernate.item.dao.AlsItemCategory" />
 	<mapping class="fwp.als.hibernate.admin.dao.AlsMisc" />
 	<mapping class="fwp.als.hibernate.admin.dao.AlsTribeInfo" />
 	<mapping class="fwp.als.hibernate.admin.dao.AlsSysActivityControl" />
-	<mapping
-		class="fwp.als.hibernate.admin.dao.AlsActivityAccountLinkage" />
-	<mapping
-		class="fwp.als.hibernate.admin.dao.AlsSysActivityTypeCodes" />
-	<mapping
-		class="fwp.als.hibernate.admin.dao.AlsSysActivityTypeTranCds" />
-	<mapping class="fwp.als.hibernate.admin.dao.AlsRefundInfo" />
-
-
+	<mapping class="fwp.als.hibernate.admin.dao.AlsActivityAccountLinkage" />
+	<mapping class="fwp.als.hibernate.admin.dao.AlsSysActivityTypeCodes" />
+	<mapping class="fwp.als.hibernate.admin.dao.AlsSysActivityTypeTranCds" />
+	
 	<!-- SABHRS -->
 	<mapping class="fwp.alsaccount.dao.sabhrs.AlsTransactionGroup" />
 	<mapping class="fwp.alsaccount.dao.sabhrs.AlsTransactionGrpStatus" />
@@ -46,16 +40,12 @@
 	<mapping class="fwp.alsaccount.dao.sabhrs.AlsSabhrsEntriesSummary" />
 	<mapping class="fwp.alsaccount.dao.sabhrs.AlsProviderBankDetails" />
 	<mapping class="fwp.alsaccount.dao.sabhrs.AlsProviderBankDepositSlip" />
-
-	<mapping
-		class="fwp.als.hibernate.inventory.dao.AlsInternalRemittance" />
+	<mapping class="fwp.als.hibernate.inventory.dao.AlsInternalRemittance" />
 
 	<!--  Interface Files -->
-	<mapping
-		class="fwp.alsaccount.dao.interfaceFiles.AlsInterfaceFiles" />
+	<mapping class="fwp.alsaccount.dao.interfaceFiles.AlsInterfaceFiles" />
 	<mapping class="fwp.alsaccount.dao.admin.AlsBankCode" />
 	<mapping class="fwp.alsaccount.dao.admin.AlsTribeItemInfo" />
-
 
 	<!-- Provider -->
 	<mapping class="fwp.als.hibernate.provider.dao.AlsProviderInfo" />
@@ -69,6 +59,7 @@
 	<mapping class="fwp.als.hibernate.generic.dao.AlsWebGenCodes" />
 	
 	<!-- Refund-->
+	<mapping class="fwp.als.hibernate.admin.dao.AlsRefundInfo" />
 	<mapping class="fwp.alsaccount.dao.refund.AlsWarrantStatus" />
 </session-factory>
 
