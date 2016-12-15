@@ -32,6 +32,7 @@
         <fileset dir="${wildfly.modules.dir}/fwp/dal">
             <include name="**/gen/main/gen_dal.jar"/>
             <include name="**/alsadmin/main/alsadmin_dal.jar"/>
+            <include name="**/alspers/main/alspers_dal.jar"/>
             <include name="**/ssr/main/ssr_dal.jar"/>
             <include name="**/decrypt_als/main/decrypt_als_dal.jar"/>
         </fileset>

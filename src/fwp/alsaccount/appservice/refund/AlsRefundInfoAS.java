@@ -8,6 +8,10 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import fwp.ListComp;
+import fwp.als.hibernate.draw.dao.AlsPreappType;
+import fwp.alsaccount.dao.refund.AlsPersonItemTemplLink;
+import fwp.alsaccount.dto.refund.AlsPersonItemTemplLinkDTO;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -1344,12 +1348,31 @@ public class AlsRefundInfoAS {
 	}
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
+	public List<ListComp> findMassRefundPreAppTypes() {
+		List<ListComp> returnList = new ArrayList<>();
+		for(AlsPreappType alsPreappType :
+				(List<AlsPreappType>)HibernateSessionFactory.getSession().createQuery(
+				"select f from AlsPreappType f " +
+						"where f.idPk.aptDataEntry = 2 " +
+						" order by f.aptAppTypeDesc ").list()) {
+			returnList.add(new ListComp(alsPreappType.getIdPk().getAptAppTypeCd().toString(),
+					alsPreappType.getAptAppTypeDesc()));
+		}
+		return returnList;
+	}
+
+	public List<AlsPersonItemTemplLinkDTO> findMassRefundPersonItemList(Integer aptAppTypeCd) throws Exception  {
+
+		List<AlsPersonItemTemplLink> itemList = HibernateSessionFactory.getSession().createQuery("select f from AlsPersonItemTemplLink  f " +
+				"where f.idPk.aptAppTypeCd = :aptAppTypeCd" +
+				"  and f.idPk.aptDataEntry = 2 ").setParameter("aptAppTypeCd", aptAppTypeCd).list();
+		List<AlsPersonItemTemplLinkDTO> returnList = new ArrayList<>(itemList.size());
+		fwp.als.pers.hibernate.utils.DalUtils dalUtils = new fwp.als.pers.hibernate.utils.DalUtils();
+		for (AlsPersonItemTemplLink alsPersonItemTemplLink : itemList) {
+			AlsPersonItemTemplLinkDTO item = new AlsPersonItemTemplLinkDTO();
+			//TODO get description fields
+			returnList.add(dalUtils.fillObjectFromSource(item, alsPersonItemTemplLink));
+		}
+		return returnList;
+	}
 }

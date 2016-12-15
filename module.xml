@@ -34,7 +34,8 @@
     	<module name="org.slf4j" />   
     	<module name="org.javassist" export="false"/>  
     	<module name="fwp.custom.Core" />
-		<module name="fwp.dal.alsadmin"/>		
+		<module name="fwp.dal.alsadmin"/>
+		<module name="fwp.dal.alspers"/>
 		<module name="fwp.custom.fwpMethods"/>
     </dependencies>	
 </module>

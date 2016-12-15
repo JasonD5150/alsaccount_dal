@@ -61,6 +61,10 @@
 	<!-- Refund-->
 	<mapping class="fwp.als.hibernate.admin.dao.AlsRefundInfo" />
 	<mapping class="fwp.alsaccount.dao.refund.AlsWarrantStatus" />
+
+	<mapping class="fwp.alsaccount.dao.refund.AlsPersonItemTemplLink" />
+	<mapping class="fwp.als.hibernate.draw.dao.AlsPreappType" />
+
 </session-factory>
 
 </hibernate-configuration>
