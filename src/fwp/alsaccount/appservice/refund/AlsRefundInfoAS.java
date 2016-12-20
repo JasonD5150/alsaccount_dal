@@ -17,6 +17,7 @@ import org.hibernate.type.DateType;
 import org.hibernate.type.DoubleType;
 import org.hibernate.type.IntegerType;
 import org.hibernate.type.StringType;
+import org.hibernate.type.TimestampType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -474,7 +475,7 @@ public class AlsRefundInfoAS {
 
 
 	@SuppressWarnings("unchecked")
-	private void processItemInfoUpdate(Date periodFrom, 
+	public void processItemInfoUpdate(Date periodFrom, 
 								  	   Date periodTo, 
 								  	   String itemTypeCd, 
 								  	   Date dob, 
@@ -493,46 +494,45 @@ public class AlsRefundInfoAS {
 								 "       aii_when_log = :whenLog"+
 								 " WHERE aict_usage_period_from = :periodFrom"+
 								 "   AND aict_usage_period_to = :periodTo"+
-								 "   AND aict_item_type_cd = :itemType" +
+								 "   AND aict_item_type_cd = :itemTypeCd" +
 								 "   AND api_dob = :dob" +
 								 "   AND api_als_no = :alsNo" +
 								 "   AND aii_item_txn_ind = :aiiItemTxnInd" +
 								 "   AND aii_seq_no = :aiiSeqNo";						
 
-			Query updateAiiObject = HibernateSessionFactory.getSession().createSQLQuery(updatAiiStr);
-			
-			updateAiiObject.setDate("periodFrom", periodFrom);
-			updateAiiObject.setDate("periodTo", periodTo);
-			updateAiiObject.setParameter("itemTypeCd", itemTypeCd);
-			updateAiiObject.setDate("dob", dob);
-			updateAiiObject.setParameter("alsNo",alsNo);
-			updateAiiObject.setParameter("aiiItemTxnInd", aiiItemTxnInd);
-			updateAiiObject.setParameter("aiiSeqNo", aiiSeqNo);
-			updateAiiObject.setParameter("aiinItemInd", aiinItemInd);
-			updateAiiObject.setParameter("whoLog", personId);
-			updateAiiObject.setParameter("whenLog", today);
+			Query updateAiiObject = HibernateSessionFactory.getSession().createSQLQuery(updatAiiStr)
+																		.setDate("periodFrom", periodFrom)
+																		.setDate("periodTo", periodTo)
+																		.setString("itemTypeCd", itemTypeCd)
+																		.setDate("dob", dob)
+																		.setInteger("alsNo",alsNo)
+																		.setString("aiiItemTxnInd", aiiItemTxnInd)
+																		.setInteger("aiiSeqNo", aiiSeqNo)
+																		.setInteger("aiinItemInd", aiinItemInd)
+																		.setString("whoLog", personId)
+																		.setDate("whenLog", today);
 
 			updateAiiObject.executeUpdate();
 						
-			String queryAiiStr = "SELECT (NVL(MAX(aiin_item_ind_seq_no),0)+1) nextSeq"+
-								 " WHERE aict_usage_period_from = :periodFrom"+
-								 "   AND aict_usage_period_to = :periodTo"+
-								 "   AND aict_item_type_cd = :itemType" +
-								 "   AND api_dob = :dob" +
-								 "   AND api_als_no = :alsNo" +
-								 "   AND aii_item_txn_ind = :aiiItemTxnInd" +
-								 "   AND aii_seq_no = :aiiSeqNo";						
+			String queryAiiStr = "SELECT (NVL(MAX(aiin_item_ind_seq_no),0)+1) nextSeq "
+							   + "FROM Als.Als_Item_Ind "
+							   + "WHERE aict_usage_period_from = :periodFrom "
+							   + "AND aict_usage_period_to = :periodTo "
+							   + "AND aict_item_type_cd = :itemTypeCd " 
+							   + "AND api_dob = :dob " 
+							   + "AND api_als_no = :alsNo " 
+							   + "AND aii_item_txn_ind = :aiiItemTxnInd " 
+							   + "AND aii_seq_no = :aiiSeqNo ";						
 
 			Query queryAiiObject = HibernateSessionFactory.getSession().createSQLQuery(queryAiiStr)
-					.addScalar("nextSeq",StringType.INSTANCE);
-			
-			queryAiiObject.setDate("periodFrom", periodFrom);
-			queryAiiObject.setDate("periodTo", periodTo);
-			queryAiiObject.setParameter("itemTypeCd", itemTypeCd);
-			queryAiiObject.setDate("dob", dob);
-			queryAiiObject.setParameter("alsNo",alsNo);
-			queryAiiObject.setParameter("aiiItemTxnInd", aiiItemTxnInd);
-			queryAiiObject.setParameter("aiiSeqNo", aiiSeqNo);
+																		.addScalar("nextSeq",StringType.INSTANCE)
+																		.setDate("periodFrom", periodFrom)
+																		.setDate("periodTo", periodTo)
+																		.setString("itemTypeCd", itemTypeCd)
+																		.setDate("dob", dob)
+																		.setInteger("alsNo",alsNo)
+																		.setString("aiiItemTxnInd", aiiItemTxnInd)
+																		.setInteger("aiiSeqNo", aiiSeqNo);
 
 			List<String> nextSeqNoLst =  queryAiiObject.list();
 			
@@ -572,24 +572,23 @@ public class AlsRefundInfoAS {
 								      "   :whoLog," +
 								      "   :whenLog)";						
 
-				Query insertAiiObject = HibernateSessionFactory.getSession().createSQLQuery(insertAiiStr);
-				
-				insertAiiObject.setDate("periodFrom", periodFrom);
-				insertAiiObject.setDate("periodTo", periodTo);
-				insertAiiObject.setParameter("itemTypeCd", itemTypeCd);
-				insertAiiObject.setDate("dob", dob);
-				insertAiiObject.setParameter("alsNo",alsNo);
-				insertAiiObject.setParameter("aiiItemTxnInd", aiiItemTxnInd);
-				insertAiiObject.setParameter("aiiSeqNo", aiiSeqNo);
-				insertAiiObject.setParameter("aiinNextSeq", aiinNextSeq);
-				insertAiiObject.setParameter("aiinItemInd", aiinItemInd);
-				insertAiiObject.setParameter("ahmType", ast.getIdPk().getAhmType());
-				insertAiiObject.setParameter("ahmCd", ast.getIdPk().getAhmCd());
-				insertAiiObject.setDate("sessDt", ast.getIdPk().getAsSessionDt());
-				insertAiiObject.setParameter("itemIndPosted", today);
-				insertAiiObject.setParameter("whoLog", personId);
-				insertAiiObject.setParameter("whenLog", today);
-			
+				Query insertAiiObject = HibernateSessionFactory.getSession().createSQLQuery(insertAiiStr)
+																			.setDate("periodFrom", periodFrom)
+																			.setDate("periodTo", periodTo)
+																			.setString("itemTypeCd", itemTypeCd)
+																			.setDate("dob", dob)
+																			.setInteger("alsNo",alsNo)
+																			.setString("aiiItemTxnInd", aiiItemTxnInd)
+																			.setInteger("aiiSeqNo", aiiSeqNo)
+																			.setInteger("aiinNextSeq", aiinNextSeq)
+																			.setInteger("aiinItemInd", aiinItemInd)
+																			.setString("ahmType", ast.getIdPk().getAhmType())
+																			.setInteger("ahmCd", ast.getIdPk().getAhmCd())
+																			.setTimestamp("sessDt", ast.getIdPk().getAsSessionDt())
+																			.setDate("itemIndPosted", today)
+																			.setString("whoLog", personId)
+																			.setDate("whenLog", today);
+
 				insertAiiObject.executeUpdate();
 			}
 			
@@ -888,6 +887,46 @@ public class AlsRefundInfoAS {
 		}
 	}
 	
+	public void updatePrefFeeInfo(Boolean approved, Double prefFee, String ahmType, 
+								  Integer ahmCd, Timestamp sessionDt, Date dob, Integer alsNo) {
+		
+		try {
+			StringBuilder updateStr = new StringBuilder("UPDATE Als.Als_Preference_Fee_Info "
+							   + "SET Apfi_Preference_Fee_Refund = "); 
+			if(approved){
+				updateStr.append("Nvl(Apfi_Preference_Fee_Refund,0) + :prefFee ");
+			}else{
+				updateStr.append("Decode(Sign(Nvl(Apfi_Preference_Fee_Refund,0) - :prefFee), -1, 0, Nvl(Apfi_Preference_Fee_Refund,0) - :prefFee) ");
+			}
+			updateStr.append("WHERE Ahm_Type = :ahmType "
+						   + "AND Ahm_Cd = :ahmCd "
+						   + "AND As_Session_Dt = :sessionDt "
+						   + "AND Api_Dob = :dob "
+						   + "AND Api_Als_No = :alsNo");						
+	
+			Query updateObject = HibernateSessionFactory.getSession().createSQLQuery(updateStr.toString())
+																	 .setDouble("prefFee", prefFee)
+																	 .setString("ahmType", ahmType)
+																	 .setInteger("ahmCd", ahmCd)
+																	 .setTimestamp("sessionDt", sessionDt)
+																	 .setDate("dob", dob)
+																	 .setInteger("alsNo", alsNo);
+	
+			updateObject.executeUpdate();
+		} catch (RuntimeException re) {
+			log.error("updateAppInfo failed", re);
+			throw re;
+		} catch (Exception e) {
+			log.error("updateAppInfo failed", e);
+			throw new RuntimeException(e.getMessage());
+		} finally {
+			if (HibernateSessionFactory.getSession() != null) {
+				HibernateSessionFactory.closeSession();
+			}		
+			
+		}
+	}
+
 	/**
 	 * returns Application Type for use in PersonRefundAppDTO filtered by 
 	 * @param itemTypeCd
@@ -944,11 +983,11 @@ public class AlsRefundInfoAS {
 		
 		try {
 			String queryString = "	SELECT ast FROM AlsSessionTrans ast" +
-							     "   WHERE ast.ahmType = :ahmType" +
-							     "     AND ast.ahmCd = :ahmCd" +
-							     "     AND TO_CHAR(ast.asSessionDt,'YYYYMMDDHHMISSAM') = :sessDt" +
-							     "     AND ast.astTransactionCd = :transactionCd" +
-	                             "     AND ast.astTransactionSeqNo = :transactionSeqNo";
+							     "   WHERE ast.idPk.ahmType = :ahmType" +
+							     "     AND ast.idPk.ahmCd = :ahmCd" +
+							     "     AND TO_CHAR(ast.idPk.asSessionDt,'YYYYMMDDHHMISSAM') = :sessDt" +
+							     "     AND ast.idPk.astTransactionCd = :transactionCd" +
+	                             "     AND ast.idPk.astTransactionSeqNo = :transactionSeqNo";
 			
 			Query queryObject = HibernateSessionFactory.getSession().createQuery(queryString);
 			
@@ -964,6 +1003,39 @@ public class AlsRefundInfoAS {
 				retObj = astLst.get(0);
 			}
 
+		} catch (RuntimeException re) {
+			log.error("retrieveRefundInfo failed", re);
+			throw re;
+		} catch (Exception e) {
+			log.error("retrieveRefundInfo failed", e);
+			throw new RuntimeException(e.getMessage());
+		} finally {
+			if (HibernateSessionFactory.getSession() != null) {
+				HibernateSessionFactory.closeSession();
+			}		
+		}
+		return retObj;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public AlsSessionTrans getWithdrawSessionTrans(String appIdNo, List<String> procTypeCdLst) {
+		AlsSessionTrans retObj = new AlsSessionTrans();
+
+		try {
+			String queryString = "SELECT ast FROM AlsSessionTrans ast "
+							   + "WHERE Aai_App_Identification_No = :appIdNo "
+							   + "AND Ast_Process_Type_Cd In (:procTypeCdLst) "
+							   + "AND Rownum < 2";
+			
+			Query queryObject = HibernateSessionFactory.getSession().createQuery(queryString)
+																	.setString("appIdNo", appIdNo)
+																	.setParameterList("procTypeCdLst", procTypeCdLst);
+			
+			
+			List<AlsSessionTrans> astLst = queryObject.list();
+			if (astLst != null && !astLst.isEmpty()) {
+				retObj = astLst.get(0);
+			}
 		} catch (RuntimeException re) {
 			log.error("retrieveRefundInfo failed", re);
 			throw re;
@@ -1006,7 +1078,7 @@ public class AlsRefundInfoAS {
 		c.add(Calendar.MONTH, -12);
 		Integer minRefundAmt = null;
 		try {
-			StringBuilder queryString = new StringBuilder("SELECT TO_CHAR(ari.ari_refund_request_dt, 'ddmmyyyyhhmiss') || '_' || ari.ari_refund_seq_no gridKey, "
+			StringBuilder queryString = new StringBuilder("SELECT TO_CHAR(ari.ari_refund_request_dt, 'ddmmyyyyHH24miss') || '_' || ari.ari_refund_seq_no gridKey, "
 										+ "ari.ari_designated_refundee_dob designatedRefundeeDob, "
 										+ "ari.ari_designated_refundee_als_no ariDesignatedRefundeeAlsNo, "
 										+ "api.api_first_nm||' '||api.api_mid_init||' '||api.api_last_nm refundeeName, "
@@ -1015,7 +1087,7 @@ public class AlsRefundInfoAS {
 										+ "ast.aict_item_type_cd itemTypeCd, "
 										+ "ait.ait_type_desc itemTypeDesc, "
 										+ "aii.aiin_item_ind_cd itemIndCd, "
-										+ "am2.am_val_desc itemIndDesc, "
+										+ "am2.am_key2 itemIndDesc, "
 										+ "am.am_val_desc reasonDesc, "
 										+ "ari.ari_refund_request_dt refundRequestDt, "
 										+ "ari.ari_refund_process_dt refundProcessDt, "
@@ -1249,7 +1321,8 @@ public class AlsRefundInfoAS {
 										+ "ast.aict_item_type_cd itemTypeCd, "
 										+ "ait.ait_type_desc itemTypeDesc, "
 										+ "aii.aiin_item_ind_cd itemIndCd, "
-										+ "am2.am_val_desc itemIndDesc, "
+										+ "am2.am_key2 itemIndDesc, "
+										+ "ari.ari_refund_reason_cd ariRefundReasonCd, "
 										+ "am.am_val_desc reasonDesc, "
 										+ "ari.ari_refund_request_dt refundRequestDt, "
 										+ "ari.ari_refund_process_dt refundProcessDt, "
@@ -1262,11 +1335,17 @@ public class AlsRefundInfoAS {
 										+ "ari.ars_download_date downloadDate, "
 										+ "asess.abi_batch_no batchNo, "
 										+ "asess.asi_subbatch_no subBatchNo, "
-										+ "ari.ari_reason_disapproval ariReasonDisapproval,"
-										+ "ari.ari_remarks ariRemarks,"
-										+ "aii.aii_item_txn_ind aiiItemTxnInd,"
+										+ "ari.ari_reason_disapproval ariReasonDisapproval, "
+										+ "ari.ari_remarks ariRemarks, "
+										+ "aii.aii_item_txn_ind aiiItemTxnInd, "
 										+ "aii.aii_seq_no aiiSeqNo, "
-										+ "ast.aai_app_identification_no appIdNo"
+										+ "ast.aai_app_identification_no appIdNo, "
+										+ "ari.ari_minimum_override ariMinimumOverride, "
+										+ "ast.ahm_type ahmType, "
+										+ "ast.ahm_cd ahmCd, "
+										+ "ast.as_session_dt asSessionDt, "
+										+ "ast.ast_transaction_cd astTransactionCd, "
+										+ "ast.ast_transaction_seq_no astTransactionSeqNo "
 								+ "FROM ALS.ALS_REFUND_INFO ari "
 									+ "LEFT OUTER JOIN ALS_SESSION_TRANS ast "
 										+ "ON ast.ahm_type = ari.ahm_type "
@@ -1311,6 +1390,7 @@ public class AlsRefundInfoAS {
 												 .addScalar("itemTypeDesc")
 												 .addScalar("itemIndCd", IntegerType.INSTANCE)
 												 .addScalar("itemIndDesc")
+												 .addScalar("ariRefundReasonCd")
 												 .addScalar("reasonDesc")
 												 .addScalar("refundRequestDt", DateType.INSTANCE)
 												 .addScalar("refundProcessDt", DateType.INSTANCE)
@@ -1325,7 +1405,15 @@ public class AlsRefundInfoAS {
 												 .addScalar("subBatchNo", IntegerType.INSTANCE)
 												 .addScalar("ariReasonDisapproval")
 												 .addScalar("ariRemarks")
+												 .addScalar("aiiItemTxnInd")
+												 .addScalar("aiiSeqNo", IntegerType.INSTANCE)
 												 .addScalar("appIdNo")
+												 .addScalar("ariMinimumOverride")
+												 .addScalar("ahmType")
+												 .addScalar("ahmCd", IntegerType.INSTANCE)
+												 .addScalar("asSessionDt", TimestampType.INSTANCE)
+												 .addScalar("astTransactionCd", IntegerType.INSTANCE)
+												 .addScalar("astTransactionSeqNo", IntegerType.INSTANCE)
 												 .setTimestamp("refundRequestDt", refundRequestDt)
 												 .setInteger("refundSeqNo",refundSeqNo)
 												 .setResultTransformer(Transformers.aliasToBean(AlsRefundInfoDTO.class));
