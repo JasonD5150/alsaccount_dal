@@ -9,9 +9,14 @@ import java.util.Date;
 import java.util.List;
 
 import fwp.ListComp;
+import fwp.als.hibernate.admin.dao.*;
 import fwp.als.hibernate.draw.dao.AlsPreappType;
-import fwp.alsaccount.dao.refund.AlsPersonItemTemplLink;
+import fwp.als.hibernate.item.dao.*;
+import fwp.alsaccount.appservice.admin.AlsMiscAS;
+import fwp.alsaccount.dao.refund.*;
 import fwp.alsaccount.dto.refund.AlsPersonItemTemplLinkDTO;
+import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.time.DateFormatUtils;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -26,12 +31,6 @@ import org.slf4j.LoggerFactory;
 
 import fwp.alsaccount.dto.refund.AlsRefundInfoDTO;
 import fwp.alsaccount.hibernate.HibernateSessionFactory;
-import fwp.als.hibernate.admin.dao.AlsRefundInfo;
-import fwp.als.hibernate.admin.dao.AlsRefundInfoDAO;
-import fwp.als.hibernate.admin.dao.AlsRefundInfoIdPk;
-import fwp.als.hibernate.admin.dao.AlsSessionTrans;
-import fwp.als.hibernate.admin.dao.AlsSessionTransIdPk;
-import fwp.als.hibernate.item.dao.AlsItemInformation;
 import fwp.alsaccount.hibernate.utils.DalUtils;
 
 /**
@@ -1346,21 +1345,43 @@ public class AlsRefundInfoAS {
 		}
 		return rtn;
 	}
-	
-	
+
+
+	/**
+	 * Find the Mass Refund AlsPreAppTypes
+	 *
+	 * @return list {@link ListComp}
+	 */
 	public List<ListComp> findMassRefundPreAppTypes() {
 		List<ListComp> returnList = new ArrayList<>();
 		for(AlsPreappType alsPreappType :
 				(List<AlsPreappType>)HibernateSessionFactory.getSession().createQuery(
-				"select f from AlsPreappType f " +
-						"where f.idPk.aptDataEntry = 2 " +
-						" order by f.aptAppTypeDesc ").list()) {
+						"select f from AlsPreappType f " +
+								"where f.idPk.aptDataEntry = 2 " +
+								" order by f.aptAppTypeDesc ").list()) {
 			returnList.add(new ListComp(alsPreappType.getIdPk().getAptAppTypeCd().toString(),
 					alsPreappType.getAptAppTypeDesc()));
 		}
 		return returnList;
 	}
 
+	private AlsPreappType findMassRefundPreAppType(Integer appTypeCode) {
+		return (AlsPreappType) HibernateSessionFactory.getSession().createQuery(
+				"select f from AlsPreappType f " +
+						"where f.idPk.aptDataEntry = 2 " +
+						"  and f.idPk.aptAppTypeCd = :appTypeCode ")
+				.setParameter("appTypeCode", appTypeCode).uniqueResult();
+	}
+
+
+	/**
+	 * Given an AlsPreAppType code find the related mass refund list of
+	 * {@link AlsPersonItemTemplLinkDTO}
+	 *
+	 * @param aptAppTypeCd to find
+	 * @return list {@link AlsPersonItemTemplLinkDTO}
+	 * @throws Exception on bad SQL
+	 */
 	public List<AlsPersonItemTemplLinkDTO> findMassRefundPersonItemList(Integer aptAppTypeCd) throws Exception  {
 
 		List<AlsPersonItemTemplLink> itemList = HibernateSessionFactory.getSession().createQuery("select f from AlsPersonItemTemplLink  f " +
@@ -1368,11 +1389,196 @@ public class AlsRefundInfoAS {
 				"  and f.idPk.aptDataEntry = 2 ").setParameter("aptAppTypeCd", aptAppTypeCd).list();
 		List<AlsPersonItemTemplLinkDTO> returnList = new ArrayList<>(itemList.size());
 		fwp.als.pers.hibernate.utils.DalUtils dalUtils = new fwp.als.pers.hibernate.utils.DalUtils();
+		Query itQuery = HibernateSessionFactory.getSession().createQuery("select i from AlsItemType i " +
+				" where concat(concat(i.idPk.aiItemId,i.idPk.aicCategoryId),i.idPk.aitTypeId) = :itemTypeCode ");
 		for (AlsPersonItemTemplLink alsPersonItemTemplLink : itemList) {
 			AlsPersonItemTemplLinkDTO item = new AlsPersonItemTemplLinkDTO();
-			//TODO get description fields
+			AlsItemType alsItemType = (AlsItemType) itQuery.setParameter("itemTypeCode", alsPersonItemTemplLink.getIdPk().getApitlItemTypeCd()).uniqueResult();
+			if (alsItemType != null) {
+				item.setItemTypeCodeDescription(alsItemType.getAitTypeDesc());
+			}
 			returnList.add(dalUtils.fillObjectFromSource(item, alsPersonItemTemplLink));
 		}
 		return returnList;
 	}
+
+	/**
+	 * Save the selected mass approval list to the DB.  Returns list of {@link AlsPersonItemTemplLinkDTO}
+	 * saved.
+	 *
+	 * @return list of {@link AlsPersonItemTemplLinkDTO}
+	 */
+	public Integer saveMassApproval(List<AlsPersonItemTemplLinkDTO> alsPersonItemTemplLinkDTOList,
+	                                                        Integer aptAppTypeCd,
+	                                                        String refundReasonCode,
+	                                                        String user) throws Exception {
+		AlsMiscAS alsMiscAS = new AlsMiscAS();
+		List<ListComp> smithRiverPrivateList = alsMiscAS.getValuesWith2Keys("SMITH RIVER", "SMITH RIVER PRIVATE");
+		List<ListComp> smithRiverOutfitterList = alsMiscAS.getValuesWith2Keys("SMITH RIVER", "SMITH RIVER OUTFITTER");
+		List<AlsMisc> licenseYear = alsMiscAS.findAllByWhere("amKey1 = 'LICENSE_YEAR'");
+		List<ListComp> refundPendingDisposition = alsMiscAS.getValuesWith2Keys("APPLICATION DISPOSITION", "REFUND/PENDING");
+		List<ListComp> refundIssuedDisposition = alsMiscAS.getValuesWith2Keys("APPLICATION DISPOSITION", "REFUND ISSUED");
+		List<ListComp> appMispayRefund = alsMiscAS.getValuesWith2Keys("REFUND REASON", "APPLICATION MISPAY");
+
+		int updateCount = 0;
+
+		Timestamp now = new Timestamp(Calendar.getInstance().getTime().getTime());
+		Integer year = null;
+
+		Transaction tx = null;
+		Session session = null;
+		try {
+			session = HibernateSessionFactory.getSession();
+			tx = session.beginTransaction();
+
+			for (AlsPersonItemTemplLinkDTO alsPersonItemTemplLinkDTO : alsPersonItemTemplLinkDTOList) {
+				AlsPreappType alsPreappType = findMassRefundPreAppType(alsPersonItemTemplLinkDTO.getIdPk().getAptAppTypeCd());
+				if (StringUtils.equals(alsPersonItemTemplLinkDTO.getIdPk().getApitlItemTypeCd(),
+						smithRiverOutfitterList.get(0).getItemVal())) {
+					year = Integer.valueOf(DateFormatUtils.format(Calendar.getInstance(), "yyyy"));
+				} else {
+					year = Integer.valueOf(licenseYear.get(0).getAmParVal());
+				}
+
+				AlsItemControlTable alsItemControlTable = (AlsItemControlTable)
+						session.createQuery("select a from AlsItemControlTable  a " +
+								"where a.idPk.aictItemTypeCd = :itemTypeCode" +
+								"  and to_char(a.idPk.aictUsagePeriodFrom,'YYYY') = :year ")
+								.setParameter("itemTypeCode", alsPersonItemTemplLinkDTO.getIdPk().getApitlItemTypeCd())
+								.setParameter("year", year).uniqueResult();
+
+				@SuppressWarnings(value = {"unchecked"})
+				List<Object[]> refundList = (List<Object[]>) session.createQuery(
+						"select a, b from AlsApplicationInformation a " +
+								"join AlsSessionTrans as b on b.aaiAppIdentificationNo = a.aaiAppIdentificationNo " +
+								"and b.apiDob is not null " +
+								"and b.apiAlsNo is not null " +
+								"and b.astTransactionStatus = 'A' " +
+								"where a.aictUsagePeriodFrom = :usagePeriodFrom " +
+								" and a.aictUsagePeriodTo = :usagePeriodTo " +
+								" and a.aictItemTypeCd = :itemTypeCd " +
+								" and a.aaiDispositionCd = :dispositionCode " +
+								" and a.aaiRefundReason = :refundReason " +
+								(StringUtils.isEmpty(refundReasonCode) ? "" : " and a.aaiRefundReason = " + refundReasonCode + " ") +
+								(alsPreappType == null ? "" : " and a.aaiItemResidencyInd = '" + alsPreappType.getAptResidencyInd() + "' ") +
+								" order by a.aaiAppIdentificationNo ")
+						.setParameter("usagePeriodFrom", alsItemControlTable.getIdPk().getAictUsagePeriodFrom())
+						.setParameter("usagePeriodTo", alsItemControlTable.getIdPk().getAictUsagePeriodTo())
+						.setParameter("itemTypeCd", alsItemControlTable.getIdPk().getAictItemTypeCd())
+						.setParameter("dispositionCode", refundPendingDisposition.get(0).getItemVal()).list();
+				for (Object[] row : refundList) {
+					updateCount++;
+					AlsApplicationInformation alsApplicationInformation = (AlsApplicationInformation) row[0];
+					AlsSessionTrans alsSessionTrans = (AlsSessionTrans) row[1];
+
+					@SuppressWarnings(value = {"unchecked"})
+					List<AlsRefundInfo> alsRefundInfoList =
+							session.createQuery("select a from AlsRefundInfo a " +
+									" where a.ahmType = :ahmType " +
+									"   and a.ahmCd = :ahmCd " +
+									"   and a.asSessionDt = :asSessionDt " +
+									"   and a.astTransactionCd = :astTransactionCd " +
+									"   and a.astTransactionSeqNo = :astTransactionSeqNo " +
+									"   and a.ariRefundApproved is null ")
+									.setParameter("ahmType", alsSessionTrans.getIdPk().getAhmType())
+									.setParameter("ahmCd", alsSessionTrans.getIdPk().getAhmCd())
+									.setParameter("asSessionDt", alsSessionTrans.getIdPk().getAsSessionDt())
+									.setParameter("astTransactionCd", alsSessionTrans.getIdPk().getAstTransactionCd())
+									.setParameter("astTransactionSeqNo", alsSessionTrans.getIdPk().getAstTransactionSeqNo()).list();
+					if (alsRefundInfoList.size() > 0) {
+						for (AlsRefundInfo alsRefundInfo : alsRefundInfoList) {
+							alsRefundInfo.setAriRefundApproved("Y");
+							alsRefundInfo.setAriApprovedBy(user);
+							alsRefundInfo.setAriApprovedDt(now);
+							session.update(alsRefundInfo);
+						}
+						alsApplicationInformation.setAaiDispositionCd(Integer.valueOf(refundIssuedDisposition.get(0).getItemVal()));
+						alsApplicationInformation.setAaiDispositionDt(now);
+						alsApplicationInformation.setModDate(now);
+						alsApplicationInformation.setModDbuser(user);
+						session.update(alsApplicationInformation);
+
+						Integer appDispNextId = (Integer) session.createQuery("select coalesce(max(a.idPk.aadSeqNo), 1) from AlsAppDisposition a " +
+								"where a.idPk.aaiAppIdentificationNo = :aaiAppIdentificationNo")
+								.setParameter("aaiAppIdentificationNo", alsApplicationInformation.getAaiAppIdentificationNo()).uniqueResult();
+						AlsAppDisposition alsAppDisposition = new AlsAppDisposition(new AlsAppDispositionIdPk(alsApplicationInformation.getAaiAppIdentificationNo(), appDispNextId), user, now);
+						alsAppDisposition.setAaiDispositionCd(Integer.valueOf(refundIssuedDisposition.get(0).getItemVal()));
+						session.save(alsAppDisposition);
+
+						if (StringUtils.equals(alsPersonItemTemplLinkDTO.getIdPk().getApitlItemTypeCd(),
+								smithRiverOutfitterList.get(0).getItemVal()) ||
+							StringUtils.equals(alsPersonItemTemplLinkDTO.getIdPk().getApitlItemTypeCd(),
+									smithRiverPrivateList.get(0).getItemVal())) {
+							AlsSmithRiverApps alsSmithRiverApps = (AlsSmithRiverApps)session.createQuery("select a from AlsSmithRiverApps a " +
+									" where a.aaiAppIdentificationNo = :aaiAppIdentificationNo").setParameter("aaiAppIdentificationNo",alsApplicationInformation.getAaiAppIdentificationNo()).uniqueResult();
+							if (alsSmithRiverApps != null) {
+								alsSmithRiverApps.setAsraFeeStatus("R");
+								alsSmithRiverApps.setAsraWhoLog(user);
+								alsSmithRiverApps.setAsraWhenLog(now);
+								session.save(alsSmithRiverApps);
+							}
+						}
+					}
+				}
+			}
+			if (StringUtils.isEmpty(refundReasonCode) || StringUtils.equals(refundReasonCode, appMispayRefund.get(0).getItemVal())) {
+				saveMispayMassRefund(aptAppTypeCd, user, refundReasonCode, session);
+			}
+			tx.commit();
+		} catch (Exception re) {
+			if (tx != null) {
+				tx.rollback();
+			}
+			log.error("Save Mass Approval failed", re);
+			throw re;
+		} finally {
+			try {
+				if (session != null) {
+					session.close();
+				}
+			} catch (Exception e) {
+				log.error(e.getMessage(), e);
+			}
+		}
+		return updateCount;
+	}
+
+	/**
+	 * TODO ALS1413 this needs to be vetted
+	 *
+	 * @param appTypeCd
+	 * @param user
+	 * @param refundReason
+	 * @param session
+	 * @return
+	 */
+	private Integer saveMispayMassRefund(Integer appTypeCd, String user, String refundReason, Session session) {
+
+		/* TODO ALS1413 need to determine if sub-batch is used and whether this mispay logic is correct
+		Cursor Mispay_Cur Is
+		    Select Distinct A.Abi_License_Yr, A.Abi_Batch_No, A.Asi_Subbatch_No
+		      From Als.Als_Subbatch_Error_Details A, Als.Als_Preapp_Person_Details B
+		     Where Nvl(A.Ased_Status,'X') = 'U'
+		       And B.Apt_App_Type_Cd      = :App_Type_Blk.Application_Code
+		       And B.Apbi_Data_Entry      = 2
+		       And A.Abi_License_Yr       = B.Abi_License_Yr
+		       And A.Abi_Batch_No         = B.Abi_Batch_No
+		       And A.Asi_Subbatch_No      = B.Asi_Subbatch_No;
+
+		Cursor Mispay_Session(P_License_Yr    Als.Als_Sessions.Abi_License_Yr%Type,
+                      P_Batch_No      Als.Als_Sessions.Abi_Batch_No%Type,
+                      P_Subbatch_No   Als.Als_Sessions.Asi_Subbatch_No%Type) Is
+       Select B.Ahm_Type, B.Ahm_Cd, B.As_Session_Dt, B.Ast_Transaction_Cd, B.Ast_Transaction_Seq_No, b.AST_REASON
+         From Als.Als_Sessions A, Als.Als_Session_Trans B
+        Where A.Abi_License_Yr  = P_License_Yr
+					And A.Abi_Batch_No    = P_Batch_No
+					And A.Asi_Subbatch_No = P_Subbatch_No
+					And B.Ast_Reason      = Var.App_Mispay
+					And B.Ahm_Type        = A.Ahm_Type
+					And B.Ahm_Cd          = A.Ahm_Cd
+					And B.As_Session_Dt	  = A.As_Session_Dt;
+		 */
+		return 0;
+	}
+
 }

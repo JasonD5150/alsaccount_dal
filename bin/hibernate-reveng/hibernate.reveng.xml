@@ -6,24 +6,59 @@
     <!-- Set table-filters when using the Hibernate Tools Ant target to specify reveng tables.  If not
          set, all tables accessible by the user specified in the hibernate.reveng.cfg.xml file will be
          reverse engineered.  -->
-    <table-filter match-name="ALS_PERSON_ITEM_TEMPL_LINK" exclude="false"/>
+    <table-filter match-name="ALS_PREAPP_PERSON_DETAILS" exclude="false"/>
 
-    <table name="ALS_PERSON_ITEM_TEMPL_LINK" schema="ALS" class="fwp.alsaccount.dao.refund.AlsPersonItemTemplLink">
-        <primary-key id-class="fwp.alsaccount.dao.refund.AlsPersonItemTemplLinkIdPk" property="idPk">
-            <key-column name="APT_APP_TYPE_CD" jdbc-type="NUMERIC" type="Integer"></key-column>
-            <key-column name="APT_DATA_ENTRY" jdbc-type="NUMERIC" type="Integer"></key-column>
-            <key-column name="APITL_ITEM_TYPE_CD" jdbc-type="VARCHAR" type="String"></key-column>
+    <table name="ALS_PREAPP_PERSON_DETAILS" schema="ALS" class="fwp.alsaccount.dao.refund.AlsPreappPersonDetails">
+        <primary-key id-class="fwp.alsaccount.dao.refund.AlsPreappPersonDetailsIdPk" property="idPk">
+            <key-column name="ABI_LICENSE_YR" jdbc-type="NUMERIC" type="Integer"></key-column>
+            <key-column name="APPD_APPLICATION_NO" jdbc-type="VARCHAR" type="String"></key-column>
+            <key-column name="APBI_DATA_ENTRY" jdbc-type="NUMERIC" type="Integer"></key-column>
         </primary-key>
-        <column name="APITL_WHEN_LOG" jdbc-type="DATE" type="java.sql.Timestamp"></column>
-        <column name="APITL_WHO_LOG" jdbc-type="VARCHAR" type="String"></column>
-    </table>
-
-    <table name="ALS_ITEM_TEMPLATE_MASTER" schema="ALS" class="fwp.alsaccount.dao.refund.AlsItemTemplateMaster">
-        <primary-key>
-            <key-column name="AITM_ITEM_TEMPLATE_CD" jdbc-type="NUMERIC" type="Integer" />
-        </primary-key>
-        <column name="AITM_TEMPLATE_DESC" jdbc-type="VARCHAR" type="String"></column>
-        <column name="AITM_WHO_LOG" jdbc-type="VARCHAR" type="String"></column>
-        <column name="AITM_WHEN_LOG" jdbc-type="DATE" type="java.sql.Timestamp"></column>
+        <column name="ABI_BATCH_NO" jdbc-type="NUMERIC" type="Integer"></column>
+        <column name="ASI_SUBBATCH_NO" jdbc-type="NUMERIC" type="Integer"></column>
+        <column name="APT_APP_TYPE_CD" jdbc-type="NUMERIC" type="Integer"></column>
+        <column name="APPD_NEW_PERSON" jdbc-type="VARCHAR" type="String"></column>
+        <column name="APPD_POSTMARK_DT" jdbc-type="DATE" type="java.sql.Timestamp"></column>
+        <column name="APPD_HUNTER_ED_NO" jdbc-type="VARCHAR" type="String"></column>
+        <column name="APPD_DOB" jdbc-type="DATE" type="java.sql.Timestamp"></column>
+        <column name="APPD_ALS_NO" jdbc-type="NUMERIC" type="Integer"></column>
+        <column name="APPD_SSN" jdbc-type="VARCHAR" type="String"></column>
+        <column name="APPD_EIN" jdbc-type="VARCHAR" type="String"></column>
+        <column name="APPD_LAST_NM" jdbc-type="VARCHAR" type="String"></column>
+        <column name="APPD_FIRST_NM" jdbc-type="VARCHAR" type="String"></column>
+        <column name="APPD_MID_INIT" jdbc-type="VARCHAR" type="String"></column>
+        <column name="APPD_SUFFIX" jdbc-type="VARCHAR" type="String"></column>
+        <column name="APPD_RESIDENCY_IND" jdbc-type="VARCHAR" type="String"></column>
+        <column name="APPD_LEN_RESIDENCY_YRS" jdbc-type="NUMERIC" type="Integer"></column>
+        <column name="APPD_LEN_RESIDENCY_MO" jdbc-type="NUMERIC" type="Integer"></column>
+        <column name="APPD_DT_RES_DECLARED" jdbc-type="DATE" type="java.sql.Timestamp"></column>
+        <column name="APPD_ID_CD" jdbc-type="NUMERIC" type="Integer"></column>
+        <column name="APPD_FORM_OF_ID_NO" jdbc-type="VARCHAR" type="String"></column>
+        <column name="APPD_ADDRESS_IND" jdbc-type="VARCHAR" type="String"></column>
+        <column name="APPD_MAILING_ADDRESS" jdbc-type="VARCHAR" type="String"></column>
+        <column name="APPD_MAILING_CITY" jdbc-type="VARCHAR" type="String"></column>
+        <column name="APPD_MAILING_STATE" jdbc-type="VARCHAR" type="String"></column>
+        <column name="APPD_MAILING_ZIP_CD" jdbc-type="VARCHAR" type="String"></column>
+        <column name="APPD_MAILING_COUNTRY" jdbc-type="VARCHAR" type="String"></column>
+        <column name="APPD_HOME_PHONE" jdbc-type="VARCHAR" type="String"></column>
+        <column name="APPD_WORK_PHONE" jdbc-type="VARCHAR" type="String"></column>
+        <column name="APPD_EMPLOYER_NM" jdbc-type="VARCHAR" type="String"></column>
+        <column name="APPD_SEX_CD" jdbc-type="VARCHAR" type="String"></column>
+        <column name="APPD_WEIGHT" jdbc-type="NUMERIC" type="Integer"></column>
+        <column name="APPD_HEIGHT_FEET" jdbc-type="NUMERIC" type="Integer"></column>
+        <column name="APPD_HEIGHT_INCHES" jdbc-type="NUMERIC" type="Integer"></column>
+        <column name="APPD_EYE_COLOR_CD" jdbc-type="NUMERIC" type="Integer"></column>
+        <column name="APPD_HAIR_COLOR_CD" jdbc-type="NUMERIC" type="Integer"></column>
+        <column name="APPD_APPLICATION_STATUS" jdbc-type="VARCHAR" type="String"></column>
+        <column name="APPD_APPLICATION_AMT" jdbc-type="NUMERIC" type="Double"></column>
+        <column name="APPD_WHEN_LOG" jdbc-type="DATE" type="java.sql.Timestamp"></column>
+        <column name="APPD_WHO_LOG" jdbc-type="VARCHAR" type="String"></column>
+        <column name="APPD_MODI_REASON" jdbc-type="VARCHAR" type="String"></column>
+        <column name="APPD_REFUND_AMT" jdbc-type="NUMERIC" type="Double"></column>
+        <column name="APPD_CURRENT_AMT" jdbc-type="NUMERIC" type="Double"></column>
+        <column name="AC_COUNTY_CD" jdbc-type="VARCHAR" type="String"></column>
+        <column name="APPD_MAILING_EXCLUSION" jdbc-type="VARCHAR" type="String"></column>
+        <column name="APPD_CONTRIB_HAH_IND" jdbc-type="VARCHAR" type="String"></column>
+        <column name="APPD_CONTRIB_HAH_AMOUNT" jdbc-type="NUMERIC" type="Double"></column>
     </table>
 </hibernate-reverse-engineering>

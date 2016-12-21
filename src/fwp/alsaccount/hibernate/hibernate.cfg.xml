@@ -26,6 +26,8 @@
 	<mapping class="fwp.alsaccount.dao.admin.AlsSabhrsFyeAdjstDtl" />
 	<mapping class="fwp.alsaccount.dao.admin.AlsSabhrsFyeAdjst" />
 	<mapping class="fwp.als.hibernate.item.dao.AlsItemCategory" />
+	<mapping class="fwp.als.hibernate.item.dao.AlsItemType" />
+	<mapping class="fwp.als.hibernate.item.dao.AlsItemControlTable" />
 	<mapping class="fwp.als.hibernate.admin.dao.AlsMisc" />
 	<mapping class="fwp.als.hibernate.admin.dao.AlsTribeInfo" />
 	<mapping class="fwp.als.hibernate.admin.dao.AlsSysActivityControl" />
@@ -61,9 +63,15 @@
 	<!-- Refund-->
 	<mapping class="fwp.als.hibernate.admin.dao.AlsRefundInfo" />
 	<mapping class="fwp.alsaccount.dao.refund.AlsWarrantStatus" />
-
 	<mapping class="fwp.alsaccount.dao.refund.AlsPersonItemTemplLink" />
+	<mapping class="fwp.alsaccount.dao.refund.AlsAppDisposition" />
+	<mapping class="fwp.alsaccount.dao.refund.AlsSmithRiverApps" />
+	<mapping class="fwp.alsaccount.dao.refund.AlsPreappPersonDetails" />
+
 	<mapping class="fwp.als.hibernate.draw.dao.AlsPreappType" />
+	<mapping class="fwp.als.hibernate.item.dao.AlsApplicationInformation"/>
+
+	<mapping class="fwp.als.hibernate.admin.dao.AlsSessionTrans"/>
 
 </session-factory>
 
