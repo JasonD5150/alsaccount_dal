@@ -63,6 +63,7 @@
 	<!-- Refund-->
 	<mapping class="fwp.als.hibernate.admin.dao.AlsRefundInfo" />
 	<mapping class="fwp.alsaccount.dao.refund.AlsWarrantStatus" />
+	<mapping class="fwp.als.hibernate.admin.dao.AlsSessionTrans" />
 	<mapping class="fwp.alsaccount.dao.refund.AlsPersonItemTemplLink" />
 	<mapping class="fwp.alsaccount.dao.refund.AlsAppDisposition" />
 	<mapping class="fwp.alsaccount.dao.refund.AlsSmithRiverApps" />
@@ -70,8 +71,6 @@
 
 	<mapping class="fwp.als.hibernate.draw.dao.AlsPreappType" />
 	<mapping class="fwp.als.hibernate.item.dao.AlsApplicationInformation"/>
-
-	<mapping class="fwp.als.hibernate.admin.dao.AlsSessionTrans"/>
 
 </session-factory>
 

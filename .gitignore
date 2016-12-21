@@ -5,4 +5,4 @@ fwp_alsadmin_dal.iml
 *.class
 .svn/
 build
-*.iml
+alsaccount_dal.iml
